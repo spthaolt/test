@@ -77,7 +77,9 @@ p {
     font-weight: bold;
     margin-left: 10px;    
 }
-
+a {
+	color: #60696f;
+}
 /************************************
 	Layouts
 ************************************/
@@ -94,17 +96,10 @@ p {
     min-height: 560px;
 }
 .ossn-home-container .ossn-page-contents {
-    background: rgba(255, 255, 255, 0.18);
-    border: 1px solid rgba(238, 238, 238, 0.08);
 }
 .ossn-layout-startup {
     min-height: 560px;
-    background:url("<?php echo ossn_theme_url();?>images/background.jpg") no-repeat;
     background-size:cover;
-}
-
-.ossn-layout-startup  footer .ossn-footer-menu a {
-	color:#fff;
 }
 .ossn-home-container {
     margin-top: 20px;
@@ -158,8 +153,7 @@ p {
     min-height: 500px;
 }
 .ossn-home-container .row {
-    margin-right: 10px;
-    margin-left: 10px;
+
 }
 #ossn-signup-errors {
     display: none;
@@ -187,9 +181,8 @@ p {
 ********************************/
 
 .topbar {
-    background: linear-gradient(#2C91B7, #0084B4);
+    background: #60696f;
     color: #fff;
-    border-bottom: 1px solid #0B769C;
     z-index: 1;
     position: relative;
 }
@@ -219,14 +212,14 @@ p {
 }
 .topbar-menu-right li a,
 .topbar-menu-left li a {
-    padding: 10px;
+    padding: 11px;
     display: block;
     color: #fff;
 }
 .topbar-menu-right li:hover,
 .topbar-menu-left li:hover {
     cursor: pointer;
-    background-color: #07688C;
+        background-color: #717d82;
 }
 .topbar .right-side-nospace .topbar-menu-right {
     margin-right: 0px;
@@ -245,7 +238,7 @@ p {
 .topbar .ossn-icons-topbar-friends,
 .topbar .ossn-icons-topbar-messages,
 .topbar .ossn-icons-topbar-notification i {
-    color: #174D61;
+        color: #3b3e40;
 }
 .topbar .ossn-icons-topbar-friends-new,
 .topbar .ossn-icons-topbar-messages-new,
@@ -288,7 +281,6 @@ p {
     margin-right: 5px;
 }
 .ossn-wall-item .user-img {
-    border-radius: 50px;
     display: inline-block;
     float: left;
     margin-right: 10px;
@@ -418,7 +410,6 @@ p {
 /*******************************
 	Comments Likes
 ********************************/
-
 .ossn-comment-menu {
     float: right;
     display: none;
@@ -475,6 +466,7 @@ p {
     padding-bottom: 10px;
     position: relative;
     z-index: 0;    
+    margin-left: 5px;
 }
 .comments-item .col-md-11 {
     padding-left: 0px;
@@ -553,16 +545,7 @@ p {
 *********************************/
 
 .sidebar {
-    background-color: #333;
-    height: 200px;
-    z-index: 1000;
-    width: 200px;
-    position: absolute;
-    height: 100%;
-    margin-left: -200px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    color: #fff;
+    color: #333;
 }
 .sidebar-close {
     -webkit-transition: all 0.5s ease;
@@ -630,6 +613,14 @@ p {
     line-height: 35px;
     cursor: pointer;
 }
+.sidebar-menu-nav li {
+    background: #F6F7F8;
+    border: 1px solid #eee;
+}
+.sidebar-menu-nav .sub-menu li {
+    background: initial;
+    border: 0px;
+}
 .sidebar-menu-nav ul:not(collapsed) .arrow:before,
 .sidebar-menu-nav li:not(collapsed) .arrow:before {
     font-family: FontAwesome;
@@ -640,19 +631,19 @@ p {
     vertical-align: middle;
     float: right;
 }
-.sidebar-menu-nav ul .sub-menu li{
-	padding-left:20px;
-}	
 .sidebar-menu-nav ul .sub-menu li,
 .sidebar-menu-nav li .sub-menu li {
     border: none;
     line-height: 28px;
-    border-bottom: 1px solid #23282e;
+    border-bottom: 1px solid #eee;
     margin-left: 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;    
 }
 .sidebar-menu-nav ul .sub-menu li:hover,
 .sidebar-menu-nav li .sub-menu li:hover {
-    background-color: #020203;
+        background-color: #fcfcfc;
 }
 .sidebar-menu-nav ul .sub-menu li:before,
 .sidebar-menu-nav li .sub-menu li:before {
@@ -665,11 +656,11 @@ p {
 }
 .sidebar-menu-nav li {
     padding-left: 0px;
-    border-bottom: 1px solid #23282e;
+    border-bottom: 1px solid #eee;
 }
 .sidebar-menu-nav li a {
     text-decoration: none;
-    color: #fff;
+    color: #333;
 }
 .sidebar-menu-nav li a i {
     padding-left: 10px;
@@ -677,8 +668,7 @@ p {
     padding-right: 20px;
 }
 .sidebar-menu-nav li:hover {
-    border-left: 3px solid #fff;
-    background-color: #4f5b69;
+        background-color: #f0f0f0;
     -webkit-transition: all 1s ease;
     -moz-transition: all 1s ease;
     -o-transition: all 1s ease;
@@ -1166,37 +1156,6 @@ p {
 }
 .ossn-profile-extra-menu {
     display: inline-block;
-}
-/*****************************
-	Side Menu icons
-*******************************/
-.menu-section-item-newsfeed:before{
-    content: "\f0a1" !important;
-}
-.menu-section-item-friends:before {
-    content: "\f0c0" !important;
-}
-.menu-section-item-allgroups:before {
-    content: "\f0c0" !important;
-}
-.menu-section-item-photos:before {
-    content: "\f03e" !important;
-}
-.menu-section-item-messages:before {
-    content: "\f0e0" !important;
-}
-.menu-section-item-invite-friends:before {
-    content: "\f234" !important;
-}
-.menu-section-item-addgroup:before {
-    content: "\f067" !important;
-}
-.menu-section-item-groups {
-	white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 200px;
-    padding-right: 10px;
 }
 /******************************
 	Search
@@ -1690,7 +1649,6 @@ footer .ossn-footer-menu a:last-child::after {
 ****************************/
 
 .home-left-contents {
-    margin-top: 5%;
 }
 .home-left-contents .logo {
     text-align: center;
@@ -1746,6 +1704,7 @@ footer .ossn-footer-menu a:last-child::after {
 }
 .sidebar-menu-nav .sidebar-menu .menu-content {
         display: block;
+        background:#fff;
 }
 .ossn-box-inner {
 	width:446px;
@@ -1857,7 +1816,7 @@ footer .ossn-footer-menu a:last-child::after {
     }
     .ossn-notifications-box .notfi-meta,
     .ossn-notification-messages .user-item .data {
-        width: 215px !important;
+        width: 210px !important;
     }
     .ossn-notification-messages .user-item .data .name {
     	width: 110px !important;
@@ -2074,7 +2033,8 @@ footer .ossn-footer-menu a:last-child::after {
         top: auto !important;
     }
 	.dropdown-menu {
-    	margin-left: -110px;
+    	    margin-left: 0;
+    		left: 0;
     }     
     .ossn-profile .user-fullname {
     	max-width:500px;
@@ -2151,4 +2111,108 @@ footer .ossn-footer-menu a:last-child::after {
     }
 }
 
-.topbar-menu-right .ossn-notifications-all li:hover { background-color: #f9f9f9 !important; }
+.userdetails-topbar div {
+	display:inline-block;
+}
+.userdetails-topbar {
+    display: inline-block;
+    padding-top: 5px;
+}
+.userdetails-topbar .topbar-username a:hover,
+.userdetails-topbar .topbar-username a{
+    font-weight: bold;
+    color:#fff;
+    font-size: 15px;
+}
+.userdetails-topbar .topbar-subtitle {
+    display: block;
+}
+.userimage-topbar {
+    display: inline-block;
+    float: right;
+}
+.userimage-topbar img {
+display: inline-block;
+    float: right;
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+}
+.btn {
+	border-radius:2px;
+}
+.ossn-search input[type='text'] {
+	width:100% !important;
+}
+.ossn-search {
+	margin-top:0px !important;
+    margin-bottom:10px;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #6D8391;
+    border-color: #6D8391;
+}
+.btn-primary.active, .btn-primary.focus, .btn-primary:active, .btn-primary:focus, .btn-primary:hover, .open>.dropdown-toggle.btn-primary {
+    color: #fff;
+    background-color: #5f7380;
+    border-color: #5f7380;
+}
+.new-users-widget .widget-contents{
+	text-align:center;
+}
+.new-users-widget li {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+.dot-likes {
+	display:none;
+}
+.new-groups-wiget {
+
+}
+.new-groups-wiget li {
+    display: block;
+}
+.new-groups-wiget li a {
+    padding: 5px;
+    display: block;
+    font-weight: bold;
+    border-bottom: 1px solid #eee;       
+}
+.birthdays span {
+    display: block;
+    margin-left: 25px;
+    float: none;
+}
+/*****************************
+	Side Menu icons
+*******************************/
+.menu-section-item-newsfeed:before{
+    content: "\f0a1" !important;
+}
+.menu-section-item-friends:before {
+    content: "\f0c0" !important;
+}
+.menu-section-item-allgroups:before {
+    content: "\f0c0" !important;
+}
+.menu-section-item-photos:before {
+    content: "\f03e" !important;
+}
+.menu-section-item-messages:before {
+    content: "\f0e0" !important;
+}
+.menu-section-item-invite-friends:before {
+    content: "\f234" !important;
+}
+.menu-section-item-addgroup:before {
+    content: "\f067" !important;
+}
+.menu-section-item-groups {
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 200px;
+    padding-right: 10px;
+}

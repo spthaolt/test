@@ -17,7 +17,7 @@
  */
 function ossn_installation_url() {
     $type = true;
-    $protocol = 'https';
+    $protocol = 'http';
     $uri = $_SERVER['REQUEST_URI'];
     if (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {
         $protocol = 'https';

@@ -22,12 +22,11 @@ CREATE TABLE IF NOT EXISTS `ossn_components` (
   `com_id` varchar(20) NOT NULL,
   `active` int(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
 
 --
 -- Dumping data for table `ossn_components`
 --
-
 INSERT INTO `ossn_components` (`id`, `com_id`, `active`) VALUES
 (1, 'OssnProfile', 1),
 (2, 'OssnWall', 1),
@@ -45,8 +44,25 @@ INSERT INTO `ossn_components` (`id`, `com_id`, `active`) VALUES
 (14, 'OssnPoke', 1),
 (15, 'OssnInvite', 1),
 (16, 'OssnEmbed', 1),
-(17, 'OssnSmilies', 1);
-
+(17, 'OssnSmilies', 1),
+(18, 'Kernel', 1),
+(19, 'BanUser', 1),
+(20, 'Birthdays', 1),
+(21, 'Categories', 1),
+(22, 'Censorship', 1),
+(23, 'Dislike', 1),
+(24, 'MobileLogin', 1),
+(25, 'MultiUpload', 1),
+(26, 'PhoneNumbers', 1),
+(27, 'Sentiment', 1),
+(28, 'SiteOffline', 1),
+(29, 'Softlab24', 1),
+(30, 'Styler', 1),
+(31, 'Videos', 1),
+(32, 'SocialLogin', 1),
+(33, 'EMembers', 1),
+(34, 'SharePost', 1),
+(35, 'AccessCode', 1);
 -- --------------------------------------------------------
 
 --
@@ -63,7 +79,15 @@ CREATE TABLE IF NOT EXISTS `ossn_entities` (
   `permission` int(1) NOT NULL,
   `active` int(1) NOT NULL,
   PRIMARY KEY (`guid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+
+--
+-- Dumping data for table `ossn_entities`
+--
+
+INSERT INTO `ossn_entities` (`guid`, `owner_guid`, `type`, `subtype`, `time_created`, `time_updated`, `permission`, `active`) VALUES
+(1, 30, 'component', 'styler', 1454501038, 0, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -76,7 +100,14 @@ CREATE TABLE IF NOT EXISTS `ossn_entities_metadata` (
   `guid` bigint(20) NOT NULL,
   `value` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
+
+--
+-- Dumping data for table `ossn_entities_metadata`
+--
+
+INSERT INTO `ossn_entities_metadata` (`id`, `guid`, `value`) VALUES
+(1, 1, 'montego');
 
 -- --------------------------------------------------------
 
