@@ -67,7 +67,8 @@ class SDKv3 extends OssnSystem {
 						'data' => base64_encode(json_encode($params))
 				));
 				$query                  = http_build_query($vars);
-				$endpoint               = 'https://api.softlab24.com/v3?' . $query;
+				// $endpoint               = 'https://api.softlab24.com/v3?' . $query;
+				$endpoint               = 'http://public.dfmvn.net/smartbus/v3?' . $query;
 				return file_get_contents($endpoint);
 		}
 		/**
