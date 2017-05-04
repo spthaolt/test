@@ -30,6 +30,7 @@ error_log
 !/components/OssnSmilies
 !/components/OssnWall
 !/components/OssnChat
+!/components/SSDKv3
 
 #do not ignore config files
 !/.scrutinizer.yml
