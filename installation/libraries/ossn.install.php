@@ -19,9 +19,9 @@ function ossn_installation_url() {
     $type = true;
     $protocol = 'http';
     $uri = $_SERVER['REQUEST_URI'];
-    if (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {
+//    if (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {
         $protocol = 'https';
-    }
+//    }
     $port = ':' . $_SERVER["SERVER_PORT"];
     if ($port == ':80' || $port == ':443') {
         if ($type == true) {
