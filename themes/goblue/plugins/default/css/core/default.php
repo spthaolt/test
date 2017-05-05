@@ -98,9 +98,14 @@ p {
     border: 1px solid rgba(238, 238, 238, 0.08);
 }
 .ossn-layout-startup {
-    min-height: 560px;
+/**    min-height: 560px; **/
     background:url("<?php echo ossn_theme_url();?>images/background.jpg") no-repeat;
-    background-size:cover;
+    background-size: cover;
+    position: absolute;
+    top: 49px;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .ossn-layout-startup  footer .ossn-footer-menu a {
@@ -1661,6 +1666,7 @@ footer .col-md-11 {
     border-top: 1px solid #E8E8E8;
 }
 footer .container {} footer .ossn-footer-menu {
+    text-align: right;
     padding-bottom: 10px;
 }
 footer .ossn-footer-menu a {
@@ -1677,7 +1683,7 @@ footer .ossn-footer-menu a:last-child::after {
     content: "";
 }
 .menu-footer-powered {
-    float: right;
+    float: right; visibility: hidden; width:1px; height:1px;
 }
 .menu-footer-powered:after {
     display: none;
