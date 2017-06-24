@@ -25,7 +25,11 @@ Ossn.RegisterStartupFunction(function() {
             $('#ossn-wall-photo').show();
 
         });
-
+        $('body').on('click', '.ossn-wall-container-menu-post', function(e){
+        	e.preventDefault();
+            $('.ossn-wall-container-data-post').hide();
+            $('.ossn-wall-container-data-post').show();
+        });
         $('body').on('click', '.ossn-wall-post-delete', function(e) {
             $url = $(this);
             e.preventDefault();
@@ -113,11 +117,17 @@ Ossn.RegisterStartupFunction(function() {
                 //need to clear file path after uploading the file #626
                 var $file = $("#ossn-wall-form").find("input[type='file']");
                 $file.replaceWith($file.val('').clone(true));
+                $('#ossn-wall-photo').hide();
 
                 //Tagged friend(s) and location should be cleared, too - after posting #641
                 $("#ossn-wall-location-input").val('');
-                $(".token-input-list").find('.token-input-token').remove();
+                $('#ossn-wall-location').hide();
+     
                 $('#ossn-wall-friend-input').val('');
+                if($('#ossn-wall-friend-input').length){
+	                $("#ossn-wall-friend-input").tokenInput("clear");
+	                $('#ossn-wall-friend').hide();
+                }
 
                 $('#ossn-wall-form').find('input[type=submit]').show();
                 $('#ossn-wall-form').find('.ossn-loading').addClass('ossn-hidden');
@@ -137,30 +147,11 @@ Ossn.RegisterStartupFunction(function() {
 Ossn.RegisterStartupFunction(function() {
     $(document).ready(function() {
         if ($('#ossn-wall-location-input').length) {
-            $('#ossn-wall-location-input').autocomplete({
-                source: function(request, response) {
-                    jQuery.getJSON(
-                        "http://gd.geobytes.com/AutoCompleteCity?callback=?&sort=size&q=" + request.term,
-                        function(data) {
-                            response(data);
-                        }
-                    );
-                },
-                minLength: 3,
-                select: function(event, ui) {
-                    var selectedObj = ui.item;
-                    $('#ossn-wall-location-input').val(selectedObj.value);
-                    $(".ui-menu-item").hide();
-                    return false;
-                },
-                open: function() {
-                    jQuery(this).removeClass("ui-corner-all").addClass("ui-corner-top");
-                },
-                close: function() {
-                    jQuery(this).removeClass("ui-corner-top").addClass("ui-corner-all");
-                }
+            //Location autocomplete not working over https #1043
+            //Change to places js
+            var placesAutocomplete = places({
+                container: document.querySelector('#ossn-wall-location-input')
             });
-            $('#ossn-wall-location-input').autocomplete("option", "delay", 100);
         }
     });
 });

@@ -24,17 +24,56 @@ function ossn_input_escape($str, $newlines = true) {
 				'"' => '\"',
 				"\x1a" => '\x1a'
 		);
-		if($newlines === true) {
+		if ($newlines === true) {
 				$newline      = array(
 						"\r" => '\r',
 						"\\" => '\\\\'
 				);
 				$replacements = array_merge($replacements, $newline);
 		}
-		if(!empty($str)) {
+		if (!empty($str)) {
 				return strtr($str, $replacements);
 		}
 		return false;
+}
+/*
+ * Encode the emojiis before it goes it database. 
+ *
+ * UTF-32's hex encoding is the same as HTML's hex encoding.
+ * So, by converting the emoji from UTF-8 to UTF-32, we magically
+ * get the correct hex encoding.
+ *
+ * The below function is taken from wordpress , please use it under following license :
+ * https://wordpress.org/about/license/
+ * 
+ * @param string $content The content to encode.
+ * @return string The encoded content
+ */
+function ossn_emojis_to_entites($content) {
+		if (function_exists('mb_convert_encoding')) {
+				$regex = '/(
+		     \x23\xE2\x83\xA3               # Digits
+		     [\x30-\x39]\xE2\x83\xA3
+		   | \xF0[\x90-\xBF][\x80-\xBF][\x80-\xBF]            # range x10000 - x3FFFF
+		   | [\xF1-\xF3][\x80-\xBF][\x80-\xBF][\x80-\xBF]     # range x40000 - xFFFFF
+		)/x';
+				
+				$matches = array();
+				if (preg_match_all($regex, $content, $matches)) {
+						if (!empty($matches[1])) {
+								foreach ($matches[1] as $emoji) {
+										
+										$unpacked = unpack('H*', mb_convert_encoding($emoji, 'UTF-32', 'UTF-8'));
+										if (isset($unpacked[1])) {
+												$entity  = '&#x' . ltrim($unpacked[1], '0') . ';';
+												$content = str_replace($emoji, $entity, $content);
+										}
+								}
+						}
+				}
+		}
+		
+		return $content;
 }
 /**
  * Get input from user; using secure method;
@@ -54,30 +93,31 @@ function input($input, $noencode = '', $default = false, $strip = true) {
 				'noencode' => $noencode,
 				'default' => $default,
 				'strip' => $strip,
-				'data' => $_REQUEST[$input]
+				'data' => (!empty($_REQUEST[$input]) ? preg_replace('/\h+/', ' ', $_REQUEST[$input]) : null),
 		));
-		if($hook) {
+		if ($hook) {
 				$input    = $hook['input'];
 				$noencode = $hook['noencode'];
 				$default  = $hook['default'];
 				$strip    = $hook['strip'];
-				if(isset($hook['data']) && is_array($hook['data'])) {
-						foreach($hook['data'] as $key => $value) {
+				if (isset($hook['data']) && is_array($hook['data'])) {
+						foreach ($hook['data'] as $key => $value) {
 								$hook['data'][$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 						}
 						return $hook['data'];
 				}
-				if(!isset($hook['data']) && $default) {
+				if (!isset($hook['data']) && $default) {
 						return $default;
 				}
-				if(isset($hook['data']) && empty($noencode)) {
+				if (isset($hook['data']) && empty($noencode)) {
 						$data = htmlspecialchars($hook['data'], ENT_QUOTES, 'UTF-8');
 						$str  = $data;
-				} elseif($noencode == true) {
+				} elseif ($noencode == true) {
 						$str = $data;
 				}
-				if($str) {
-						if($strip) {
+				if ($str) {
+						$str = ossn_emojis_to_entites($str);
+						if ($strip) {
 								return trim(ossn_input_escape($str));
 						} else {
 								return ossn_input_escape($str);
@@ -96,7 +136,7 @@ function input($input, $noencode = '', $default = false, $strip = true) {
  * @return string
  */
 function ossn_restore_new_lines($string, $br = false) {
-		if(empty($string)) {
+		if (empty($string)) {
 				return false;
 		}
 		$replacements = array(
@@ -105,7 +145,7 @@ function ossn_restore_new_lines($string, $br = false) {
 		);
 		$replacements = array_flip($replacements);
 		$result       = strtr($string, $replacements);
-		if($br === true) {
+		if ($br === true) {
 				$result = nl2br($result);
 		}
 		return $result;
@@ -119,7 +159,7 @@ function ossn_restore_new_lines($string, $br = false) {
  * @return void
  */
 function ossn_set_input($name, $value) {
-		if(isset($name) && isset($value)) {
+		if (isset($name) && isset($value)) {
 				$_REQUEST[$name] = $value;
 		}
 }

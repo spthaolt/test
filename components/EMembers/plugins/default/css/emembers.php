@@ -5,3 +5,14 @@
    	 	height: 100%;
 	}
 }
+.menu-section-item-emembers-female:before {
+    font-family: FontAwesome;
+    content: "\f182" !important;
+}
+.menu-section-item-emembers-male:before {
+    font-family: FontAwesome;
+    content: "\f183" !important;
+}
+.menu-section-emembers i:before {
+    content: "\f0c0" !important;
+}

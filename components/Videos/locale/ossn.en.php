@@ -28,7 +28,7 @@ $en = array(
 	'video:com:save:failed' => 'Failed to save the video',
 	'video:com:wall:added' => 'Created a new video %s',
 	'video:com:all' => 'All site videos',
-	'video:com:mine' => 'My videos',
+	'video:com:mine' => 'Mine videos',
 	'video:com:add' => 'Add video',
 	'video:com:users:videos' => "%s's videos",
 	

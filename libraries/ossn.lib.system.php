@@ -116,6 +116,10 @@ function ossn_package_information() {
  * @param int $priority The priority - 500 is default, lower numbers called first
  *
  * @return bool
+ *
+ * This part is contain code from project called Elgg 
+ * 
+ * See licenses/elgg/LICENSE.txt
  */
 function ossn_add_hook($hook, $type, $callback, $priority = 200) {
     global $Ossn;
@@ -760,6 +764,8 @@ function ossn_check_update() {
  */
 function _ossn_exception_handler($exception){
 	$params['exception'] = $exception;
+	//support at least exception message  #1014
+	error_log($params['exception']);
 	echo ossn_view('system/handlers/errors', $params);
 }
 /**

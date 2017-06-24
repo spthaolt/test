@@ -71,7 +71,11 @@ function ossn_photos_initialize() {
 				));
 				
 		}
+		//gallery plugin dist include
+		ossn_new_external_js('jquery.fancybox.min.js', '//cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.js', false);
+		ossn_new_external_css('jquery.fancybox.min.css', '//cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.css', false);
 		
+
 }
 
 /**
@@ -377,7 +381,7 @@ function ossn_album_page_handler($album) {
 						}
 						//get image file else show error page
 						if(is_file($datadir)) {
-								$filesize = filesize($datadir);
+								$filesize = strlen($image);
 								header("Content-type: image/jpeg");
 								header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+6 months")), true);
 								header("Pragma: public");
@@ -392,6 +396,8 @@ function ossn_album_page_handler($album) {
 						}
 						break;
 				case 'view':
+						ossn_load_external_css('jquery.fancybox.min.css');
+						ossn_load_external_js('jquery.fancybox.min.js');
 						if(isset($album[1])) {
 								$title = ossn_print('photos');
 								
@@ -409,6 +415,13 @@ function ossn_album_page_handler($album) {
 												ossn_error_page();
 										}
 								}
+								$gallery_button  = array(
+										'text' => "<i class='fa fa-caret-square-o-right'></i>",
+										'href' => 'javascript:void(0);',
+										'class' => 'button-grey',
+										'id' => 'ossn-photos-show-gallery',
+								);		
+								$control_gbutton  = ossn_plugin_view('output/url', $gallery_button);								
 								//shows add photos if owner is loggedin user
 								if(ossn_loggedin_user()->guid == $owner->owner_guid) {
 										$addphotos     = array(
@@ -423,8 +436,8 @@ function ossn_album_page_handler($album) {
 												'text' => ossn_print('delete:album'),
 												'href' => $delete_action,
 												'class' => 'button-grey ossn-make-sure'
-										);
-										$control       = ossn_plugin_view('output/url', $addphotos);
+										);							
+										$control = ossn_plugin_view('output/url', $addphotos);
 										$control .= ossn_plugin_view('output/url', $delete_album);
 								} else {
 										$control = false;
@@ -441,7 +454,7 @@ function ossn_album_page_handler($album) {
 								$contents          = array(
 										'title' => ossn_print('photos'),
 										'content' => ossn_plugin_view('photos/pages/albums', $user),
-										'controls' => $control,
+										'controls' => $control_gbutton.$control,
 										'module_width' => '850px'
 								);
 								//set page layout

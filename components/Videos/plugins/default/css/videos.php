@@ -58,3 +58,16 @@
 #video-add .video-upload {
 	display:none;
 }
+.menu-section-videos i:before {
+    font-family: FontAwesome;
+    content: "\f03d";
+}
+.menu-section-item-videos-my:before,
+.menu-section-item-videos-all:before {
+    font-family: FontAwesome;
+    content: "\f0cb" !important;
+} 
+.menu-section-item-videos-add:before {
+    font-family: FontAwesome;
+    content: "\f067" !important;
+} 

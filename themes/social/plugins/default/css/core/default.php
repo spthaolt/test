@@ -343,10 +343,31 @@ a {
 }
 .ossn-wall-container .wall-tabs {
     border-bottom: 1px solid #E5E5E5;
-    height: 26px;
-}
-.ossn-wall-container .wall-tabs .item {
+    background-color: #F6F7F8;
+    border: 1px solid #E9EAED;
     margin-top: 5px;
+}
+.ossn-wall-container .wall-tabs .item{
+    padding: 10px;
+    display: inline-flex;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    font-weight: bold;
+    font-size: 13px;
+}
+.ossn-wall-container .wall-tabs .item:hover	{
+	background:#eee;
+}
+
+.ossn-wall-container .wall-tabs .item div {
+    display: inline-block;
+}
+.ossn-wall-container .wall-tabs .item .text {
+    font-weight: bold;
+    margin-top: 1px;
+    margin-left: 5px;
+    position: absolute;
+    font-size: 15px;
 }
 .ossn-wall-container .wall-tabs .item div {
     display: inline-block;
@@ -407,9 +428,13 @@ a {
 .ossn-wall-item .friends {
 	display:inline-block;
 }
+[contentEditable=true]:empty:not(:focus)::before{
+        content:attr(placeholder);
+}
 /*******************************
 	Comments Likes
 ********************************/
+
 .ossn-comment-menu {
     float: right;
     display: none;
@@ -456,7 +481,6 @@ a {
 }
 .comments-list .comments-item .comment-user-img {
     display: inline-block;
-    border-radius: 32px;
 }
 .comments-list .comments-item .comment-contents {
     display: inline-block;
@@ -466,10 +490,9 @@ a {
     padding-bottom: 10px;
     position: relative;
     z-index: 0;    
-    margin-left: 5px;
 }
 .comments-item .col-md-11 {
-    padding-left: 0px;
+    padding-left: 10px;
 }
 .comment-metadata .time-created,
 .comment-metadata a {
@@ -494,7 +517,6 @@ a {
 .comment-contents {
     width: 100%;
 }
-.comment-container span[readonly='readonly'],
 .comment-container input[readonly='readonly'] {
     background: #eee;
 }
@@ -508,9 +530,6 @@ a {
     resize: vertical;
     background: #fff;
     min-height:32px;
-}
-[contentEditable=true]:empty:not(:focus)::before{
-        content:attr(placeholder);
 }
 /*********************************
 	Like
@@ -1631,7 +1650,6 @@ footer .ossn-footer-menu a::after {
     margin-left: 10px;
     margin-right: 10px;
 }
-footer .ossn-footer-menu a:nth-last-child(2)::after,
 footer .ossn-footer-menu a:last-child::after {
     content: "";
 }
@@ -1921,9 +1939,6 @@ footer .ossn-footer-menu a:last-child::after {
     .ossn-box-inner {
     	width:280px;
     }
-    footer .ossn-footer-menu a:nth-last-child(2)::after {
-    	content:"|";
-    }
 
     /**********************
     	Groups
@@ -2184,6 +2199,22 @@ display: inline-block;
     display: block;
     margin-left: 25px;
     float: none;
+}
+.ossn-menu-search-users .text:before {
+	font-family: FontAwesome;
+	content: "\f007";
+	display: absolute;
+	padding-right: 10px;
+	vertical-align: middle;
+	float: left; 
+}
+.ossn-menu-search-groups .text:before {
+	font-family: FontAwesome;
+	content: "\f0c0";
+	display: absolute;
+	padding-right: 10px;
+	vertical-align: middle;
+	float: left; 
 }
 /*****************************
 	Side Menu icons

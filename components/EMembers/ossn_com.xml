@@ -4,10 +4,10 @@
     <id>EMembers</id>
     <author>Core Team</author>
     <description>Create a seprate page for male and female members.</description>
-    <license>Commercail</license>
+    <license>Commercial</license>
     <author_url>https://www.softlab24.com/</author_url>
     <license_url>http://www.softlab24.com/terms</license_url>
-    <version>1.0</version>
+    <version>2.0</version>
 	<requires>
 		<type>ossn_version</type>
 		<version>4.0</version>

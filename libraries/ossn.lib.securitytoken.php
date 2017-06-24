@@ -20,7 +20,8 @@ function ossn_generate_action_token($timestamp){
 	}
 	$site_screat = ossn_site_settings('site_key');
 	$session_id = session_id();
-	return md5($timestamp . $site_screat . $session_id);
+	$user_guid  = ossn_loggedin_user()->guid;
+	return md5($timestamp . $site_screat . $session_id . $user_guid);
 }
 /**
  * Build url from parts
@@ -44,6 +45,10 @@ function ossn_build_token_url($parts){
  * @param string $url	Full complete url
  * 
  * @return string
+ *
+ * This file contain code from other project
+ *
+ * See licenses/elgg/LICENSE.txt 
  */
 function ossn_add_tokens_to_url($url){
 	$params = parse_url($url);

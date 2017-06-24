@@ -19,12 +19,14 @@ function extended_members() {
 		ossn_extend_view('css/ossn.default', 'css/emembers');
 		
 		ossn_register_sections_menu('newsfeed', array(
+				'name' => 'emembers_male',
 				'text' => ossn_print('male'),
 				'url' => ossn_site_url("site_members/male"),
 				'section' => 'emembers',
 				'icon' => true
 		));
 		ossn_register_sections_menu('newsfeed', array(
+				'name' => 'emembers_female',
 				'text' => ossn_print('female'),
 				'url' => ossn_site_url("site_members/female"),
 				'section' => 'emembers',

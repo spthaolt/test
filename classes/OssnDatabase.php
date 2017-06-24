@@ -68,7 +68,12 @@ class OssnDatabase extends OssnBase {
 		 * @return boolean
 		 */
 		public function execute() {
-				$this->database = $this->Connect();
+				global $Ossn;
+				//Avoid the multiple db connections #1001
+				if(!isset($Ossn->dbLINK) || isset($Ossn->dbLINK) && $Ossn->dbLINK == false){
+					$Ossn->dbLINK = $this->Connect();
+				}
+				$this->database = $Ossn->dbLINK;
 				if(isset($this->query) && !empty($this->query)) {
 						$this->database->set_charset("utf8");
 						$this->exe = $this->database->query($this->query);
@@ -80,7 +85,8 @@ class OssnDatabase extends OssnBase {
 								$this->last_id = $this->database->insert_id;
 						}
 						unset($this->query);
-						$this->database->close();
+						//Using mysqli_close() isn't usually necessary, as non-persistent open links are automatically closed at the end of the script's execution.
+						//$this->database->close();
 						return true;
 				}
 				return false;
@@ -190,6 +196,7 @@ class OssnDatabase extends OssnBase {
 				if(isset($this->exe)) {
 						if($data !== true) {
 								if($fetch = $this->exe) {
+										self::destruct();
 										return arrayObject($fetch->fetch_assoc());
 								}
 						}
@@ -200,6 +207,7 @@ class OssnDatabase extends OssnBase {
 										}
 								}
 								if(isset($alldata) && !empty($alldata)) {
+										self::destruct();
 										return arrayObject($alldata);
 								}
 						}
@@ -292,5 +300,13 @@ class OssnDatabase extends OssnBase {
 				}
 				return false;
 		}
-		
+		/**
+		 * Manual self destruct
+		 *
+		 * @return void
+		 */
+		public function destruct(){
+				unset($this->database);
+				unset($this->exe);
+		}
 } //class

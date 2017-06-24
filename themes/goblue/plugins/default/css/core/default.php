@@ -77,7 +77,16 @@ p {
     font-weight: bold;
     margin-left: 10px;    
 }
-
+.btn {
+    border-radius: 2px;
+    padding: 4px 8px;
+}
+.btn-primary {
+	background-color: #2a87a7;
+}
+a {
+	color: #0f3b4a;
+}
 /************************************
 	Layouts
 ************************************/
@@ -98,14 +107,9 @@ p {
     border: 1px solid rgba(238, 238, 238, 0.08);
 }
 .ossn-layout-startup {
-/**    min-height: 560px; **/
+    min-height: 560px;
     background:url("<?php echo ossn_theme_url();?>images/background.jpg") no-repeat;
-    background-size: cover;
-    position: absolute;
-    top: 49px;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    background-size:cover;
 }
 
 .ossn-layout-startup  footer .ossn-footer-menu a {
@@ -187,14 +191,27 @@ p {
 .ossn-group-members {
 	margin-right: 5px;
 }
+.ossn-page-loading-annimation {
+	background:#fff;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+}
+.ossn-page-loading-annimation .ossn-page-loading-annimation-inner {
+	width: 24px;
+    margin: 0 auto;
+    margin-top: 20%;
+}
 /*******************************
 	Topbar	
 ********************************/
 
 .topbar {
-    background: linear-gradient(#2C91B7, #0084B4);
+    background: #0b769c;
     color: #fff;
-    border-bottom: 1px solid #0B769C;
     z-index: 1;
     position: relative;
 }
@@ -231,7 +248,7 @@ p {
 .topbar-menu-right li:hover,
 .topbar-menu-left li:hover {
     cursor: pointer;
-    background-color: #07688C;
+    background-color: #0a6586;
 }
 .topbar .right-side-nospace .topbar-menu-right {
     margin-right: 0px;
@@ -250,7 +267,7 @@ p {
 .topbar .ossn-icons-topbar-friends,
 .topbar .ossn-icons-topbar-messages,
 .topbar .ossn-icons-topbar-notification i {
-    color: #174D61;
+    color: #0f3b4a;
 }
 .topbar .ossn-icons-topbar-friends-new,
 .topbar .ossn-icons-topbar-messages-new,
@@ -356,11 +373,22 @@ p {
 }
 .ossn-wall-container .wall-tabs {
     border-bottom: 1px solid #E5E5E5;
-    height: 26px;
-}
-.ossn-wall-container .wall-tabs .item {
+    background-color: #F6F7F8;
+    border: 1px solid #E9EAED;
     margin-top: 5px;
 }
+.ossn-wall-container .wall-tabs .item{
+    padding: 10px;
+    display: inline-flex;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    font-weight: bold;
+    font-size: 13px;
+}
+.ossn-wall-container .wall-tabs .item:hover	{
+	background:#eee;
+}
+
 .ossn-wall-container .wall-tabs .item div {
     display: inline-block;
 }
@@ -576,11 +604,14 @@ p {
     transition: all 0.5s ease;
 }
 .sidebar-open {
-    margin-left: 0px;
+	margin-left: 0px;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
+}
+.sidebar-open-no-annimation {
+  margin-left: 0px;
 }
 .sidebar-open-page-container {
     margin-left: 200px;
@@ -588,6 +619,9 @@ p {
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
+}
+.sidebar-open-page-container-no-annimation{
+	margin-left: 200px;
 }
 .sidebar-close-page-container {
     -webkit-transition: all 0.5s ease;
@@ -779,7 +813,9 @@ p {
 *******************************************/
 
 .ossn-ad-item {} .ossn-ad-item .ad-image {
-    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    display: block;   
 }
 .ossn-ad-item a {
     text-decoration: none;
@@ -1666,7 +1702,6 @@ footer .col-md-11 {
     border-top: 1px solid #E8E8E8;
 }
 footer .container {} footer .ossn-footer-menu {
-    text-align: right;
     padding-bottom: 10px;
 }
 footer .ossn-footer-menu a {
@@ -1678,12 +1713,11 @@ footer .ossn-footer-menu a::after {
     margin-left: 10px;
     margin-right: 10px;
 }
-footer .ossn-footer-menu a:nth-last-child(2)::after,
 footer .ossn-footer-menu a:last-child::after {
     content: "";
 }
 .menu-footer-powered {
-    float: right; visibility: hidden; width:1px; height:1px;
+    float: right;
 }
 .menu-footer-powered:after {
     display: none;
@@ -1696,7 +1730,7 @@ footer .ossn-footer-menu a:last-child::after {
 ****************************/
 
 .home-left-contents {
-    margin-top: 5%;
+    margin-top: 3%;
 }
 .home-left-contents .logo {
     text-align: center;
@@ -2156,5 +2190,16 @@ footer .ossn-footer-menu a:last-child::after {
 	margin-left: 0;	
     }
 }
-
-.topbar-menu-right .ossn-notifications-all li:hover { background-color: #f9f9f9 !important; }
+/*****************************************************
+		Adding icons for some 3rd party components
+******************************************************/
+.sidebar-menu-nav ul .sub-menu li:before {
+    font-family: FontAwesome;
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+    vertical-align: middle;
+}
+.menu-section-item-groups:before{
+    content: "\f07b" !important
+}

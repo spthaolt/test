@@ -38,7 +38,9 @@ function ossn_wall() {
 		
 		//Remove google map search API as it requires API #906
 		//ossn_new_external_js('maps.google', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places', false);
-		
+		//Location autocomplete not working over https #1043 , use some other service ,  its better than google looks nice.
+		ossn_new_external_js('places.min', '//cdn.jsdelivr.net/places.js/1/places.min.js', false);
+	
 		//pages
 		ossn_register_page('post', 'ossn_post_page');
 		ossn_register_page('friendpicker', 'ossn_friend_picker');
@@ -59,6 +61,40 @@ function ossn_wall() {
 		//callbacks
 		ossn_register_callback('group', 'delete', 'ossn_group_wall_delete');
 		ossn_register_callback('user', 'delete', 'ossn_user_posts_delete');
+		
+		$menupost = array(
+				'name' => 'post',
+				'text' => '<i class="fa fa-bullhorn"></i>'.ossn_print('post'),
+				'href' => ossn_site_url()
+		);
+		$container_controls = array(
+			array(
+				'name' => 'tag_friend',
+				'class' => 'ossn-wall-friend',
+				'text' => '<i class="fa fa-users"></i>',
+			),
+			array(
+				'name' => 'location',
+				'class' => 'ossn-wall-location',
+				'text' => '<i class="fa fa-map-marker"></i>',
+			),
+			array(
+				'name' => 'photo',
+				'class' => 'ossn-wall-photo',
+				'text' => '<i class="fa fa-picture-o"></i>',
+			),			
+		);		
+		ossn_register_menu_item('wall/container/home', $menupost);		
+		ossn_register_menu_item('wall/container/group', $menupost);		
+		ossn_register_menu_item('wall/container/user', $menupost);	
+		
+		foreach($container_controls as $key => $container_control){
+			ossn_register_menu_item('wall/container/controls/home', $container_control);		
+			ossn_register_menu_item('wall/container/controls/user', $container_control);	
+			if($container_control['name'] != 'tag_friend'){
+				ossn_register_menu_item('wall/container/controls/group', $container_control);		
+			}
+		}
 }
 /**
  * Friends Picker
@@ -76,12 +112,25 @@ function ossn_friend_picker() {
 		if(!$friends) {
 				return false;
 		}
+		$search_for = $_GET['q'];
+		// allow case insensitivity with first typed in char
+		$fc = mb_strtoupper(mb_substr($search_for, 0, 1,'UTF-8'), 'UTF-8');
+		$search_For = $fc . mb_substr($search_for, 1, null, 'UTF-8');
+		// show all friends with wildcard '*' in first place
+		if($search_for == '*') {
+			$search_for = '';
+			$search_For = '';
+		}
+		$search_len = mb_strlen($search_for,'UTF-8');
 		foreach($friends as $users) {
+			$first_name_start = mb_substr($users->first_name, 0, $search_len, 'UTF-8');
+			if($first_name_start == $search_for || $first_name_start == $search_For) {
 				$p['first_name'] = $users->first_name;
 				$p['last_name']  = $users->last_name;
 				$p['imageurl']   = ossn_site_url("avatar/{$users->username}/smaller");
 				$p['id']         = $users->guid;
 				$usera[]         = $p;
+			}
 		}
 		echo json_encode($usera);
 }

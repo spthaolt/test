@@ -185,7 +185,7 @@ function ossn_comment_menu($name, $type, $params) {
 						}
 						//group admins must be able to delete ANY comment in their own group #170
 						//just show menu if group owner is loggedin 
-						if((ossn_loggedin_user()->guid == $post->owner_guid) || $user->guid == $comment->owner_guid || (ossn_loggedin_user()->guid == $group->owner_guid)) {
+						if(ossn_isAdminLoggedin() || (ossn_loggedin_user()->guid == $post->owner_guid) || $user->guid == $comment->owner_guid || (ossn_loggedin_user()->guid == $group->owner_guid)) {
 								ossn_unregister_menu('delete', 'comments');
 								ossn_register_menu_item('comments', array(
 										'name' => 'delete',
@@ -280,6 +280,10 @@ function ossn_comment_page($pages) {
 				case 'attachment':
 						header('Content-Type: application/json');
 						if(isset($_FILES['file']['tmp_name']) && ($_FILES['file']['error'] == UPLOAD_ERR_OK && $_FILES['file']['size'] !== 0) && ossn_isLoggedin()) {
+								//code of comment picture preview ignores EXIF header #1056
+								$OssnFile = new OssnFile;
+								$OssnFile->resetRotation($_FILES['file']['tmp_name']);
+								
 								if(preg_match("/image/i", $_FILES['file']['type'])) {
 										$file    = $_FILES['file']['tmp_name'];
 										$unique  = time() . '-' . substr(md5(time()), 0, 6) . '.jpg';

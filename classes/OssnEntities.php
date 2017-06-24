@@ -49,7 +49,6 @@ class OssnEntities extends OssnDatabase {
 						$this->type = 'entity';
 				}
 				$this->data        = new stdClass;
-				$this->annotations = new OssnAnnotation;
 				
 				if(!isset($this->offset)) {
 						$this->offset = 1;
@@ -108,6 +107,12 @@ class OssnEntities extends OssnDatabase {
 										$this->value
 								);
 								$this->insert($this->params);
+								
+								$args['owner_guid']   = $this->params['values'][0];
+								$args['type']         = $this->params['values'][1];
+								$args['subtype']      = $this->params['values'][2];
+								$args['time_created'] = $this->params['values'][3];
+								ossn_trigger_callback('entity', 'created', $args);								
 								return true;
 						}
 				}
@@ -144,6 +149,7 @@ class OssnEntities extends OssnDatabase {
 				);
 				
 				$data = $this->select($params);
+				self::destruct();
 				if($data) {
 						$entity = arrayObject($data, get_class($this));
 						return $entity;
@@ -204,6 +210,7 @@ class OssnEntities extends OssnDatabase {
 										}
 								}
 						}
+						self::destruct();
 						return true;
 				}
 				return false;
@@ -463,7 +470,7 @@ class OssnEntities extends OssnDatabase {
 				if(!$options['order_by']) {
 						$params['order_by'] = "e.guid ASC";
 				}
-				$this->get = $this->select($params, true);
+				$fetched_entities = $this->select($params, true);
 				
 				//prepare count data;
 				if($options['count'] === true) {
@@ -476,11 +483,12 @@ class OssnEntities extends OssnDatabase {
 						$count           = array_merge($params, $count);
 						return $this->select($count)->total;
 				}
-				if($this->get) {
-						foreach($this->get as $entity) {
+				if($fetched_entities) {
+						foreach($fetched_entities as $entity) {
 								//prepare entities for display
 								$entities[] = arrayObject($entity, $this->types[$this->type]);
 						}
+						self::destruct();
 						return $entities;
 				}
 				return false;
@@ -504,4 +512,21 @@ class OssnEntities extends OssnDatabase {
 				}
 				return ossn_call_hook('user', 'can:change', $this, $allowed);
 		}
+		/**
+		 * Manual self destruct
+		 *
+		 * @return void
+		 */
+		public function destruct(){
+				unset($this->types);
+				unset($this->entity_types);
+				unset($this->page_limit);
+				unset($this->count);
+				unset($this->offset);
+				unset($this->permission);
+				unset($this->last_id);
+				unset($this->order_by);
+				unset($this->active);
+				unset($this->limit);
+		}		
 } //class
