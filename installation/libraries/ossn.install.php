@@ -22,11 +22,16 @@ function ossn_installation_url() {
     if (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {
         $protocol = 'https';
     }
+
+    if(!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])){
+        $protocol = $_SERVER['HTTP_X_FORWARDED_PROTO'];
+    }
+
     $port = ':' . $_SERVER["SERVER_PORT"];
     if ($port == ':80' || $port == ':443') {
         if ($type == true) {
             $port = '';
-        }
+        }        
     }
     $url = "$protocol://{$_SERVER['SERVER_NAME']}$port{$uri}";
     return preg_replace('/\\?.*/', '', $url);
