@@ -10,18 +10,15 @@
 Ossn.RegisterStartupFunction(function() {
     $(document).ready(function() {
         $('.ossn-wall-container').find('.ossn-wall-friend').click(function() {
-            $('#ossn-wall-location').hide();
-            $('#ossn-wall-photo').hide();
+
             $('#ossn-wall-friend').show();
         });
         $('.ossn-wall-container').find('.ossn-wall-location').click(function() {
-            $('#ossn-wall-friend').hide();
-            $('#ossn-wall-photo').hide();
+
             $('#ossn-wall-location').show();
         });
         $('.ossn-wall-container').find('.ossn-wall-photo').click(function() {
-            $('#ossn-wall-friend').hide();
-            $('#ossn-wall-location').hide();
+
             $('#ossn-wall-photo').show();
 
         });
