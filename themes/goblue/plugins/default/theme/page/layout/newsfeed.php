@@ -38,3 +38,16 @@ if(ossn_is_hook('newsfeed', "sidebar:right")) {
 	</div>
 	<?php echo ossn_plugin_view('theme/page/elements/footer');?>
 </div>
+<script>
+    Userback = window.Userback || {};
+    Userback.access_token = '1163|1394|J55vXwRc0pKONHlf089GjK5ZvgtTaLGURMqPii1jHL8vsuKtDT';
+
+    (function(id) {
+        if (document.getElementById(id)) {return;}
+        var s = document.createElement('script');
+        s.id = id;
+        s.src = 'https://static.userback.io/widget/v1.js';
+        var parent_node = document.head || document.body;
+        parent_node.appendChild(s);
+    })('userback-sdk');
+</script>
