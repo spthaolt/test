@@ -69,6 +69,41 @@ Ossn.RegisterStartupFunction(function() {
 			e.preventDefault();
 			$('#group-upload-cover').find('.coverfile').click();
 		});
+
+		$("#groups-upload-photo").submit(function(event) {
+            event.preventDefault();
+
+            var formData = new FormData($(this)[0]);
+            var $url = Ossn.site_url + 'action/group/photo/upload';
+            $.ajax({
+                url: Ossn.AddTokenToUrl($url),
+                type: 'POST',
+                data: formData,
+                async: true,
+                beforeSend: function() {
+                    $('.upload-photo').attr('class', 'user-photo-uploading');
+                },
+                error: function(xhr, status, error) {
+                    if (error == 'Internal Server Error' || error !== '') {
+                        Ossn.MessageBox('syserror/unknown');
+                    }
+                },
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(callback) {
+                    $time = $.now();
+                    $('.user-photo-uploading').attr('class', 'upload-photo').hide();
+                    $('.profile-photo').find('img').attr('src', callback['url']);
+                    $imageurl = $('.profile-photo').find('img').attr('src') + '?' + $time;
+                    $('.profile-photo').find('img').attr('src', $imageurl);
+                    $topbar_icon_url = $('.ossn-topbar-menu').find('img').attr('src') + '?' + $time;
+                    $('.ossn-topbar-menu').find('img').attr('src', $topbar_icon_url);
+                }
+            });
+
+            return false;
+        });
 	});
 });
 

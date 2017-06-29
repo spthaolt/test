@@ -385,6 +385,78 @@ class OssnGroup extends OssnObject {
 		}
 		
 		/**
+		 * Upload group photo
+		 *
+		 * @return boolean|null
+		 * @access public;
+		 */
+		public function uploadPhoto() {
+			self::initAttributes();
+			if(empty($this->guid) || $this->guid < 1) {
+				return false;
+			}
+
+			$this->OssnFile->owner_guid = $this->guid;
+			$this->OssnFile->type       = 'object';
+			$this->OssnFile->subtype    = 'avatar';
+			$this->OssnFile->setFile('userphoto');
+			$this->OssnFile->setExtension(array(
+					'jpg',
+					'png',
+					'jpeg',
+					'gif'
+			));
+			$this->OssnFile->setPath('avatar/');
+			$files = clone $this->OssnFile;
+			if($this->OssnFile->addFile()) {
+	
+					$files = $files->getFiles();
+					$count = (array) $files;
+					if(count($count) > 1) {
+							unset($files->{0});
+							if($files) {
+									foreach($files as $file) {
+											$file->deleteEntity();
+									}
+							}
+					}
+					// $this->ResetCoverPostition($this->OssnFile->owner_guid);
+					return true;
+			}
+		}
+
+		/**
+		 * Get group latest avatar url
+		 *
+		 * @return url;
+		 * @access public;
+		 */
+		public function avatarURL($size = null) {
+				self::initAttributes();
+				if(empty($this->guid) || $this->guid < 1) {
+						return false;
+				}
+
+				$this->OssnFile->owner_guid = $this->guid;
+				$this->OssnFile->type       = 'object';
+				$this->OssnFile->subtype    = 'avatar';
+				$covers = $this->OssnFile->getFiles();
+
+				if(!$covers) {
+					return false;
+				}
+				$this->latestcover = $covers->getParam(0);
+				$file              = str_replace('avatar/', '', $this->latestcover->value);
+				if (!is_null($size)) {
+					$this->coverurl = ossn_site_url("groups/avatar/{$this->latestcover->guid}/{$size}_{$file}");
+				} else {
+					$this->coverurl = ossn_site_url("groups/avatar/{$this->latestcover->guid}/{$file}");
+				}
+				
+				return ossn_call_hook('group', 'cover:url', $this, $this->coverurl);
+		}
+
+		/**
 		 * Upload group cover
 		 *
 		 * @return boolean|null

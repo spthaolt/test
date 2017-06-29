@@ -11,7 +11,17 @@
 $cover = $params['group']->haveCover();
 $cover_left = '';
 $iscover = '';
+$groupUrl = '';
+$avatarUrl = $params['group']->avatarURL("larger");
+
+if(!$avatarUrl) {
+
+    $avatarUrl = ossn_site_url("groups/avatar/larger/".md5($params['group']->title).'.jpg');
+}
+
 if ($cover) {
+
+    $groupUrl = $params['group']->coverURL();
     $iscover = 'ossn-group-cover-header';
     $coverp = $params['group']->coverParameters($params['group']->guid);
     if(!empty($coverp[0])){
@@ -20,7 +30,11 @@ if ($cover) {
 	if(!empty($coverp[1])){
 	    $cover_left = "left:{$coverp[1]}px;";
 	}
+} else {
+    $groupUrl = ossn_site_url("groups/cover/".md5($params['group']->title).'.jpg');
 }
+   
+
 //group members total count becomes 0 when group cover is set #156 $dev.githubertus 
 $members = $params['group']->getMembers();
 ?>
@@ -39,21 +53,35 @@ $members = $params['group']->getMembers();
 
         <?php
         }
-        if ($cover) {
-            ?>
-            <div class="ossn-group-cover" id="container">
-               <?php if ($params['group']->owner_guid == ossn_loggedin_user()->guid || ossn_isAdminLoggedin()) { ?>
-                    <div class="ossn-group-cover-button">
-                        <a href="javascript:void(0);" id="reposition-cover"
-                           class='button-grey'><?php echo ossn_print('reposition:cover'); ?></a>
-                        <a href="javascript:void(0);" id="add-cover-group"
-                           class='button-grey'><?php echo ossn_print('change:cover'); ?></a>
-                    </div>
-                <?php } ?>                        
-                <img id="draggable" src="<?php echo $params['group']->coverURL(); ?>"
-                     style='<?php echo $cover_top; ?><?php echo $cover_left; ?>'/>
-            </div>
-        <?php } ?>
+
+        ?>
+
+        <div class="ossn-group-cover" id="container">
+           <?php if ($params['group']->owner_guid == ossn_loggedin_user()->guid || ossn_isAdminLoggedin()) { ?>
+                <div class="ossn-group-cover-button">
+                    <a href="javascript:void(0);" id="reposition-cover"
+                       class='button-grey'><?php echo ossn_print('reposition:cover'); ?></a>
+                    <a href="javascript:void(0);" id="add-cover-group"
+                       class='button-grey'><?php echo ossn_print('change:cover'); ?></a>
+                </div>
+            <?php } ?>                        
+            <img id="draggable" src="<?php echo $groupUrl; ?>"
+                 style='<?php echo $cover_top; ?><?php echo $cover_left; ?>'/>
+        </div>
+
+        <div class="profile-photo groups-photo">
+            <?php if ($params['group']->owner_guid == ossn_loggedin_user()->guid) { ?>
+                <div class="upload-photo" style="display:none;cursor:pointer;">
+                    <span onclick="Ossn.Clk('.pfile');"><?php echo ossn_print('change:photo'); ?></span>
+                    <form id="groups-upload-photo" style="display:none;" method="post" enctype="multipart/form-data">
+                        <input type="file" name="userphoto" class="pfile" onchange="Ossn.Clk('#groups-upload-photo .upload');" />
+                        <input type="hidden" value="<?php echo $params['group']->guid; ?>" name="group"/>
+                        <input type="submit" class="upload" />
+                    </form>
+                </div>  
+            <?php } ?>
+            <img src="<?php echo $avatarUrl ?>" height="170" width="170"/>
+        </div>
 
         <div class="header-bottom">
             <div class="group-name">
@@ -96,10 +124,6 @@ $members = $params['group']->getMembers();
                        class='button-grey'><?php echo ossn_print('settings'); ?></a>
                     <a href="javascript:void(0);" onclick="Ossn.repositionGroupCOVER(<?php echo $params['group']->guid; ?>);"
                        class='button-grey group-c-position'><?php echo ossn_print('save:position'); ?></a>
-                    <?php if (!$cover) { ?>
-                        <a href="javascript:void(0);" id="add-cover-group"
-                           class='button-grey'><?php echo ossn_print('change:cover'); ?></a>
-                    <?php } ?>
                 <?php } ?>
            		 </div>
 

@@ -56,6 +56,9 @@ function ossn_groups() {
 				
 				ossn_register_action('group/cover/upload', __OSSN_GROUPS__ . 'actions/group/cover/upload.php');
 				ossn_register_action('group/cover/reposition', __OSSN_GROUPS__ . 'actions/group/cover/reposition.php');
+
+				//new
+				ossn_register_action('group/photo/upload', __OSSN_GROUPS__ . 'actions/group/photo/upload.php');
 		}
 		
 		
@@ -165,6 +168,8 @@ function ossn_groups_page($pages) {
 		if(empty($page)) {
 				return false;
 		}
+
+	
 		switch($page) {
 				case 'add':
 						$params = array(
@@ -203,10 +208,51 @@ function ossn_groups_page($pages) {
 										readfile($Cover);
 										return;
 								} else {
-										ossn_error_page();
+									//old
+									//ossn_error_page();
+
+									//new 170629
+									redirect('components/OssnGroups/images/transparent.png');
 								}
 						}
 						break;
+
+				case 'avatar':	
+						if(isset($pages[1]) && !empty($pages[1])) {
+							$File          = new OssnFile;
+							$File->file_id = $pages[1];
+							$File          = $File->fetchFile();
+
+							$etag = $File->guid . $File->time_created;
+							
+							if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) == "\"$etag\"") {
+									header("HTTP/1.1 304 Not Modified");
+									exit;
+							}
+							
+							if(isset($File->guid)) {
+
+								if (isset($pages[2]) && !empty($pages[2])) {
+									$cover = ossn_get_userdata("object/{$File->owner_guid}/avatar/{$pages[2]}");
+								} else {
+									$cover = ossn_get_userdata("object/{$File->owner_guid}/{$File->value}");
+								}
+							} else {
+
+								$cover = ossn_default_theme() . "images/nopictures/users/{$pages[1]}.jpg";
+							}
+
+							$filesize = filesize($cover);
+							header("Content-type: image/jpeg");
+							header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+6 months")), true);
+							header("Pragma: public");
+							header("Cache-Control: public");
+							header("Content-Length: $filesize");
+							header("ETag: \"$etag\"");
+							readfile($cover);
+							return;
+						}
+						break;		
 				default:
 						echo ossn_error_page();
 						break;
