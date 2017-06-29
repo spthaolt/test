@@ -254,13 +254,13 @@
     left: 0px;
     right: 0px;
     top: 0px;
-    bottom: 300px;
+    bottom: 218px;
     overflow-x: hidden;
 }
 
 .ossn-form.message-form-form.sqmessage {
     position: absolute;
-    bottom: 150px;
+    bottom: 120px;
     left: 0;
     right: 0;
     margin: 10px;
@@ -268,6 +268,7 @@
 
 .ossn-form.message-form-form.sqmessage .btn.btn-primary {
     float:right;
+    margin-top: -36px;
 }
 
 textarea[name=message] {
