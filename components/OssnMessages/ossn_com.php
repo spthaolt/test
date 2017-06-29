@@ -74,21 +74,22 @@ function ossn_messages_page($pages) {
 						if (!empty($group_guid)) {
 								$groups = ossn_get_user_groups($user_login);
 								$group = ossn_get_group_by_guid($group_guid);
-								if (!$group->isMember($group_guid, ossn_loggedin_user()->guid)) ossn_error_page();
+								if (!$group->isMember($group_guid, $user_login->guid)) ossn_error_page();
 								$title = ossn_print('ossn:message:between', array(
 										$group->title
 								));
-								$OssnMessages->markViewedGroup($group_guid);
 								$params['friends'] = $group->getMembers();
 								$params['groups'] = $groups;
 								$params['to'] = $group_guid;
 								$params['data']   = $OssnMessages->getMessagesGroup($group_guid);
-								$params['data'] =  (array) $params['data'];
-								krsort($params['data']);
-								$params['last_message'] = $OssnMessages->getLastTime($group_guid);
-								$params['message_content'] = ossn_plugin_view('messages/pages/view/message_content', $params);
+								if ($params['data']) {
+									$params['data'] =  (array) $params['data'];
+									krsort($params['data']);
+									$params['last_message'] = $OssnMessages->getLastTime($group_guid);
+									$params['message_content'] = ossn_plugin_view('messages/pages/view/message_content', $params);
+								}
 								$contents = array(
-										'content' => ossn_plugin_view('messages/pages/view/layout/messages', $params)
+									'content' => ossn_plugin_view('messages/pages/view/layout/messages', $params)
 								);
 								$content          = ossn_set_page_layout('message', $contents);
 								echo ossn_view_page($title, $content, "message");

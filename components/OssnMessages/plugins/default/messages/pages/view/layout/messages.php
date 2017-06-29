@@ -113,7 +113,7 @@ TEXT;
 			<?php } else {	?>
 				<div class="message-inner" id="message-append-<?php echo $params['user']->guid ?>">
 			<?php } ?>
-					<?php echo ossn_plugin_view('messages/pages/view/message_content', $params); ?>
+					<?= $params['data']?ossn_plugin_view('messages/pages/view/message_content', $params):''; ?>
 				</div>
 			</div>
 		</div>
