@@ -62,6 +62,10 @@
 <div class="ossn-chat-windows-long">
     <div class="inner">
         <?php
+        echo "<h4 class='sqtagChat'>Groups</h4>";
+        echo ossn_plugin_view('chat/groups/list');
+        echo "<hr>";
+        echo "<h4 class='sqtagChat'>Friends</h4>";
         echo ossn_plugin_view('chat/friends/status');
         ?>
     </div>

@@ -1,5 +1,6 @@
 //<script>
 $(document).ready(function() {
+
 	$('[data-toggle="tooltip"]').tooltip({
 		placement:'left',										  
 	}); 
@@ -62,4 +63,22 @@ $(document).ready(function() {
 });
 $(window).load(function() {
 	   $(".ossn-page-loading-annimation").fadeOut("slow");
+	   var pathname = window.location.pathname; 
+		var path_array = pathname.split("/");
+		if (path_array[1] == "messages") {
+			$('#sidebar-toggle').attr('data-toggle', 0);
+				
+			$('.sidebar').removeClass('sidebar-open');
+			$('.sidebar').removeClass('sidebar-open-no-annimation');
+			
+			$('.ossn-page-container').removeClass('sidebar-open-page-container');
+			$('.ossn-page-container').removeClass('sidebar-open-page-container-no-annimation');
+			$('.topbar .right-side').removeClass('right-side-space');
+			$('.topbar .right-side').removeClass('sidebar-hide-contents-xs');
+			$('.ossn-inner-page').removeClass('sidebar-hide-contents-xs');
+
+			$('.topbar .right-side').addClass('right-side-nospace');
+			$('.sidebar').addClass('sidebar-close');
+			$('.ossn-page-container').addClass('sidebar-close-page-container');
+		}
 });

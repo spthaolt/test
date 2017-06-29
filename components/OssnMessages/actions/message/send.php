@@ -10,13 +10,22 @@
  */
 $send = new OssnMessages;
 $message = input('message');
+$type = input('type');
+if (!$type) $type = "individual";
 $to = input('to');
-if ($send->send(ossn_loggedin_user()->guid, $to, $message)) {
-    $user = ossn_user_by_guid(ossn_loggedin_user()->guid);
+$user_login = ossn_loggedin_user();
+$time = time();
+if ($send->send($user_login->guid, $to, $message, $time, $type)) {
 	$message = ossn_restore_new_lines($message);
-	
-	$params['user'] = $user;
     $params['message'] = $message;
+    $params['message_from'] = $user_login->guid;
+    $params['last_time'] = $time;
+	$params['user'] = $user_login;	
+    if ($type == "group") {
+    	$params['page'] = "group";
+    	$params['group'] = ossn_get_group_by_guid($to);
+    }
+    
     echo ossn_plugin_view('messages/templates/message-send', $params);
 
 } else {

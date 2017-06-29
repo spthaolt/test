@@ -94,7 +94,7 @@ if (ossn_isLoggedIn()) {
                             <?php echo ossn_print('remove:friend'); ?>
                         </a>
 						<?php } ?>
-					  	<a href="<?php echo ossn_site_url("messages/message/{$user->username}"); ?>" id="profile-message" data-guid='<?php echo $user->guid; ?>' class='btn-action'>
+					  	<a href="<?php echo ossn_site_url("messages/individual/{$user->username}"); ?>" id="profile-message" data-guid='<?php echo $user->guid; ?>' class='btn-action'>
                         <?php echo ossn_print('message'); ?></a>
 						<div class="ossn-profile-extra-menu dropdown">
 							<?php echo ossn_view_menu( 'profile_extramenu', 'profile/menus/extra'); ?>

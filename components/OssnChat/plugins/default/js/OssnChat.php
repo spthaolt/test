@@ -165,5 +165,5 @@ Ossn.ChatShowSmilies = function($tab) {
 };
 
 Ossn.ChatExpand = function($username) {
-    window.location = Ossn.site_url + 'messages/message/' + $username;
+    window.location = Ossn.site_url + 'messages/individual/' + $username;
 };

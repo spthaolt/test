@@ -1,5 +1,11 @@
-                <textarea name="message" placeholder="<?php echo ossn_print('message:placeholder'); ?>"></textarea>
-                <input type="hidden" name="to" value="<?php echo $params['user']->guid; ?>"/>
+                <textarea class="input_message" name="message" placeholder="<?php echo ossn_print('message:placeholder'); ?>"></textarea>
+                <?php 
+                    if ($params['page'] == "group") { ?>
+                        <input type="hidden" name="to" value="<?php echo $params['group']->guid; ?>"/>
+                        <input type="hidden" name="type" value="group"/>
+                <?php } else { ?>
+                        <input type="hidden" name="to" value="<?php echo $params['user']->guid; ?>"/>
+                <?php } ?>
 
                 <div class="controls">
                     <?php 

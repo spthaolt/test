@@ -542,3 +542,43 @@ footer {
 @-ms-viewport {
    width: auto;
 }
+
+
+.ossn-chat-windows-long {
+    width: 200px;
+}
+
+.ossn-chat-windows-long .friends-list-item .friends-item-inner, .ossn-chat-windows-long .groups-list-item .groups-item-inner {
+    text-align: left;
+    height: 36px;
+}
+.friends-list-item .friends-item-inner .icon, .friends-list-item .friends-item-inner .icon img, .groups-list-item .groups-item-inner .icon, .groups-list-item .groups-item-inner .icon img {
+    width: 36px;
+    height: 36px;
+}
+
+.groups-list-item .groups-item-inner .icon .sqgroup {
+    border: none;
+}
+
+.sqtagChat {
+    padding-left: 10px;
+}
+
+.friends-list-item .friends-item-inner .name, .groups-list-item .groups-item-inner .name {
+    margin-left: 40px; margin-top: -30px;
+}
+
+
+.ossn-chat-new-message .sqgroup::before {
+    color : #F7F7F7;    
+}
+
+.groups-item-inner {
+    margin: 5px;
+}
+
+.ossn-chat-windows-long .groups-list-item:hover {
+    background: #E1E2E5;
+    cursor: pointer;
+}

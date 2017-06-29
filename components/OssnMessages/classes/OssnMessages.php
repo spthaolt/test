@@ -19,7 +19,7 @@ class OssnMessages extends OssnDatabase {
 		 *
 		 * @return boolean
 		 */
-		public function send($from, $to, $message) {
+		public function send($from, $to, $message, $time, $type = "individual") {
 				if(empty($message)) {
 						return false;
 				}
@@ -33,14 +33,16 @@ class OssnMessages extends OssnDatabase {
 						'message_to',
 						'message',
 						'time',
-						'viewed'
+						'viewed',
+						'type'
 				);
 				$params['values'] = array(
 						(int) $from,
 						(int) $to,
 						$message,
-						time(),
-						'0'
+						$time,
+						'0',
+						$type
 				);
 				if($this->insert($params)) {
 						$this->lastMessage      = $this->getLastEntry();
@@ -48,6 +50,7 @@ class OssnMessages extends OssnDatabase {
 						$params['message_from'] = $from;
 						$params['message_to']   = $to;
 						$params['message']      = $message;
+						$params['type']      	= $type;
 						ossn_trigger_callback('message', 'created', $params);
 						return true;
 				}
@@ -62,7 +65,7 @@ class OssnMessages extends OssnDatabase {
 		 *
 		 * @return bool
 		 */
-		public function markViewed($from, $to) {
+		public function markViewed($from, $to, $type = 'individual') {
 				$params['table']  = 'ossn_messages';
 				$params['names']  = array(
 						'viewed'
@@ -72,7 +75,7 @@ class OssnMessages extends OssnDatabase {
 				);
 				$params['wheres'] = array(
 						"message_from='{$from}' AND
-								   message_to='{$to}'"
+								   message_to='{$to}' AND type='{$type}' "
 				);
 				if($this->update($params)) {
 						return true;
@@ -80,6 +83,24 @@ class OssnMessages extends OssnDatabase {
 				return false;
 		}
 		
+		public function markViewedGroup($to, $type = 'group') 
+		{
+			$params['table']  = 'ossn_messages';
+			$params['names']  = array(
+					'viewed'
+			);
+			$params['values'] = array(
+					1
+			);
+			$params['wheres'] = array(
+					"message_to='{$to}' AND type='{$type}' "
+			);
+			if($this->update($params)) {
+					return true;
+			}
+			return false;
+		}
+
 		/**
 		 * Get new messages
 		 *
@@ -96,7 +117,32 @@ class OssnMessages extends OssnDatabase {
 				);
 				return $this->select($params, true);
 		}
+
+		public function getNewGroup($to, $time, $viewed = 0) {
+				$params['from']   = 'ossn_messages';
+				$params['wheres'] = array(
+						"message_to='{$to}' AND time > '{$time}' "
+				);
+				return $this->select($params, true);
+		}
 		
+		public function getOld($from, $to, $first_time, $type)
+		{
+			$params['from']   = 'ossn_messages';
+			if ($type == "group") {
+				$params['wheres'] = array(
+					"message_to='{$to}' AND type= 'group' AND time < {$first_time}"
+				);
+			} else {
+				$params['wheres'] = array(
+						"((message_from='{$from}' AND message_to='{$to}') OR (message_from='{$to}' AND message_to='{$from}'))  AND type= 'individual' AND time < {$first_time}"
+				);
+			}
+			$params['order_by'] = "id DESC";
+			$params['limit'] = 10;
+			return $this->select($params, true);
+		}
+
 		/**
 		 * Get recently chat list
 		 *
@@ -152,10 +198,32 @@ class OssnMessages extends OssnDatabase {
 								  message_from='{$to}' AND
 								  message_to='{$from}'"
 				);
-				$params['order_by'] = "id ASC";
+				$params['order_by'] = "id DESC";
+				$params['limit'] = 10;
 				return $this->select($params, true);
 		}
 		
+		public function getMessagesGroup($to)
+		{
+			$params['from']     = 'ossn_messages';
+			$params['wheres']   = array(
+					"message_to='{$to}' AND type ='group'"
+			);
+			$params['order_by'] = "id DESC";
+			$params['limit'] = 10;
+			return $this->select($params, true);
+		}
+
+		public function getLastTime($to)
+		{
+			$params['from']     = 'ossn_messages';
+			$params['wheres']   = array(
+					"message_to='{$to}' AND type ='group'"
+			);
+			$params['order_by'] = "id DESC";
+			$params['limit'] = 1;
+			return $this->select($params, true);	
+		}
 		/**
 		 * Get recent sent messages
 		 *
@@ -193,6 +261,19 @@ class OssnMessages extends OssnDatabase {
 				);
 				$count            = $this->select($params, true);
 				return $count->{0}->new;
+		}
+
+		public function countUNREADGroup($to, $last_time_active) 
+		{
+				$params['from']   = 'ossn_messages';
+				$params['wheres'] = array(
+						"message_to='{$to}' AND type='group' AND time > {$last_time_active}"
+				);
+				$params['params'] = array(
+						'count(*) as new'
+				);
+				$count            = $this->select($params, true);
+				return $count->{0}->new;	
 		}
 		/**
 		 * Get message by id

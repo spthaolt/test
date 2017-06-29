@@ -40,6 +40,38 @@ Ossn.getMessages = function($user, $guid) {
         }
     });
 };
+Ossn.getOldMessages = function($to, $time, $type) {
+    if ($type == "group") {
+        $url = Ossn.site_url + "messages/getnewgroup/" + $to + "/" + $time + "/" + $type;
+    } else {
+        $url = Ossn.site_url + "messages/getold/" + $to + "/" + $time + "/" + $type;
+    }
+    Ossn.PostRequest({
+        url: $url,
+        action: false,
+        callback: function(callback) {
+            $('#message-append-' + $to).prepend(callback);
+            Ossn.message_scrollMove10Messages($to);
+            if(callback){
+                //Unwanted refresh in message window #416 , there is no need to scroll if no new message.
+            }
+        }
+    });
+};
+
+Ossn.getMessagesGroup = function($group, $last_time) {
+    Ossn.PostRequest({
+        url: Ossn.site_url + "messages/getnewgroup/" + $group + "/" + $last_time,
+        action: false,
+        callback: function(callback) {
+            $('#message-append-' + $group).append(callback);
+            if(callback){
+                Ossn.message_scrollMove($group);
+                //Unwanted refresh in message window #416 , there is no need to scroll if no new message.
+            }
+        }
+    });
+};
 Ossn.getRecent = function($user) {
     Ossn.PostRequest({
         url: Ossn.site_url + "messages/getrecent/" + $user,
@@ -58,8 +90,11 @@ Ossn.playSound = function() {
 };
 Ossn.message_scrollMove = function(fid) {
     var message = document.getElementById('message-append-' + fid);
-    if (message) {
-        message.scrollTop = message.scrollHeight;
-        return message.scrollTop;
-    }
+    $('.message-inner').animate({scrollTop: message.scrollHeight});
+};
+Ossn.message_scrollMove10Messages = function(fid) {
+    var message = document.getElementById('message-append-' + fid);
+    var height = $('#message-append-' + fid + ' div.row:nth-child(10)').offset().top - 50;
+    console.log(height);
+    $('.message-inner').animate({scrollTop: height});  
 };

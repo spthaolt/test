@@ -8,24 +8,42 @@
  * @license   Open Source Social Network License (OSSN LICENSE)  http://www.opensource-socialnetwork.org/licence
  * @link      https://www.opensource-socialnetwork.org/
  */
+$friends = ossn_loggedin_user()->getFriends();
 ?>
 <div class="row ossn-messages">
 			<div class="col-md-5">
             	      <?php
-	  					echo ossn_plugin_view('widget/view', array(
-							'title' => ossn_print('inbox').' ('.OssnMessages()->countUNREAD(ossn_loggedin_user()->guid).')',
-							'contents' => ossn_plugin_view('messages/pages/view/recent', $params),
-							'class' => 'messages-recent',
-						));
+            	      	if ($params['type'] == "group") {
+            	      		echo ossn_plugin_view('widget/view', array(
+								'title' => ossn_print('Members').' ('.$params['group']->getMembers(true).')',
+								'contents' => ossn_plugin_view('messages/pages/view/group/member', $params),
+								'class' => 'messages-recent',
+							));
+            	      	} else {
+		  					echo ossn_plugin_view('widget/view', array(
+								'title' => ossn_print('inbox').' ('.OssnMessages()->countUNREAD(ossn_loggedin_user()->guid).')',
+								'contents' => ossn_plugin_view('messages/pages/view/recent', $params),
+								'class' => 'messages-recent',
+							));
+            	      	}
 						?>
             </div>
             <div class="col-md-7">
             	      <?php
-	  					echo ossn_plugin_view('widget/view', array(
-							'title' => $params['user']->fullname,
-							'contents' => ossn_plugin_view('messages/pages/view/with', $params),
-							'class' => 'messages-with',
-						));
+            	      	if ($params['type'] == "group") {
+            	      		echo ossn_plugin_view('widget/view', array(
+								'title' => $params['group']->title,
+								'contents' => ossn_plugin_view('messages/pages/view/group/with', $params),
+								'class' => 'messages-recent',
+							));
+            	      	} else {
+
+		  					echo ossn_plugin_view('widget/view', array(
+								'title' => $params['user']->fullname,
+								'contents' => ossn_plugin_view('messages/pages/view/with', $params),
+								'class' => 'messages-with',
+							));
+		  				}
 						?>
             </div>
 </div>    

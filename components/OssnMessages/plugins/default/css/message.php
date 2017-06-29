@@ -211,3 +211,95 @@
 .messages-with .widget-contents {
     padding: 10px 0px;
 }
+
+
+.thumbnail.sqmessage {
+    position: fixed;
+    top: 50px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.col-sm-3.sqmessage {
+    padding: 0;
+    z-index: 0;
+    height: 100%;
+    position: relative;
+}
+
+.list-group.sqmessage {
+    left: 0px;
+    right: 0px;
+    bottom: 100px;
+    overflow-x: hidden;
+    position: absolute;
+    top: 0px;
+}
+
+.col-sm-6.sqmessage {
+    position: relative;
+    height: 100%;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    z-index: 0;
+    padding: 0;
+}
+
+.message-inner.sqmessage {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 300px;
+    overflow-x: hidden;
+}
+
+.ossn-form.message-form-form.sqmessage {
+    position: absolute;
+    bottom: 150px;
+    left: 0;
+    right: 0;
+    margin: 10px;
+}
+
+.ossn-form.message-form-form.sqmessage .btn.btn-primary {
+    float:right;
+}
+
+textarea[name=message] {
+    resize: none;
+}
+
+.sqmessage .list-group-item:first-child, .sqmessage .list-group-item:last-child {
+    border-radius: 0;
+}
+.sqmessage .list-group-item.active,.sqmessage  .list-group-item.active:focus,.sqmessage  .list-group-item.active:hover {
+    z-index: 2;
+    color: #000;
+    background-color: #05a89f;
+    border-color: #05a89f;
+}
+
+.sqmessage.ossn-message-icon-online {
+    width: 10px; 
+    height: 10px; 
+    background-color: rgb(66, 183, 42); 
+    border-radius: 50%; 
+    float: left; 
+    margin-top: 6px; 
+    margin-right: 5px;
+}
+
+.sqmessage.ossn-message-icon-offline {
+    width: 10px; 
+    height: 10px; 
+    background-color: rgb(123, 123, 123); 
+    border-radius: 50%; 
+    float: left; 
+    margin-top: 6px; 
+    margin-right: 5px;
+}

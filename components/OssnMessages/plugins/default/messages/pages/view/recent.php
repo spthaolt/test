@@ -20,7 +20,7 @@
                         }
                         ?>
                         <div class="row user-item <?php echo $new; ?>">
-                        	<div onclick="Ossn.redirect('messages/message/<?php echo $user->username; ?>');">
+                        	<div onclick="Ossn.redirect('messages/individual/<?php echo $user->username; ?>');">
 								<div class="col-md-2">
  		                               <img class="image" src="<?php echo $user->iconURL()->smaller; ?>"/>
                          	   </div>    

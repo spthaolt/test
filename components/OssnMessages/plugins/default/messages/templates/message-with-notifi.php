@@ -31,7 +31,7 @@
                 }
                 ?>
                 <div class="user-item <?php echo $new; ?>"
-                     onclick="Ossn.redirect('messages/message/<?php echo $user->username; ?>');">
+                     onclick="Ossn.redirect('messages/individual/<?php echo $user->username; ?>');">
                     <div class="user-item-inner">
                         <div class="image"><img
                                 src="<?php echo ossn_site_url(); ?>avatar/<?php echo $user->username; ?>/small"/></div>
