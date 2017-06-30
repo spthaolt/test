@@ -359,6 +359,21 @@ function ossn_languages_js(){
 		header("Location: {$url}"); 		
 	}
  }
+
+$ONLOAD_JS = "";
+
+function ossn_fetch_onload_js()
+{
+	global $ONLOAD_JS;
+	return $ONLOAD_JS;
+}
+
+function ossn_extend_onload_js($string)
+{
+	global $ONLOAD_JS;
+	$ONLOAD_JS.=$string;
+}
+
 ossn_register_callback('ossn', 'init', 'ossn_languages_js');
 ossn_register_callback('ossn', 'init', 'ossn_javascript');
 ossn_register_callback('ossn', 'init', 'ossn_redirect_absolute_url');

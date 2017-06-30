@@ -54,9 +54,13 @@ $form = <<<html
 </div>
 html;
 
-$form .= '<script>  Ossn.EntityComment(' . $object . '); </script>';
+
+ossn_extend_onload_js('Ossn.EntityComment(' . $object . ');');
+ossn_extend_onload_js('Ossn.CommentImage(' . $object . ');');
+
+// $form .= '<script>  (function() { Ossn.EntityComment(' . $object . '); })(); </script>';
 $form .= '<div class="ossn-comment-attachment" id="comment-attachment-container-' . $object . '">';
-$form .= '<script>Ossn.CommentImage(' . $object . ');</script>';
+// $form .= '<script> (function() { Ossn.CommentImage(' . $object . '); })(); </script>';
 $form .= ossn_view_form('comment_image', array(
         'id' => "ossn-comment-attachment-{$object}",
         'component' => 'OssnComments',

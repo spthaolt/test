@@ -36,23 +36,26 @@ function ossn_goblue_theme_init(){
 
 function ossn_goblue_footer()
 {
+	$head = array();
 	$head[]  = ossn_html_js(array(
 		'src' => ossn_theme_url() . 'vendors/bootstrap/js/bootstrap.min.js'
 	));
+	return implode('', $head);
 }
 
 function ossn_goblue_head(){
 	$head	 = array();
 	
 	$head[]  = ossn_html_css(array(
-					'href' => '//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'
-			  ));	
+		'href' => ossn_theme_url() . 'vendors/font-awesome-4.7.0/css/font-awesome.min.css'
+	));
 	$head[]  = ossn_html_css(array(
-					'href' =>  'https://fonts.googleapis.com/css?family=PT+Sans:400italic,700,400'
-			  ));	
+		'href' => ossn_theme_url() . 'vendors/google-fonts/pt-sans/pt_sans.css'
+	));
 	$head[]  = ossn_html_css(array(
-					'href' => '//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.css'
-			  ));	
+		'href' => ossn_theme_url() . 'vendors/jquery-ui/css/jquery-ui.css'
+	));
+	
 	return implode('', $head);
 }
 function ossn_goblue_admin_head(){
