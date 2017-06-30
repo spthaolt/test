@@ -27,33 +27,29 @@ Ossn.SendMessage = function($user) {
     });
 
 };
-Ossn.getMessages = function($user, $guid) {
+Ossn.getNewMessages = function($to_guid, $last_id, $type) {
     Ossn.PostRequest({
-        url: Ossn.site_url + "messages/getnew/" + $user,
+        url: Ossn.site_url + "messages/getnew/" + $to_guid + "/" + $last_id + "/" + $type,
         action: false,
         callback: function(callback) {
-            $('#message-append-' + $guid).append(callback);
+            $('#message-append-' + $to_guid).append(callback);
             if(callback){
             	//Unwanted refresh in message window #416 , there is no need to scroll if no new message.
-	            Ossn.message_scrollMove($guid);
+	            Ossn.message_scrollMove($to_guid);
             }
         }
     });
 };
-Ossn.getOldMessages = function($to, $time, $type) {
-    if ($type == "group") {
-        $url = Ossn.site_url + "messages/getnewgroup/" + $to + "/" + $time + "/" + $type;
-    } else {
-        $url = Ossn.site_url + "messages/getold/" + $to + "/" + $time + "/" + $type;
-    }
+
+Ossn.getOldMessages = function($to_guid, $first_id, $type) {
     Ossn.PostRequest({
-        url: $url,
+        url: Ossn.site_url + "messages/getold/" + $to_guid + "/" + $first_id + "/" + $type,
         action: false,
         callback: function(callback) {
-            $('#message-append-' + $to).prepend(callback);
-            Ossn.message_scrollMove10Messages($to);
+            $('#message-append-' + $to_guid).prepend(callback);
             if(callback){
                 //Unwanted refresh in message window #416 , there is no need to scroll if no new message.
+                Ossn.message_scrollMove10Messages($to_guid);
             }
         }
     });

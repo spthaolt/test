@@ -8,15 +8,15 @@
  * @license   Open Source Social Network License (OSSN LICENSE)  http://www.opensource-socialnetwork.org/licence
  * @link      https://www.opensource-socialnetwork.org/
  */
-$user = $params['user'];
-$data = new OssnMessages;
-$data->message_from = $user->guid;
-$data->message = $params['message'];
-$data->time = $params['last_time'];
+// $user = $params['user'];
+// $data = new OssnMessages;
+// $data->message_from = $user->guid;
+// $data->message = $params['message'];
+// $data->time = $params['last_time'];
 
-if($user->guid == ossn_loggedin_user()->guid){    
-    echo ossn_plugin_view('messages/pages/view/sender', $data);
+if($params->message_from == ossn_loggedin_user()->guid){    
+    echo ossn_plugin_view('messages/pages/view/sender', $params);
 } else {
-    echo ossn_plugin_view('messages/pages/view/recipient', $data);
+    echo ossn_plugin_view('messages/pages/view/recipient', $params);
 }
 ?>

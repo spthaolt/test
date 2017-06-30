@@ -109,33 +109,31 @@ class OssnMessages extends OssnDatabase {
 		 *
 		 * @return bool
 		 */
-		public function getNew($from, $to, $viewed = 0) {
+		public function getNew($from_guid, $to_guid, $message_last_id, $message_type, $viewed = 0) {
 				$params['from']   = 'ossn_messages';
-				$params['wheres'] = array(
-						"message_from='{$from}' AND
-								   message_to='{$to}' AND viewed='{$viewed}'"
-				);
+				if ($message_type == "group") {
+					$params['wheres'] = array(
+							"message_to='{$to_guid}' AND id > '{$message_last_id}' "
+					);
+				} else {
+					$params['wheres'] = array(
+						"message_from='{$to_guid}' AND
+									   message_to='{$from_guid}' AND viewed='{$viewed}'"
+					);
+				}
 				return $this->select($params, true);
 		}
 
-		public function getNewGroup($to, $time, $viewed = 0) {
-				$params['from']   = 'ossn_messages';
-				$params['wheres'] = array(
-						"message_to='{$to}' AND time > '{$time}' "
-				);
-				return $this->select($params, true);
-		}
-		
-		public function getOld($from, $to, $first_time, $type)
+		public function getOld($from_guid, $to_guid, $message_first_id, $message_type)
 		{
 			$params['from']   = 'ossn_messages';
-			if ($type == "group") {
+			if ($message_type == "group") {
 				$params['wheres'] = array(
-					"message_to='{$to}' AND type= 'group' AND time < {$first_time}"
+					"message_to='{$to_guid}' AND type= 'group' AND id < {$message_first_id}"
 				);
 			} else {
 				$params['wheres'] = array(
-						"((message_from='{$from}' AND message_to='{$to}') OR (message_from='{$to}' AND message_to='{$from}'))  AND type= 'individual' AND time < {$first_time}"
+						"((message_from='{$from_guid}' AND message_to='{$to_guid}') OR (message_from='{$to_guid}' AND message_to='{$from_guid}'))  AND type= 'individual' AND id < {$message_first_id}"
 				);
 			}
 			$params['order_by'] = "id DESC";

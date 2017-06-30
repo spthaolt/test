@@ -70,30 +70,63 @@ function ossn_messages_page($pages) {
 		
 		switch($page) {
 				case 'group':
-						$group_guid = $pages[1];
-						if (!empty($group_guid)) {
-								$groups = ossn_get_user_groups($user_login);
-								$group = ossn_get_group_by_guid($group_guid);
-								if (!$group->isMember($group_guid, $user_login->guid)) ossn_error_page();
-								$title = ossn_print('ossn:message:between', array(
-										$group->title
-								));
-								$params['friends'] = $group->getMembers();
-								$params['groups'] = $groups;
-								$params['to'] = $group_guid;
-								$params['data']   = $OssnMessages->getMessagesGroup($group_guid);
-								if ($params['data']) {
-									$params['data'] =  (array) $params['data'];
-									krsort($params['data']);
-									$params['last_message'] = $OssnMessages->getLastTime($group_guid);
-									$params['message_content'] = ossn_plugin_view('messages/pages/view/message_content', $params);
+						$params['to_guid'] = $pages[1];
+						if (!empty($params['to_guid'])) {
+							if (!ossn_get_group_by_guid($params['to_guid'])->isMember($params['to_guid'], $user_login->guid)) ossn_error_page();
+							$groups = ossn_get_user_groups($user_login);
+							$params['groups_list'] = "";
+							$title = ossn_print('sq:message:all:friends');
+							$icon = "https://cdn2.iconfinder.com/data/icons/people-groups/512/Group_Woman_2-512.png";
+							$params['groups_list'] .= <<<TEXT
+<a href="/messages/all" class="list-group-item" style="border-right: 0px">
+	<div class="col-sm-3">
+		<img width="48px" height="48px" src="$icon" />		
+	</div>
+	<div class="col-sm-9" style="padding: 0px">
+		<p style="margin:0px">$title</p>
+	</div>
+	<div class="clearfix"></div>
+</a>
+TEXT;
+							if ($groups) {
+								foreach ($groups as $key => $group) {
+									if ($group->guid == $params['to_guid']) {
+										$group->is_active = "active";
+									}
+									$params['groups_list'] .= ossn_plugin_view('messages/templates/group-item', $group);
 								}
-								$contents = array(
-									'content' => ossn_plugin_view('messages/pages/view/layout/messages', $params)
-								);
-								$content          = ossn_set_page_layout('message', $contents);
-								echo ossn_view_page($title, $content, "message");
+							}
+							$friends = ossn_get_group_by_guid($params['to_guid'])->getMembers();
+							$params['friends_list'] = "";
+							if ($friends) {
+								foreach ($friends as $key => $friend) {
+									if (OssnChat::getChatUserStatus($friend->guid) == 'online') {
+									    $friend->status = 'ossn-message-icon-online';
+									    $friend->status_title = "online";
+									} else {
+									    $friend->status = 'ossn-message-icon-offline';
+									    $friend->status_title = "offline";
+									}
+									$params['friends_list'] .= ossn_plugin_view('messages/templates/friend-item', $friend);
+								}
+							}
 
+							$params['messages_content'] = "";
+							$messages = $OssnMessages->getMessagesGroup($params['to_guid']);
+							if ($messages) {
+								$messages =  (array) $messages;
+								krsort($messages);
+								foreach ($messages as $message) {
+									$params['messages_content'] .= ossn_plugin_view('messages/templates/message-send', $message);
+								}
+							}
+							$params['script'] = ossn_plugin_view('messages/templates/script', $params);
+							$params['messages_body'] = ossn_plugin_view('messages/templates/messages-content', $params);
+							$contents         = array(
+									'content' => ossn_plugin_view('messages/pages/view/layout/messages', $params),
+							);
+							$content          = ossn_set_page_layout('message', $contents);
+							echo ossn_view_page(ossn_print('sq:message:title'), $content, "message");
 						} else {
 								ossn_error_page();
 						}
@@ -123,41 +156,121 @@ function ossn_messages_page($pages) {
 						}
 						break;
 				case 'all':
-						$friends = $user_login->getFriends();
 						$groups = ossn_get_user_groups($user_login);
-						$params['friends'] = $friends;
-						$params['groups'] = $groups;
-						$params['to'] = $friends[0]->username;
-						$params['data'] = $OssnMessages->get($user_login->guid, $friends[0]->guid);
-						$params['message_content'] = ossn_plugin_view('messages/pages/view/message_content', $params);
-						$title = ossn_print('sq:message:title');
+						$params['groups_list'] = "";
+						$title = ossn_print('sq:message:all:friends');
+						$icon = "https://cdn2.iconfinder.com/data/icons/people-groups/512/Group_Woman_2-512.png";
+						$params['groups_list'] .= <<<TEXT
+<a href="/messages/all" class="list-group-item active" style="border-right: 0px">
+	<div class="col-sm-3">
+		<img width="48px" height="48px" src="$icon" />		
+	</div>
+	<div class="col-sm-9" style="padding: 0px">
+		<p style="margin:0px">$title</p>
+	</div>
+	<div class="clearfix"></div>
+</a>
+TEXT;
+						if ($groups) {
+							foreach ($groups as $key => $group) {
+								$params['groups_list'] .= ossn_plugin_view('messages/templates/group-item', $group);
+							}
+						}
+						$friends = $user_login->getFriends();
+						$params['to_guid'] = $friends[0]->guid;
+
+						$params['friends_list'] = "";
+						if ($friends) {
+							foreach ($friends as $key => $friend) {
+								if (OssnChat::getChatUserStatus($friend->guid) == 'online') {
+								    $friend->status = 'ossn-message-icon-online';
+								    $friend->status_title = "online";
+								} else {
+								    $friend->status = 'ossn-message-icon-offline';
+								    $friend->status_title = "offline";
+								}
+
+								if ($friend->guid == $params['to_guid']) {
+									$friend->is_active = "active";
+								}
+								$params['friends_list'] .= ossn_plugin_view('messages/templates/friend-item', $friend);
+							}
+						}
+
+						$params['messages_content'] = "";
+						$messages = $OssnMessages->get($user_login->guid, $params['to_guid']);
+						if ($messages) {
+							$messages =  (array) $messages;
+							krsort($messages);
+							foreach ($messages as $message) {
+								$params['messages_content'] .= ossn_plugin_view('messages/templates/message-send', $message);
+							}
+						}
+						$params['script'] = ossn_plugin_view('messages/templates/script', $params);
+						$params['messages_body'] = ossn_plugin_view('messages/templates/messages-content', $params);
 						$contents         = array(
 								'content' => ossn_plugin_view('messages/pages/view/layout/messages', $params),
 						);
 						$content          = ossn_set_page_layout('message', $contents);
-						echo ossn_view_page($title, $content, "message");
+						echo ossn_view_page(ossn_print('sq:message:title'), $content, "message");
 						break;
 				case 'individual':
-						$friends = $user_login->getFriends();
 						$groups = ossn_get_user_groups($user_login);
-						$params['friends'] = $friends;
-						$params['groups'] = $groups;
-						if ($user_login->isFriend($user_login->guid, ossn_user_by_username($pages[1])->guid)) {
-							$params['to'] = $pages[1];
-						} else {
-							ossn_error_page();
+						$params['groups_list'] = "";
+						$title = ossn_print('sq:message:all:friends');
+						$icon = "https://cdn2.iconfinder.com/data/icons/people-groups/512/Group_Woman_2-512.png";
+						$params['groups_list'] .= <<<TEXT
+<a href="/messages/all" class="list-group-item active" style="border-right: 0px">
+	<div class="col-sm-3">
+		<img width="48px" height="48px" src="$icon" />		
+	</div>
+	<div class="col-sm-9" style="padding: 0px">
+		<p style="margin:0px">$title</p>
+	</div>
+	<div class="clearfix"></div>
+</a>
+TEXT;
+						if ($groups) {
+							foreach ($groups as $key => $group) {
+								$params['groups_list'] .= ossn_plugin_view('messages/templates/group-item', $group);
+							}
 						}
-						$user = ossn_user_by_username($pages[1]);
-						$params['data'] = $OssnMessages->get($user_login->guid, $user->guid);
-						$params['data'] =  (array) $params['data'];
-						krsort($params['data']);
-						$params['message_content'] = ossn_plugin_view('messages/pages/view/message_content', $params);
-						$title = ossn_print('sq:message:title');
+						$friends = $user_login->getFriends();
+						$params['to_guid'] = ossn_user_by_username($pages[1])->guid;
+						$params['friends_list'] = "";
+						if ($friends) {
+							foreach ($friends as $key => $friend) {
+								if (OssnChat::getChatUserStatus($friend->guid) == 'online') {
+								    $friend->status = 'ossn-message-icon-online';
+								    $friend->status_title = "online";
+								} else {
+								    $friend->status = 'ossn-message-icon-offline';
+								    $friend->status_title = "offline";
+								}
+
+								if ($friend->guid == $params['to_guid']) {
+									$friend->is_active = "active";
+								}
+								$params['friends_list'] .= ossn_plugin_view('messages/templates/friend-item', $friend);
+							}
+						}
+
+						$params['messages_content'] = "";
+						$messages = $OssnMessages->get($user_login->guid, $params['to_guid']);
+						if ($messages) {
+							$messages =  (array) $messages;
+							krsort($messages);
+							foreach ($messages as $message) {
+								$params['messages_content'] .= ossn_plugin_view('messages/templates/message-send', $message);
+							}
+						}
+						$params['script'] = ossn_plugin_view('messages/templates/script', $params);
+						$params['messages_body'] = ossn_plugin_view('messages/templates/messages-content', $params);
 						$contents         = array(
 								'content' => ossn_plugin_view('messages/pages/view/layout/messages', $params),
 						);
 						$content          = ossn_set_page_layout('message', $contents);
-						echo ossn_view_page($title, $content, "message");
+						echo ossn_view_page(ossn_print('sq:message:title'), $content, "message");
 						break;
 				case 'friends':
 						$params['recent'] = $OssnMessages->recentChat(ossn_loggedin_user()->guid);
@@ -188,18 +301,16 @@ function ossn_messages_page($pages) {
 						echo ossn_view_page($title, $content, "message");
 						break;
 				case 'getnew':
-						$username = $pages[1];
-						$guid     = ossn_user_by_username($username)->guid;
-						$messages = $OssnMessages->getNew($guid, $user_login->guid);
+						$from_guid = $user_login->guid;
+						$to_guid = $pages[1];
+						$message_last_id = $pages[2];
+						$message_type = $pages[3];
+						$messages = $OssnMessages->getNew($from_guid, $to_guid, $message_last_id, $message_type);
 						if($messages) {
 								foreach($messages as $message) {
-										$user              = ossn_user_by_guid($message->message_from);
-										$params['user']    = $user;
-										$params['message'] = $message->message;
-										$params['last_time'] = $message->time;
-										echo ossn_plugin_view('messages/templates/message-send', $params);
+										echo ossn_plugin_view('messages/templates/message-send', $message);
 								}
-								$OssnMessages->markViewed($guid, ossn_loggedin_user()->guid);
+								$OssnMessages->markViewed($to_guid, $from_guid);
 								echo '<script>Ossn.playSound();</script>';
 						}
 						break;
@@ -225,27 +336,18 @@ function ossn_messages_page($pages) {
 						$params['recent'] = $OssnMessages->recentChat(ossn_loggedin_user()->guid);
 						echo ossn_plugin_view('messages/templates/message-with', $params);
 						break;
-
 				case 'getold':
-						$to = $pages[1];
-						$time = $pages[2];
-						$type = $pages[3];
-						// $guid     = ossn_get_group_by_guid($username)->guid;
-						if ($type == "group") {
-							$params['page']	   = "group";
-						}
-						$messages = $OssnMessages->getOld($user_login->guid, $to, $time, $type);
-						$messages =  (array) $messages;
-						krsort($messages);
+						$from_guid = $user_login->guid;
+						$to_guid = $pages[1];
+						$message_first_id = $pages[2];
+						$message_type = $pages[3];
+						$messages = $OssnMessages->getOld($from_guid, $to_guid, $message_first_id, $message_type);
 						if($messages) {
+								$messages =  (array) $messages;
+								krsort($messages);
 								foreach($messages as $message) {
-										$user              = ossn_user_by_guid($message->message_from);
-										$params['user']    = $user;
-										$params['message'] = $message->message;
-										$params['last_time'] = $message->time;
-										echo ossn_plugin_view('messages/templates/message-send', $params);
+										echo ossn_plugin_view('messages/templates/message-send', $message);
 								}
-								$OssnMessages->markViewedGroup($guid);
 								echo '<script>Ossn.playSound();</script>';
 						}
 						break;

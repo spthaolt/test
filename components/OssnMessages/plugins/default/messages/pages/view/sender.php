@@ -11,7 +11,7 @@
                             echo ossn_message_print($params->message);
                         }
                 ?>
-            <div class="time-created" last_time="<?php echo $params->time; ?>"><?php echo ossn_user_friendly_time($params->time);?></div>    
+            <div class="time-created" data_id="<?php echo $params->id ?>" last_time="<?php echo $params->time; ?>"><?php echo ossn_user_friendly_time($params->time);?></div>    
             </div>
     </div>
     <div class="col-md-2">
