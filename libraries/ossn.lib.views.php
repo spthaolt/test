@@ -112,6 +112,10 @@ function ossn_fetch_extend_views($layout, $params = array()) {
             } else {
                 $fetch[] = call_user_func($file, ossn_get_context(), $params, current_url());
             }
+            if ($layout="ossn/site/head") { 
+                // var_dump(function_exists($file));
+                // var_dump($fetch); die(); 
+            }
         }
         return implode('', $fetch);
     }

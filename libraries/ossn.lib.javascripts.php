@@ -18,10 +18,10 @@ function ossn_javascript() {
     ossn_register_page('js', 'ossn_javascript_pagehandler');
     ossn_add_hook('js', 'register', 'ossn_js_trigger');
 
-    ossn_extend_view('ossn/site/head', 'ossn_site_js');
+    ossn_extend_view('ossn/page/footer', 'ossn_site_js');
     ossn_extend_view('ossn/admin/head', 'ossn_admin_js');
 	
-    ossn_extend_view('ossn/site/head', 'ossn_jquery_add');
+    ossn_extend_view('ossn/page/footer', 'ossn_jquery_add');
     ossn_extend_view('ossn/admin/head', 'ossn_jquery_add');
 
     ossn_new_js('opensource.socialnetwork', 'javascripts/libraries/core');
