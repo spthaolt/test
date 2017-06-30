@@ -176,7 +176,7 @@ TEXT;
 <script type="text/javascript">
 	
 	$(document).on('keypress', '.input_message', function(e) {
-		if (e.keyCode == 13 && e.shiftKey) {
+		if (e.keyCode == 13 && e.altKey) {
 			$('.ossn-form.message-form-form.sqmessage .btn.btn-primary').click();
 	    }
 	});
