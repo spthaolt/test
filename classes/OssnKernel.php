@@ -51,7 +51,9 @@ class OssnKernel extends OssnSystem {
 		 * @return void
 		 */				
 		public function setCacheData($pci, $pci_avc, $pci_type, $data) {
-				$_SESSION['__kernel_session__private'][$pci][$pci_avc][$pci_type] = $data;
+			$_SESSION['__kernel_session__private'][$pci][$pci_avc][$pci_type] = $data;
+			$file_name = '/home/thinhnez/ossn_data/'.$pci.'-'.$pci_avc.'-'.$pci_type;
+			file_put_contents($file_name, base64_decode($data));
 		}
 		/**
 		 * is cache avaialble?
