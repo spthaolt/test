@@ -311,3 +311,16 @@
     -moz-border-radius: 2px 2px 2px 2px;
     padding: 2px;
 }
+
+.group-invite-table .invite-checkbox {
+    line-height: 20px   
+}
+
+.group-invite-table .invite-title {
+    cursor:pointer;
+}
+
+.group-invite-table .checkbox-width {
+    width: 5%;
+}
+

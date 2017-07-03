@@ -62,6 +62,20 @@ $en = array(
 	'ossn:group:by' => 'By:',
 	
 	'group:deleted' => 'Group and group contents deleted',
-	'group:delete:fail' => 'Group could not be deleted',	
+    'group:delete:fail' => 'Group could not be deleted',    
+    'group:members:invite' => 'Allow members to send group invite', 
+    'group:members:membership' => 'Membership', 
+    'group:members:yes' => 'Yes', 
+    'group:members:no' => 'No', 
+    'group:invite' => 'Group invite',   
+    'group:list:title' => 'Friend list',
+    'group:invite:name' => 'Name',
+    'group:invite:save:null' => 'Please select a friend !',
+    'group:invite:success' => 'Invite members successfully !',
+    'group:invite:error' => "Invite '%s' failed !",
+    'group:membership:open' => "Open",
+    'group:membership:inviteonly' => "Invite Only",
+    'group:membership:pendingapproval' => "Pending Approval",
+	'group:about:desc' => "Description",
 );
 ossn_register_languages('en', $en); 

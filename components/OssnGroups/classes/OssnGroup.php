@@ -297,6 +297,49 @@ class OssnGroup extends OssnObject {
 				}
 				return false;
 		}
+
+		/**
+		 * Send group join request
+		 *
+		 * @params $from Member guid
+		 *         $group Group guid
+		 *
+		 * @return bool;
+		 */
+		public function sendRequestInvite($from, $group) {
+			self::initAttributes();
+			if(!$this->requestExists($from, $group)) {
+				if(ossn_add_relation($from, $group, 'group:join')) {
+					// #186 send notification to Group Owner
+					$current_group = $this->getGroup($group);
+					$group_owner   = $current_group->owner_guid;
+					
+					$type             = 'group:joinrequest';
+					$params['into']   = 'ossn_notifications';
+					$params['names']  = array(
+							'type',
+							'poster_guid',
+							'owner_guid',
+							'subject_guid',
+							'item_guid',
+							'time_created'
+					);
+					$params['values'] = array(
+							$type,
+							$group_owner,
+							$from,
+							$group,
+							0,
+							time()
+					);
+					if($this->OssnDatabase->insert($params)) {
+							return true;
+					}
+				}
+			}
+			return false;
+		}
+
 		/**
 		 * Check if member request exist or not
 		 *
@@ -440,20 +483,20 @@ class OssnGroup extends OssnObject {
 				$this->OssnFile->owner_guid = $this->guid;
 				$this->OssnFile->type       = 'object';
 				$this->OssnFile->subtype    = 'avatar';
-				$covers = $this->OssnFile->getFiles();
+				$avatars = $this->OssnFile->getFiles();
 
-				if(!$covers) {
-					return false;
-				}
-				$this->latestcover = $covers->getParam(0);
-				$file              = str_replace('avatar/', '', $this->latestcover->value);
-				if (!is_null($size)) {
-					$this->coverurl = ossn_site_url("groups/avatar/{$this->latestcover->guid}/{$size}_{$file}");
-				} else {
-					$this->coverurl = ossn_site_url("groups/avatar/{$this->latestcover->guid}/{$file}");
-				}
+				if(!$avatars) 
+					return ossn_site_url("groups/avatar/{$size}/".md5($this->title).'.jpg');
 				
-				return ossn_call_hook('group', 'cover:url', $this, $this->coverurl);
+				$this->latestcover = $avatars->getParam(0);
+				$file  = str_replace('avatar/', '', $this->latestcover->value);
+
+				if (!is_null($size)) 
+					$this->avatarurl = ossn_site_url("groups/avatar/{$this->latestcover->guid}/{$size}_{$file}");
+				else 
+					$this->avatarurl = ossn_site_url("groups/avatar/{$this->latestcover->guid}/{$file}");
+				
+				return ossn_call_hook('group', 'cover:url', $this, $this->avatarurl);
 		}
 
 		/**

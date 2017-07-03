@@ -50,6 +50,7 @@ function ossn_groups() {
 				ossn_register_action('group/edit', __OSSN_GROUPS__ . 'actions/group/edit.php');
 				ossn_register_action('group/join', __OSSN_GROUPS__ . 'actions/group/join.php');
 				ossn_register_action('group/delete', __OSSN_GROUPS__ . 'actions/group/delete.php');
+				ossn_register_action('group/invite', __OSSN_GROUPS__ . 'actions/group/invite.php');
 				ossn_register_action('group/member/approve', __OSSN_GROUPS__ . 'actions/group/member/request/approve.php');
 				ossn_register_action('group/member/cancel', __OSSN_GROUPS__ . 'actions/group/member/request/cancel.php');
 				ossn_register_action('group/member/decline', __OSSN_GROUPS__ . 'actions/group/member/request/decline.php');
@@ -233,26 +234,55 @@ function ossn_groups_page($pages) {
 							if(isset($File->guid)) {
 
 								if (isset($pages[2]) && !empty($pages[2])) {
-									$cover = ossn_get_userdata("object/{$File->owner_guid}/avatar/{$pages[2]}");
+									$avatar = ossn_get_userdata("object/{$File->owner_guid}/avatar/{$pages[2]}");
 								} else {
-									$cover = ossn_get_userdata("object/{$File->owner_guid}/{$File->value}");
+									$avatar = ossn_get_userdata("object/{$File->owner_guid}/{$File->value}");
 								}
 							} else {
 
-								$cover = ossn_default_theme() . "images/nopictures/users/{$pages[1]}.jpg";
+								$avatar = "components/OssnGroups/images/group/{$pages[1]}.jpg";
 							}
 
-							$filesize = filesize($cover);
-							header("Content-type: image/jpeg");
+							$filesize = filesize($avatar);
+							header("Content-type: image/jpegavatar");
 							header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+6 months")), true);
 							header("Pragma: public");
 							header("Cache-Control: public");
 							header("Content-Length: $filesize");
 							header("ETag: \"$etag\"");
-							readfile($cover);
+							readfile($avatar);
 							return;
 						}
-						break;		
+						break;
+
+				case 'invite':
+						// get info group by guid
+						$group = ossn_get_group_by_guid($pages[1]);
+
+						if(empty($group->guid)) {
+							ossn_error_page();
+						}
+
+						$params = array(
+								'action' => ossn_site_url() . 'action/group/invite',
+								'component' => 'OssnGroups',
+								'class' => 'ossn-form',
+								'params' => array(
+									'group' => $group
+								)
+						);
+
+						$form   = ossn_view_form('invite', $params, false);
+
+						echo ossn_plugin_view('groups/pages/invitebox', array(
+								'title' => ossn_print('group:list:title'),
+								'contents' => $form,
+								'button' => 'Send',
+								'callback' => '#group-invite-submit'
+						));
+
+						break;							
+
 				default:
 						echo ossn_error_page();
 						break;
@@ -333,6 +363,7 @@ function group_members_page($hook, $type, $return, $params) {
  * @access private
  */
 function group_edit_page($hook, $type, $return, $params) {
+
 		$page  = $params['subpage'];
 		$group = ossn_get_group_by_guid(ossn_get_page_owner_guid());
 		if($group->owner_guid !== ossn_loggedin_user()->guid && !ossn_isAdminLoggedin()) {

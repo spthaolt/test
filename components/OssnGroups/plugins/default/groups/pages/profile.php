@@ -14,11 +14,6 @@ $iscover = '';
 $groupUrl = '';
 $avatarUrl = $params['group']->avatarURL("larger");
 
-if(!$avatarUrl) {
-
-    $avatarUrl = ossn_site_url("groups/avatar/larger/".md5($params['group']->title).'.jpg');
-}
-
 if ($cover) {
 
     $groupUrl = $params['group']->coverURL();
@@ -93,7 +88,7 @@ $members = $params['group']->getMembers();
                 </ul>
             </div>
             <div class="groups-buttons">
-          <?php if (ossn_isLoggedin() && $params['group']->owner_guid !== ossn_loggedin_user()->guid) {
+            <?php if (ossn_isLoggedin() && $params['group']->owner_guid !== ossn_loggedin_user()->guid) {
                     if ($params['group']->isMember(NULL, ossn_loggedin_user()->guid)) {
                         $ismember = 1;
                         ?>
@@ -116,19 +111,36 @@ $members = $params['group']->getMembers();
                             <?php echo ossn_print('cancel:membership'); ?></a>
                     <?php } ?>
 
-                <?php } ?>
-                <?php  if ($params['group']->owner_guid == ossn_loggedin_user()->guid || ossn_isAdminLoggedin()) {
-                    $ismember = 1;
-                    ?>
-                    <a href="<?php echo ossn_group_url($params['group']->guid); ?>edit"
-                       class='button-grey'><?php echo ossn_print('settings'); ?></a>
-                    <a href="javascript:void(0);" onclick="Ossn.repositionGroupCOVER(<?php echo $params['group']->guid; ?>);"
-                       class='button-grey group-c-position'><?php echo ossn_print('save:position'); ?></a>
-                <?php } ?>
-           		 </div>
+            <?php } ?>
+            <?php 
 
-       		 </div>
-    	</div>
+                if ($params['group']->owner_guid == ossn_loggedin_user()->guid) {
+                   $isInvite = true;      
+                } else if ($params['group']->membInvite ==  1) {
+                    if($params['group']->isMember(NULL, ossn_loggedin_user()->guid))
+                        $isInvite = true;
+                } else {
+                    $isInvite = false;     
+                }  
+
+                if ($isInvite) {
+            ?>
+                <a href="javascript:void(0);" id="group-member-invite" data-guid="<?php echo $params['group']->guid; ?>"
+                   class='button-grey'><?php echo ossn_print('group:invite'); ?></a>
+            <?php } ?>    
+
+            <?php  if ($params['group']->owner_guid == ossn_loggedin_user()->guid || ossn_isAdminLoggedin()) {
+                $ismember = 1;
+                ?>
+                <a href="<?php echo ossn_group_url($params['group']->guid); ?>edit"
+                   class='button-grey'><?php echo ossn_print('settings'); ?></a>
+                <a href="javascript:void(0);" onclick="Ossn.repositionGroupCOVER(<?php echo $params['group']->guid; ?>);"
+                   class='button-grey group-c-position'><?php echo ossn_print('save:position'); ?></a>
+            <?php } ?>
+           	</div>
+
+       	</div>
+    </div>
     </div>    
     </div> <!-- ./row -->
     <div class="ossn-group-bottom-row">
@@ -182,11 +194,15 @@ $members = $params['group']->getMembers();
         <div class="col-md-4 margin-top-10">
         	<div class="page-sidebar">
         	<?php 
-			echo ossn_view_widget(array(
-								'title' => ossn_print('about:group'),
-								'contents' => $params['group']->description,
-								'class' => 'widget-description',
-			));					
+                $groupAbout = ossn_plugin_view('groups/widget/about', array(
+                                'group' => $params['group'], 
+                                ));
+
+    			echo ossn_view_widget(array(
+    								'title' => ossn_print('about:group'),
+    								'contents' => $groupAbout,
+    								'class' => 'widget-description',
+    			));					
 			if ($params['group']->owner_guid == ossn_loggedin_user()->guid || ossn_isAdminLoggedin()) {
 				$member_requests = ossn_plugin_view('output/url', array(
 										'text' => ossn_print('view:all'),

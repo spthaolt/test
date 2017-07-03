@@ -12,6 +12,9 @@
 $name = input('groupname');
 $desc = input('groupdesc');
 $memb = input('membership');
+$membInvite = input('groupmemberinvite');
+$membship = input('groupmembership');
+
 
 $group = ossn_get_group_by_guid(input('group'));
 if ($group->owner_guid !== ossn_loggedin_user()->guid && !ossn_isAdminLoggedin()) {
@@ -27,7 +30,15 @@ $access = array(
 
 if (in_array($memb, $access)) {
     $edit->data = new stdClass;
-    $edit->data->membership = $memb;
+    $edit->data->membership = $memb ;
+}
+
+if (!is_null($membInvite) && !empty($membInvite)) {
+    $edit->data->membInvite = $membInvite;
+}
+
+if (!is_null($membship) && !empty($membship)) {
+    $edit->data->membship = $membship;
 }
 
 if ($edit->updateGroup($name, $desc, $group->guid)) {

@@ -8,6 +8,15 @@ Ossn.RegisterStartupFunction(function() {
 
 Ossn.RegisterStartupFunction(function() {
 	$(document).ready(function() {
+		$('#group-member-invite').click(function() {
+			var $dataguid = $(this).attr('data-guid');
+			Ossn.MessageBox('groups/invite/' + $dataguid);
+		});
+	});
+});
+
+Ossn.RegisterStartupFunction(function() {
+	$(document).ready(function() {
 		$("#group-upload-cover").submit(function(event) {
 			event.preventDefault();
 			var formData = new FormData($(this)[0]);
