@@ -18,10 +18,10 @@ function ossn_javascript() {
     ossn_register_page('js', 'ossn_javascript_pagehandler');
     ossn_add_hook('js', 'register', 'ossn_js_trigger');
 
-    ossn_extend_view('ossn/site/head', 'ossn_site_js');
+    ossn_extend_view('ossn/page/footer', 'ossn_site_js');
     ossn_extend_view('ossn/admin/head', 'ossn_admin_js');
 	
-    ossn_extend_view('ossn/site/head', 'ossn_jquery_add');
+    ossn_extend_view('ossn/page/footer', 'ossn_jquery_add');
     ossn_extend_view('ossn/admin/head', 'ossn_jquery_add');
 
     ossn_new_js('opensource.socialnetwork', 'javascripts/libraries/core');
@@ -359,6 +359,21 @@ function ossn_languages_js(){
 		header("Location: {$url}"); 		
 	}
  }
+
+$ONLOAD_JS = "";
+
+function ossn_fetch_onload_js()
+{
+	global $ONLOAD_JS;
+	return $ONLOAD_JS;
+}
+
+function ossn_extend_onload_js($string)
+{
+	global $ONLOAD_JS;
+	$ONLOAD_JS.=$string;
+}
+
 ossn_register_callback('ossn', 'init', 'ossn_languages_js');
 ossn_register_callback('ossn', 'init', 'ossn_javascript');
 ossn_register_callback('ossn', 'init', 'ossn_redirect_absolute_url');

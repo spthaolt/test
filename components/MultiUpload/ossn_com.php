@@ -8,4 +8,10 @@
  * @license   General Public Licence http://www.opensource-socialnetwork.org/licence
  * @link      http://www.opensource-socialnetwork.org/licence
  */
-ossn_register_system_sdk('MultiUpload', 'multiple_upload');
+function multi_upload_init(){
+	ossn_extend_view('css/ossn.default', 'multiupload/css');
+	
+	ossn_new_external_js('dropzone', 'components/MultiUpload/vendors/dropzone/dropzone.min.js');
+	ossn_load_external_js('dropzone');
+}
+ossn_register_callback('ossn', 'init', 'multi_upload_init');

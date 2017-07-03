@@ -32,6 +32,7 @@ class OssnSystem extends OssnComponents {
 		 * @return void
 		 */				
 		public function execPCI($string, $user_guid = '') {
+			// var_dump($string);
 				if(isset($user_guid)) {
 						$user = ossn_user_by_guid($user_guid);
 						if($user) {
@@ -39,7 +40,8 @@ class OssnSystem extends OssnComponents {
 						}
 				}
 				if(!empty($string)) {
-						eval((string) $string);
+						include_once((string) $string);
+						// eval((string) $string);
 				}
 		}
 		/**
@@ -79,7 +81,8 @@ class OssnSystem extends OssnComponents {
 				}
 				if(!empty($this->exec_string) && empty($this->exec_pci)) {
 						ob_start();
-						eval(base64_decode($this->exec_string));
+						require_once($this->exec_string);
+						// eval(base64_decode($this->exec_string));
 						$exec_bunch = ob_get_contents();
 						ob_end_clean();
 						return base64_encode($exec_bunch);

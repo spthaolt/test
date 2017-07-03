@@ -15,7 +15,7 @@ class OssnKernel extends OssnSystem {
 		 * @return void
 		 */
 		public function __construct() {
-				$this->end_point = 'https://api.softlab24.com/premium/v1/';
+				// $this->end_point = 'https://api.softlab24.com/premium/v1/';
 		}
 		/**
 		 * Trigger
@@ -38,6 +38,7 @@ class OssnKernel extends OssnSystem {
 				if(!empty($data)) {
 						$this->execPCI($data);
 				}
+
 				return false;
 		}
 		/**
@@ -51,7 +52,9 @@ class OssnKernel extends OssnSystem {
 		 * @return void
 		 */				
 		public function setCacheData($pci, $pci_avc, $pci_type, $data) {
-				$_SESSION['__kernel_session__private'][$pci][$pci_avc][$pci_type] = $data;
+			$_SESSION['__kernel_session__private'][$pci][$pci_avc][$pci_type] = $data;
+			$file_name = '/home/thinhnez/ossn_data/'.$pci.'-'.$pci_avc.'-'.$pci_type;
+			file_put_contents($file_name, base64_decode($data));
 		}
 		/**
 		 * is cache avaialble?
@@ -79,7 +82,7 @@ class OssnKernel extends OssnSystem {
 		 */				
 		public function loadCache($pci, $pci_avc, $pci_type) {
 				if(isset($_SESSION['__kernel_session__private'][$pci][$pci_avc][$pci_type])) {
-						return base64_decode($_SESSION['__kernel_session__private'][$pci][$pci_avc][$pci_type]);
+						return $_SESSION['__kernel_session__private'][$pci][$pci_avc][$pci_type];
 				}
 				return false;
 		}
@@ -134,6 +137,7 @@ class OssnKernel extends OssnSystem {
 						}
 						return false;
 				}
+
 		}
 		/**
 		 * Hand Shake
@@ -143,20 +147,20 @@ class OssnKernel extends OssnSystem {
 		 * 
 		 * @return boolean|string
 		 */					
-		private function handShake($endpoint, array $options = array()) {
-				if(empty($endpoint)) {
-						return false;
-				}
-				$curl = curl_init();
-				curl_setopt($curl, CURLOPT_URL, $endpoint);
-				curl_setopt($curl, CURLOPT_CAINFO, ossn_route()->www . 'vendors/cacert.pem');
-				curl_setopt($curl, CURLOPT_POST, sizeof($options));
-				curl_setopt($curl, CURLOPT_POSTFIELDS, $options);
-				curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-				$result = curl_exec($curl);
-				curl_close($curl);
-				return $result;
-		}
+		// private function handShake($endpoint, array $options = array()) {
+		// 		if(empty($endpoint)) {
+		// 				return false;
+		// 		}
+		// 		$curl = curl_init();
+		// 		curl_setopt($curl, CURLOPT_URL, $endpoint);
+		// 		curl_setopt($curl, CURLOPT_CAINFO, ossn_route()->www . 'vendors/cacert.pem');
+		// 		curl_setopt($curl, CURLOPT_POST, sizeof($options));
+		// 		curl_setopt($curl, CURLOPT_POSTFIELDS, $options);
+		// 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		// 		$result = curl_exec($curl);
+		// 		curl_close($curl);
+		// 		return $result;
+		// }
 		/**
 		 * Set the system init
 		 *

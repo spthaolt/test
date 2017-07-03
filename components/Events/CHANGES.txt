@@ -1,0 +1,7 @@
+EVENTS 1.2
+
+* Removed Google API
+
+EVENTS 1.1
+
+* Fixed , the not interested button not working.

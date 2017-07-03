@@ -29,10 +29,6 @@ if (isset($params['contents'])) {
 	
 	<?php echo ossn_fetch_extend_views('ossn/endpoint'); ?>
     <?php echo ossn_fetch_extend_views('ossn/site/head'); ?>
-
-    <script>
-        <?php echo ossn_fetch_extend_views('ossn/js/head'); ?>
-    </script>
 </head>
 
 <body>
@@ -56,5 +52,11 @@ if (isset($params['contents'])) {
 		</div>
     </div>
     <?php echo ossn_fetch_extend_views('ossn/page/footer'); ?>
+    <script>
+    (function() {
+        <?php echo ossn_fetch_extend_views('ossn/js/head'); ?>
+        <?php echo ossn_fetch_onload_js(); ?>
+    })();
+    </script>
 </body>
 </html>

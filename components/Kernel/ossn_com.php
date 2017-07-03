@@ -15,12 +15,13 @@ define('KERNEL', ossn_route()->com . 'Kernel/');
  * @return boolean
  */
 function ossn_kernal_is_established() {
-			$kernel    = new OssnKernel;
-			$establish = $kernel->sendRequest('auth', array());
-			if(base64_decode($establish->data) !== 'established') {
-					return false;
-			}
-			return true;
+	return true;
+	// $kernel    = new OssnKernel;
+	// $establish = $kernel->sendRequest('auth', array());
+	// if(base64_decode($establish->data) !== 'established') {
+	// 		return false;
+	// }
+	// return true;
 }
 /**
  * Kernel Initialize
@@ -57,8 +58,8 @@ if(!OssnKernel::isCacheLoaded()){
 	define('KERNEL_STATUS', true);		
 }
 function ossn_register_system_sdk($type, $handler, $pcit = 4001) {
-		if(KERNEL_STATUS === true) {
-				OssnKernel::setINIT($type, $handler, $pcit);
-		}
+	if(KERNEL_STATUS === true) {
+		OssnKernel::setINIT($type, $handler, $pcit);
+	}
 }
 ossn_register_callback('ossn', 'init', 'ossn_kernal_init');
