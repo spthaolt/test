@@ -341,6 +341,25 @@ class OssnGroup extends OssnObject {
 		}
 
 		/**
+		 * approve Invite
+		 *
+		 * @params $from Member guid
+		 *         $group Group guid
+		 *
+		 * @return bool;
+		 */
+		public function approveInvite($from, $group) {
+			self::initAttributes();
+			if(!$this->requestExists($from, $group)) {
+				if ((ossn_add_relation($from, $group, 'group:join'))&& 
+					(ossn_add_relation($group, $from, 'group:join:approve'))) {
+						return true;
+				}
+			}
+			return false;
+		}
+
+		/**
 		 * Check if member request exist or not
 		 *
 		 * @params $from Member guid

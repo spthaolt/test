@@ -10,6 +10,9 @@
  */
 
 define('__OSSN_GROUPS__', ossn_route()->com . 'OssnGroups/');
+define('Membership_Open', 1);
+define('Membership_Invite_Only', 2);
+define('Membership_Pending_Approval', 3);
 
 /* Include group class and library */
 require_once(__OSSN_GROUPS__ . 'classes/OssnGroup.php');
