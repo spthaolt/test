@@ -18,7 +18,7 @@ function ossn_chat_init() {
     ossn_new_js('ossn.chat', 'js/OssnChat');
 
     //chat bar
-    if (ossn_isLoggedIn()) {
+    if (ossn_isLoggedIn() && !defined('_MESSAGE_PAGE_')) {
         //load js and chatbar if user is loggedin
         ossn_load_js('ossn.chat');
         ossn_extend_view('ossn/page/footer', 'chat/chatbar');
