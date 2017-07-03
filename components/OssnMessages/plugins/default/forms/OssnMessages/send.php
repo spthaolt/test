@@ -7,6 +7,8 @@
                 <input type="hidden" class="group_message_last_id" name="last_id" value=""/>
                 <input type="hidden" name="to" value="<?php echo $params['to_guid']; ?>"/>
                 
+                <input type="hidden" class="spam_check" value="true"/>
+                
                 <div class="sqmessage ossn-comment-attach-photo" onclick="Ossn.Clk('#ossn-comment-image-file-<?php echo $params['to_guid']; ?>');"><i class="fa fa-camera"></i></div>
                 <div class="controls" style="position: absolute; right: 0">
                     <?php 

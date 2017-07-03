@@ -135,6 +135,16 @@ function ossn_remove_extend_view($layout) {
     unset($VIEW->register[$layout]);
 }
 
+
+function ossn_remove_view_extend($layout,$view) {
+    global $VIEW;
+    $count = count($VIEW->register[$layout]);
+    for ($i=0; $i < $count; $i++) { 
+        if ($view == $VIEW->register[$layout][$i])
+            unset($VIEW->register[$layout][$i]);     
+    }
+}
+
 /**
  * Add a context to page
  *

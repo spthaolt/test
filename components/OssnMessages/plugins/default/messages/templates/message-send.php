@@ -20,8 +20,6 @@ if($params->message_from == ossn_loggedin_user()->guid){
 } else {
     echo ossn_plugin_view('messages/pages/view/recipient', $params);
 }
+ossn_extend_onload_js("$('.group_message_last_id').val(".$params->id.");");
 ?>
 
-<script type="text/javascript">
-	$('.group_message_last_id').val(<?php echo $params->id ?>);
-</script>

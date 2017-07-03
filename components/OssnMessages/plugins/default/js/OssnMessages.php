@@ -21,6 +21,7 @@ Ossn.SendMessage = function($user) {
             $('#message-send-' + $user).find('textarea').val('');
             $('#message-send-' + $user).find('input[type=submit]').show();
             $('#message-send-' + $user).find('.ossn-loading').addClass('ossn-hidden');
+            $('.spam_check').val("true");
             Ossn.message_scrollMove($user);
 
         }

@@ -281,7 +281,7 @@ textarea[name=message] {
 .sqmessage .list-group-item.active,.sqmessage  .list-group-item.active:focus,.sqmessage  .list-group-item.active:hover {
     z-index: 2;
     color: #000;
-    background-color: #05a89f;
+    background-color: #C5EBE8;
     border-color: #05a89f;
 }
 
