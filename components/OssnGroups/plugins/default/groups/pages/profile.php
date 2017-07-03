@@ -96,7 +96,8 @@ $members = $params['group']->getMembers();
                            class='button-grey'>
                             <?php echo ossn_print('leave:group'); ?></a>
                     <?php
-                    } else if (!$params['group']->requestExists(ossn_loggedin_user()->guid, false)) {
+                    } else if ((!$params['group']->requestExists(ossn_loggedin_user()->guid, false)) &&
+                            ($params['group']->membship != Membership_Invite_Only )) {
                         ?>
                         <a href="<?php echo ossn_site_url("action/group/join?group={$params['group']->guid}", true); ?>"
                            class='button-grey'>

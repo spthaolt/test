@@ -3,6 +3,7 @@
 
 $friends = input('friend');
 $groupId = input('group');
+$invitationName = input('invitationName');
 
 if ($friends) {
 
@@ -15,6 +16,10 @@ if ($friends) {
 		if (!$add->sendRequestInvite($value, $groupId))
 			array_push($errors, $value);    
 	}
+
+	//add invitation
+	
+
 
 	// check error
 	if (sizeof($errors) > 0)  {

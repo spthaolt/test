@@ -16,14 +16,25 @@ if (empty($group)) {
     redirect(REF);
 }
 
+// get info group
 $infoGroup = ossn_get_group_by_guid($group);
 
+if($infoGroup->membship == Membership_Open) {
 
+	if ($add->approveInvite(ossn_loggedin_user()->guid, $group)) {
+	    ossn_trigger_message(ossn_print('group:invite:approve:succes'), 'success');
+	    redirect("group/{$group}");
+	} else ossn_trigger_message(ossn_print('group:invite:approve:fail'), 'error');
 
-// if ($add->sendRequest(ossn_loggedin_user()->guid, $group)) {
-//     ossn_trigger_message(ossn_print('memebership:sent'), 'success');
-//     redirect("group/{$group}");
-// } else {
-//     ossn_trigger_message(ossn_print('memebership:sent:fail'), 'error');
-//     redirect(REF);
-// }
+} elseif ($infoGroup->membship == Membership_Invite_Only) {
+
+	ossn_trigger_message(ossn_print('group:invite:approve:fail'), 'error');
+} else {
+
+	if ($add->sendRequest(ossn_loggedin_user()->guid, $group)) {
+	    ossn_trigger_message(ossn_print('memebership:sent'), 'success');
+	    redirect("group/{$group}");
+	} else ossn_trigger_message(ossn_print('memebership:sent:fail'), 'error');
+}
+
+redirect(REF);
