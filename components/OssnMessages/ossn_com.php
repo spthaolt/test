@@ -308,12 +308,12 @@ TEXT;
 			}
 			break;
 		case 'getstatusfriends':
-			if ($pages[2] == "group") {
-				$params['to_guid'] = $pages[1];
+			$params['to_guid'] = $pages[1];
+            if ($pages[2] == "group") {
 				$friends = ossn_get_group_by_guid($params['to_guid'])->getMembers();
 			} else {
 				$friends = $user_login->getFriends();
-			}
+            }
 			$params['friends_list'] = "";
 			if ($friends) {
 				foreach ($friends as $key => $friend) {
@@ -325,6 +325,11 @@ TEXT;
 						    $friend->status = 'ossn-message-icon-offline';
 						    $friend->status_title = "offline";
 						}
+                        if ($pages[2] != "group") {
+                            if ($friend->guid == $params['to_guid']) {
+                                $friend->is_active = "active";
+                            }
+                        }
 						$params['friends_list'] .= ossn_plugin_view('messages/templates/friend-item', $friend);
 					}
 				}

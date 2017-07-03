@@ -1,7 +1,4 @@
 <div class="thumbnail sqmessage">
-	<div class="caption">
-        <h3><?php echo ossn_print('sq:message:title'); ?></h3>
-    </div>
 	<div class="col-sm-3 sqmessage">
 		<div class="list-group sqmessage">
 			<?php echo $params['groups_list'] ?>
