@@ -1,4 +1,0 @@
-DISLIKE 3.1
-===========
-
-* Entity dislike button is not working.
