@@ -94,3 +94,16 @@ Ossn.message_scrollMove10Messages = function(fid) {
     console.log(height);
     $('.message-inner').animate({scrollTop: height});  
 };
+
+Ossn.getStatusFriends = function($to_guid, $type) {
+    Ossn.PostRequest({
+        url: Ossn.site_url + "messages/getstatusfriends/" + $to_guid + "/" + $type,
+        action: false,
+        callback: function(callback) {
+            $('.statusfriends').html(callback);
+            if(callback){
+                //Unwanted refresh in message window #416 , there is no need to scroll if no new message.
+            }
+        }
+    });
+};

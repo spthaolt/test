@@ -8,7 +8,7 @@
 <?php 
 	echo ossn_view_form('send', array(
 			'component' => 'OssnMessages',
-			'class' => 'message-form-form sqmessage',
+			'class' => 'message-form-form sqmessage comment-container',
 			'id' => "message-send-{$params['to_guid']}",
 			'params' => $params
 	), false);

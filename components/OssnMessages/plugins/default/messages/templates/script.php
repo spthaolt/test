@@ -3,13 +3,14 @@
     $(document).ready(function () {
         setInterval(function () {
         	var last_id = $("#message-append-<?php echo $params['to_guid'] ?> div.row:last").find('.time-created').attr('data_id');
-        	console.log(last_id);
+        	$('.group_message_last_id').val(last_id);
         	<?php if ($params['page'] == "group") { ?> 
         		var type = "group";
     		<?php } else { ?>
     			var type = "individual";	
         	<?php }?>
             Ossn.getNewMessages('<?php echo $params['to_guid'];?>', last_id, type);
+            Ossn.getStatusFriends('<?php echo $params['to_guid'];?>', type);
         }, 5000);
        	Ossn.message_scrollMove(<?php echo $params['to_guid'];?>);
 	});
@@ -20,7 +21,8 @@
 	
 	$(document).on('keypress', '.input_message', function(e) {
 		if (e.keyCode == 13 && e.shiftKey) {
-			$('.ossn-form.message-form-form.sqmessage .btn.btn-primary').click();
+            if ($('.input_message').val() == '') return false;
+            $('.message-form-form').submit();
 	    }
 	});
 	$('.message-inner.sqmessage').scroll(function() {

@@ -100,14 +100,17 @@ TEXT;
 							$params['friends_list'] = "";
 							if ($friends) {
 								foreach ($friends as $key => $friend) {
-									if (OssnChat::getChatUserStatus($friend->guid) == 'online') {
-									    $friend->status = 'ossn-message-icon-online';
-									    $friend->status_title = "online";
-									} else {
-									    $friend->status = 'ossn-message-icon-offline';
-									    $friend->status_title = "offline";
+									if ($friend->guid != $user_login->guid) {
+
+										if (OssnChat::getChatUserStatus($friend->guid) == 'online') {
+										    $friend->status = 'ossn-message-icon-online';
+										    $friend->status_title = "online";
+										} else {
+										    $friend->status = 'ossn-message-icon-offline';
+										    $friend->status_title = "offline";
+										}
+										$params['friends_list'] .= ossn_plugin_view('messages/templates/friend-item', $friend);
 									}
-									$params['friends_list'] .= ossn_plugin_view('messages/templates/friend-item', $friend);
 								}
 							}
 
@@ -348,10 +351,34 @@ TEXT;
 								foreach($messages as $message) {
 										echo ossn_plugin_view('messages/templates/message-send', $message);
 								}
-								echo '<script>Ossn.playSound();</script>';
+								// echo '<script>Ossn.playSound();</script>';
 						}
 						break;
+				case 'getstatusfriends':
+						if ($pages[2] == "group") {
+							$params['to_guid'] = $pages[1];
+							$friends = ossn_get_group_by_guid($params['to_guid'])->getMembers();
+						} else {
+							$friends = $user_login->getFriends();
+						}
+						$params['friends_list'] = "";
+						if ($friends) {
+							foreach ($friends as $key => $friend) {
+								if ($friend->guid != $user_login->guid) {
 
+									if (OssnChat::getChatUserStatus($friend->guid) == 'online') {
+									    $friend->status = 'ossn-message-icon-online';
+									    $friend->status_title = "online";
+									} else {
+									    $friend->status = 'ossn-message-icon-offline';
+									    $friend->status_title = "offline";
+									}
+									$params['friends_list'] .= ossn_plugin_view('messages/templates/friend-item', $friend);
+								}
+							}
+						}
+						echo $params['friends_list'];
+						break;
 				default:
 						ossn_error_page();
 						break;

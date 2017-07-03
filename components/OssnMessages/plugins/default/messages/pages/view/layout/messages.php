@@ -11,7 +11,7 @@
 		<?php echo $params['messages_body'] ?>
 	</div>
 	<div class="col-sm-3 sqmessage">
-		<div class="list-group sqmessage">
+		<div class="statusfriends list-group sqmessage">
 			<?php echo $params['friends_list'] ?>
 		</div>
 	</div>

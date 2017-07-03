@@ -34,6 +34,8 @@ $access  = '';
 if(!empty($privacy)) {
 		$access = input('privacy');
 }
+var_dump($OssnWall);
+die('dasds');
 if($OssnWall->Post($post, $friends, $location, $access)) {
 		if(ossn_is_xhr()) {
 				$guid = $OssnWall->getObjectId();

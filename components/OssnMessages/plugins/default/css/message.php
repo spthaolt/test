@@ -304,3 +304,22 @@ textarea[name=message] {
     margin-top: 6px; 
     margin-right: 5px;
 }
+
+.sqmessage.comment-container .emojii-container-main {
+    margin-top: -270px;
+}
+
+.sqmessage.comment-container .ossn-comment-attach-photo {
+    position: absolute;
+    top: 50px;
+    width: 0px;
+    right: 110px;
+}
+
+.sqmessage.comment-container .sqmessage.ossn-comment-attach-photo {
+    right: 80px;
+}
+
+.sqmessage.comment-container .ossn-comment-attach-photo i {
+    float: left;
+}

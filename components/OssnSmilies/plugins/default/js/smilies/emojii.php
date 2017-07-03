@@ -41,10 +41,18 @@ $(document).ready(function() {
 	$('body').on('click', '.comment-container .emojii-list li', function(e) {
 		e.preventDefault();
 		var $type = $(this).html();
-		var $element = $(this).parent().parent().parent().parent().find('.comment-box');
-		var tmp1 = $element.html();
-		var tmp2 = tmp1 + " " + $type;
-		$element.html(tmp2);
+		if ($(this).parent().parent().parent().parent().hasClass('sqmessage')) {
+			var $element = $(this).parent().parent().parent().parent().find('.input_message');
+			var tmp1 = $element.val();
+			var tmp2 = tmp1 + " " + $type;
+			$element.val(tmp2);
+		} else {
+			var $element = $(this).parent().parent().parent().parent().find('.comment-box');
+			var tmp1 = $element.html();
+			var tmp2 = tmp1 + " " + $type;
+			$element.html(tmp2);
+		}
+
 	});
 	$('body').on('click', '.ossn-wall-container-control-menu-emojii-selector', function(e) {
 		if ($('#ossn-wall-form .emojii-container-main').is(":hidden")) {
