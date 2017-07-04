@@ -8,6 +8,11 @@ body {
     font-family: 'PT Sans', sans-serif;
     height: 100%;
 }
+body.startup-layout {
+    background:url("<?php echo ossn_theme_url();?>images/background.jpg") no-repeat;
+    background-size:cover;
+}
+
 .ossn-required {
     color: #a94442;
 }
@@ -108,8 +113,6 @@ a {
 }
 .ossn-layout-startup {
     min-height: 560px;
-    background:url("<?php echo ossn_theme_url();?>images/background.jpg") no-repeat;
-    background-size:cover;
 }
 
 .ossn-layout-startup  footer .ossn-footer-menu a {

@@ -145,7 +145,7 @@ function ossn_user_pagehandler($home, $handler) {
 						$title               = ossn_print('site:login');
 						$contents['content'] = ossn_plugin_view('pages/contents/user/login');
 						$content             = ossn_set_page_layout('startup', $contents);
-						echo ossn_view_page($title, $content);
+						echo ossn_view_page($title, $content,'startup');
 						break;
 				
 				case 'registered':
