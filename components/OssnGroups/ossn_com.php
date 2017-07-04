@@ -46,6 +46,7 @@ function ossn_groups() {
 		ossn_add_hook('notification:add', 'comments:post:group:wall', 'ossn_notificaiton_groups_comments_hook');
 		ossn_add_hook('notification:add', 'like:post:group:wall', 'ossn_notificaiton_groups_comments_hook');
 		ossn_add_hook('notification:view', 'group:joinrequest', 'ossn_group_joinrequest_notification');
+		ossn_add_hook('notification:view', 'group:inviterequest', 'ossn_group_inviterequest_notification');
 		
 		//group actions
 		if(ossn_isLoggedin()) {
@@ -57,6 +58,8 @@ function ossn_groups() {
 				ossn_register_action('group/member/approve', __OSSN_GROUPS__ . 'actions/group/member/request/approve.php');
 				ossn_register_action('group/member/cancel', __OSSN_GROUPS__ . 'actions/group/member/request/cancel.php');
 				ossn_register_action('group/member/decline', __OSSN_GROUPS__ . 'actions/group/member/request/decline.php');
+				ossn_register_action('group/member/accept', __OSSN_GROUPS__ . 'actions/group/member/request/accept.php');
+				ossn_register_action('group/member/reject', __OSSN_GROUPS__ . 'actions/group/member/request/reject.php');
 				
 				ossn_register_action('group/cover/upload', __OSSN_GROUPS__ . 'actions/group/cover/upload.php');
 				ossn_register_action('group/cover/reposition', __OSSN_GROUPS__ . 'actions/group/cover/reposition.php');
@@ -176,119 +179,133 @@ function ossn_groups_page($pages) {
 	
 		switch($page) {
 				case 'add':
-						$params = array(
-								'action' => ossn_site_url() . 'action/group/add',
-								'component' => 'OssnGroups',
-								'class' => 'ossn-form'
-						);
-						$form   = ossn_view_form('add', $params, false);
-						echo ossn_plugin_view('output/ossnbox', array(
-								'title' => ossn_print('add:group'),
-								'contents' => $form,
-								'callback' => '#ossn-group-submit'
-						));
-						break;
-				case 'cover':
-						if(isset($pages[1]) && !empty($pages[1])) {
-								$File          = new OssnFile;
-								$File->file_id = $pages[1];
-								$File          = $File->fetchFile();
-								
-								$etag = $File->guid . $File->time_created;
-								
-								if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) == "\"$etag\"") {
-										header("HTTP/1.1 304 Not Modified");
-										exit;
-								}
-								if(isset($File->guid)) {
-										$Cover    = ossn_get_userdata("object/{$File->owner_guid}/{$File->value}");
-										$filesize = filesize($Cover);
-										header("Content-type: image/jpeg");
-										header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+6 months")), true);
-										header("Pragma: public");
-										header("Cache-Control: public");
-										header("Content-Length: $filesize");
-										header("ETag: \"$etag\"");
-										readfile($Cover);
-										return;
-								} else {
-									//old
-									//ossn_error_page();
+					$params = array(
+							'action' => ossn_site_url() . 'action/group/add',
+							'component' => 'OssnGroups',
+							'class' => 'ossn-form'
+					);
+					$form   = ossn_view_form('add', $params, false);
+					echo ossn_plugin_view('output/ossnbox', array(
+							'title' => ossn_print('add:group'),
+							'contents' => $form,
+							'callback' => '#ossn-group-submit'
+					));
+					break;
 
-									//new 170629
-									redirect('components/OssnGroups/images/transparent.png');
-								}
+				case 'cover':
+					if(isset($pages[1]) && !empty($pages[1])) {
+						$File          = new OssnFile;
+						$File->file_id = $pages[1];
+						$File          = $File->fetchFile();
+						
+						$etag = $File->guid . $File->time_created;
+						
+						if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) == "\"$etag\"") {
+								header("HTTP/1.1 304 Not Modified");
+								exit;
 						}
-						break;
+						if(isset($File->guid)) {
+								$Cover    = ossn_get_userdata("object/{$File->owner_guid}/{$File->value}");
+								$filesize = filesize($Cover);
+								header("Content-type: image/jpeg");
+								header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+6 months")), true);
+								header("Pragma: public");
+								header("Cache-Control: public");
+								header("Content-Length: $filesize");
+								header("ETag: \"$etag\"");
+								readfile($Cover);
+								return;
+						} else {
+							//old
+							//ossn_error_page();
+
+							//new 170629
+							redirect('components/OssnGroups/images/transparent.png');
+						}
+					}
+					break;
 
 				case 'avatar':	
-						if(isset($pages[1]) && !empty($pages[1])) {
-							$File          = new OssnFile;
-							$File->file_id = $pages[1];
-							$File          = $File->fetchFile();
+					if(isset($pages[1]) && !empty($pages[1])) {
+						$File          = new OssnFile;
+						$File->file_id = $pages[1];
+						$File          = $File->fetchFile();
 
-							$etag = $File->guid . $File->time_created;
-							
-							if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) == "\"$etag\"") {
-									header("HTTP/1.1 304 Not Modified");
-									exit;
-							}
-							
-							if(isset($File->guid)) {
-
-								if (isset($pages[2]) && !empty($pages[2])) {
-									$avatar = ossn_get_userdata("object/{$File->owner_guid}/avatar/{$pages[2]}");
-								} else {
-									$avatar = ossn_get_userdata("object/{$File->owner_guid}/{$File->value}");
-								}
-							} else {
-
-								$avatar = "components/OssnGroups/images/group/{$pages[1]}.jpg";
-							}
-
-							$filesize = filesize($avatar);
-							header("Content-type: image/jpegavatar");
-							header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+6 months")), true);
-							header("Pragma: public");
-							header("Cache-Control: public");
-							header("Content-Length: $filesize");
-							header("ETag: \"$etag\"");
-							readfile($avatar);
-							return;
+						$etag = $File->guid . $File->time_created;
+						
+						if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) == "\"$etag\"") {
+								header("HTTP/1.1 304 Not Modified");
+								exit;
 						}
-						break;
+						
+						if(isset($File->guid)) {
+
+							if (isset($pages[2]) && !empty($pages[2])) {
+								$avatar = ossn_get_userdata("object/{$File->owner_guid}/avatar/{$pages[2]}");
+							} else {
+								$avatar = ossn_get_userdata("object/{$File->owner_guid}/{$File->value}");
+							}
+						} else {
+
+							$avatar = "components/OssnGroups/images/group/{$pages[1]}.jpg";
+						}
+
+						$filesize = filesize($avatar);
+						header("Content-type: image/jpegavatar");
+						header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+6 months")), true);
+						header("Pragma: public");
+						header("Cache-Control: public");
+						header("Content-Length: $filesize");
+						header("ETag: \"$etag\"");
+						readfile($avatar);
+						return;
+					}
+					break;
 
 				case 'invite':
-						// get info group by guid
-						$group = ossn_get_group_by_guid($pages[1]);
+					// get info group by guid
+					$group = ossn_get_group_by_guid($pages[1]);
 
-						if(empty($group->guid)) {
-							ossn_error_page();
-						}
+					if(empty($group->guid)) {
+						ossn_error_page();
+					}
 
-						$params = array(
-								'action' => ossn_site_url() . 'action/group/invite',
-								'component' => 'OssnGroups',
-								'class' => 'ossn-form',
-								'params' => array(
-									'group' => $group
-								)
-						);
+					$params = array(
+							'action' => ossn_site_url() . 'action/group/invite',
+							'component' => 'OssnGroups',
+							'class' => 'ossn-form',
+							'params' => array(
+								'group' => $group
+							)
+					);
 
-						$form   = ossn_view_form('invite', $params, false);
+					$form   = ossn_view_form('invite', $params, false);
 
-						echo ossn_plugin_view('groups/pages/invitebox', array(
-								'title' => ossn_print('group:list:title'),
-								'contents' => $form,
-								'button' => 'Send',
-								'callback' => '#group-invite-submit'
-						));
+					echo ossn_plugin_view('groups/pages/invitebox', array(
+							'title' => ossn_print('group:list:title'),
+							'contents' => $form,
+							'button' => 'Send',
+							'callback' => '#group-invite-submit'
+					));
+					break;	
 
-						break;							
+				// list invite
+				case 'invites':
+
+					$title = ossn_print("group:list:invitation");
+
+					$params['profile'] = ossn_loggedin_user();;
+					$view  = ossn_plugin_view('groups/pages/invites', $params);
+					$contents['content'] = ossn_group_layout($view);
+					$content = ossn_set_page_layout('contents', $contents);
+
+					echo ossn_view_page($title, $content);
+					break;
 
 				default:
-						echo ossn_error_page();
-						break;
+
+					echo ossn_error_page();
+					break;
 		}
 }
 
@@ -458,27 +475,55 @@ function ossn_notificaiton_groups_comments_hook($hook, $type, $return, $params) 
 
 // #186 group join request hook
 function ossn_group_joinrequest_notification($name, $type, $return, $params) {
-		$baseurl        = ossn_site_url();
-		$user           = ossn_user_by_guid($params->poster_guid);
-		$user->fullname = "<strong>{$user->fullname}</strong>";
-		$group          = ossn_get_group_by_guid($params->subject_guid);
-		$img            = "<div class='notification-image'><img src='{$baseurl}avatar/{$user->username}/small' /></div>";
-		$type           = "<div class='ossn-groups-notification-icon'></div>";
-		if($params->viewed !== NULL) {
-				$viewed = '';
-		} elseif($params->viewed == NULL) {
-				$viewed = 'class="ossn-notification-unviewed"';
-		}
-		// lead directly to groups request page
-		$url               = "{$baseurl}group/{$params->subject_guid}/requests";
-		$notification_read = "{$baseurl}notification/read/{$params->guid}?notification=" . urlencode($url);
-		return "<a href='{$notification_read}' class='ossn-group-notification-item'>
-	       <li {$viewed}> {$img} 
-		   <div class='notfi-meta'> {$type}
-		   <div class='data'>" . ossn_print("ossn:notifications:{$params->type}", array(
-				$user->fullname,
-				$group->title
-		)) . '</div>
-		   </div></li>';
+	$baseurl        = ossn_site_url();
+	$user           = ossn_user_by_guid($params->poster_guid);
+	$user->fullname = "<strong>{$user->fullname}</strong>";
+	$group          = ossn_get_group_by_guid($params->subject_guid);
+	$img            = "<div class='notification-image'><img src='{$baseurl}avatar/{$user->username}/small' /></div>";
+	$type           = "<div class='ossn-groups-notification-icon'></div>";
+	if($params->viewed !== NULL) {
+			$viewed = '';
+	} elseif($params->viewed == NULL) {
+			$viewed = 'class="ossn-notification-unviewed"';
+	}
+	// lead directly to groups request page
+	$url               = "{$baseurl}group/{$params->subject_guid}/requests";
+	$notification_read = "{$baseurl}notification/read/{$params->guid}?notification=" . urlencode($url);
+	return "<a href='{$notification_read}' class='ossn-group-notification-item'>
+       <li {$viewed}> {$img} 
+	   <div class='notfi-meta'> {$type}
+	   <div class='data'>" . ossn_print("ossn:notifications:{$params->type}", array(
+			$user->fullname,
+			$group->title
+	)) . '</div>
+	  </div></li>';
 }
+
+// group invite request hook
+function ossn_group_inviterequest_notification($name, $type, $return, $params) {
+	$baseurl        = ossn_site_url();
+	$user           = ossn_user_by_guid($params->poster_guid);
+	$user->fullname = "<strong>{$user->fullname}</strong>";
+	$group          = ossn_get_group_by_guid($params->subject_guid);
+	$img            = "<div class='notification-image'><img src='{$baseurl}avatar/{$user->username}/small' /></div>";
+	$type           = "<div class='ossn-groups-notification-icon'></div>";
+	if($params->viewed !== NULL) {
+			$viewed = '';
+	} elseif($params->viewed == NULL) {
+			$viewed = 'class="ossn-notification-unviewed"';
+	}
+	// lead directly to groups request page
+	$url               = "{$baseurl}groups/invites";
+	$notification_read = "{$baseurl}notification/read/{$params->guid}?notification=" . urlencode($url);
+	return "<a href='{$notification_read}' class='ossn-group-notification-item'>
+       <li {$viewed}> {$img} 
+	   <div class='notfi-meta'> {$type}
+	   <div class='data'>" . ossn_print("group:notifications:{$params->type}", array(
+			$user->fullname,
+			$group->title
+	)) . '</div>
+	  </div></li>';
+}
+
+
 ossn_register_callback('ossn', 'init', 'ossn_groups');

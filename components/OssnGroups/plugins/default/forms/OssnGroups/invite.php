@@ -14,7 +14,7 @@ $num = 0;
     <tbody>
     	<?php foreach ($friends as $friend) { ?>
     		<?php if ((!$params['group']->isMember(NULL, $friend->guid)) && 
-    				(!$params['group']->requestExists($friend->guid, false))) { ?>
+    				(!$params['group']->inviteExists($friend->guid, false))) { ?>
     			<?php $num += 1; ?>		
 		     	<tr>
 			        <td class="invite-checkbox">
@@ -37,15 +37,6 @@ $num = 0;
 	    <?php } ?>	
     </tbody>
 </table>
-
-<?php if ( $num !=0 ) { ?>
-
-<div class="form-group">
-    <label for="invitationName"> <?php echo ossn_print("group:invitation"); ?> : </label>
-    <input type="type" class="form-control" name="invitationName" id="invitationName" maxlength="100"x>
- </div>
-
-<?php } ?>
 
 <input type="hidden" value="<?php echo $params['group']->guid; ?>" name="group"/>
 <input type="submit" class="ossn-hidden" id="group-invite-submit"/>

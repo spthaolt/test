@@ -269,3 +269,51 @@ function ossn_delete_group_relations($group) {
 		}
 		return false;
 }
+
+/**
+ *
+ * @return bool
+ */
+function ossn_delete_group_request($from, $to, $type) {
+
+	if (empty($from) || empty($to) || empty($type)) {
+		return false;
+	}
+
+	$delete = new OssnDatabase;
+	$params['from'] = 'ossn_relationships';
+	$params['wheres'] = array(
+						"relation_from='{$from}' AND relation_to='{$to}' AND type='{$type}'"
+					);
+
+	if ($delete->delete($params)) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * check exits relations
+ * @return bool
+ */
+function group_check_exits_relation($from, $to, $type) {
+
+	if (empty($from) || empty($to) || empty($type)) {
+		return false;
+	}
+
+	$database = new OssnDatabase;
+
+	$params['from'] = 'ossn_relationships';
+	$params['wheres'] = array(
+						"relation_from='{$from}' AND relation_to='{$to}' AND type='{$type}'"
+					);
+
+	if ($database->select($params,true)) {
+		return true;
+	}
+	
+	return false;
+}
+

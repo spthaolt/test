@@ -89,29 +89,40 @@ $members = $params['group']->getMembers();
             </div>
             <div class="groups-buttons">
             <?php if (ossn_isLoggedin() && $params['group']->owner_guid !== ossn_loggedin_user()->guid) {
+
                     if ($params['group']->isMember(NULL, ossn_loggedin_user()->guid)) {
                         $ismember = 1;
                         ?>
                         <a href="<?php echo ossn_site_url("action/group/member/cancel?group={$params['group']->guid}", true); ?>"
-                           class='button-grey'>
-                            <?php echo ossn_print('leave:group'); ?></a>
+                           class='button-grey'> <?php echo ossn_print('leave:group'); ?></a>
                     <?php
                     } else if ((!$params['group']->requestExists(ossn_loggedin_user()->guid, false)) &&
-                            ($params['group']->membship != Membership_Invite_Only )) {
+                            ($params['group']->membship != Membership_Invite_Only ) &&
+                            (!$params['group']->inviteExists(ossn_loggedin_user()->guid,false))) {
                         ?>
                         <a href="<?php echo ossn_site_url("action/group/join?group={$params['group']->guid}", true); ?>"
-                           class='button-grey'>
-                            <?php echo ossn_print('join:group'); ?></a>
+                           class='button-grey'> <?php echo ossn_print('join:group'); ?></a>
                     <?php
                     }
 
                     if (!$ismember && $params['group']->requestExists(ossn_loggedin_user()->guid, false)) {
                         ?>
                         <a href="<?php echo ossn_site_url("action/group/member/cancel?group={$params['group']->guid}", true); ?>"
-                           class='button-grey'>
-                            <?php echo ossn_print('cancel:membership'); ?></a>
-                    <?php } ?>
+                           class='button-grey'> <?php echo ossn_print('cancel:membership'); ?></a>
+                    <?php } 
 
+                    // check group invite exits and not a member
+                    if (!$ismember && $params['group']->inviteExists(ossn_loggedin_user()->guid,false)) {
+                        
+                        $current_user_id = ossn_loggedin_user()->guid;
+                        $current_group_id = $params['group']->guid;
+                    ?>
+                        <a href="<?php echo ossn_site_url("action/group/member/accept?group={$current_group_id}&user={$current_user_id}", true); ?>"
+                           class='button-grey'> <?php echo ossn_print('group:invite:accept'); ?></a>
+
+                        <a href="<?php echo ossn_site_url("action/group/member/reject?group={$current_group_id}&user={$current_user_id}", true); ?>"
+                           class='button-grey'> <?php echo ossn_print('group:invite:reject'); ?></a>   
+                    <?php } ?>
             <?php } ?>
             <?php 
 
