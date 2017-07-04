@@ -39,6 +39,9 @@ $html = <<<TEXT
 
         }
     });
+    $(document).ready(function(){
+        $('.scrollbar-macosx').scrollbar();
+    });
 
 TEXT;
 

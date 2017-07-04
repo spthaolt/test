@@ -87,12 +87,13 @@ Ossn.playSound = function() {
 };
 Ossn.message_scrollMove = function(fid) {
     var message = document.getElementById('message-append-' + fid);
-    $('.message-inner').animate({scrollTop: message.scrollHeight});
+    var height = $('#message-append-' + fid + " div:last").offset().top;
+    console.log(height);
+    $('.scroll-content').animate({scrollTop: '3000px'});
 };
 Ossn.message_scrollMove10Messages = function(fid) {
     var message = document.getElementById('message-append-' + fid);
     var height = $('#message-append-' + fid + ' div.row:nth-child(10)').offset().top - 50;
-    console.log(height);
     $('.message-inner').animate({scrollTop: height});  
 };
 
