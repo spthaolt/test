@@ -12,7 +12,7 @@ if (!$groupInfo) {
     redirect(REF);
 }
 
-if ($add->deleteMember($user, $group)) ossn_trigger_message(ossn_print('group:invite:reject:succ'), 'success');
+if ($add->rejectInvite($user, $group)) ossn_trigger_message(ossn_print('group:invite:reject:succ'), 'success');
 else ossn_trigger_message(ossn_print('group:invite:reject:fail'), 'error');
     
 redirect(REF);

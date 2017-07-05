@@ -358,13 +358,11 @@ class OssnGroup extends OssnObject {
 		public function acceptInvite($receiver, $groupId ) {
 			self::initAttributes();
 
-			ossn_delete_group_request($receiver, $groupId, 'group:invite');
-
-			if ((ossn_add_relation($receiver, $groupId, 'group:invite')) && 
-				(ossn_add_relation($groupId, $receiver, 'group:invite:approve'))) {
-					return true;
+			if($this->inviteExists($receiver, $groupId)) {
+				if(ossn_add_relation($groupId, $receiver, 'group:invite:approve')) {
+						return true;
+				}
 			}
-
 			return false;
 		}
 
@@ -378,9 +376,10 @@ class OssnGroup extends OssnObject {
 		 */
 		public function rejectInvite($receiver, $groupId ) {
 
-			if(ossn_delete_group_request($receiver, $groupId, 'group:invite') ||
-			ossn_delete_group_request($receiver, $groupId, 'group:invite:approve')) {
-				return true;
+			if($this->inviteExists($receiver, $groupId)) {
+				if(ossn_delete_group_request($receiver, $groupId, 'group:invite')) {
+						return true;
+				}
 			}
 			return false;
 		}
