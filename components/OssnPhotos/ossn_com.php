@@ -177,7 +177,21 @@ function ossn_photos_page_handler($album) {
 				ossn_error_page();
 		}
 		switch($page) {
-				
+				case 'timeline':
+                    if(isset($album[1]) && isset($album[2]) && $album[1] == 'view') {
+                            $title          = ossn_print('photos');
+                            $photo['photo'] = $album[2];
+                            $type           = input('type');
+                            
+                            $contents          = array(
+                                    'title' => 'Photos',
+                                    'content' => ossn_plugin_view('photos/pages/timeline/photos/view', $album[2]),
+                            );
+                            //set page layout
+                            $content  = ossn_set_page_layout('media', $contents);
+                            echo ossn_view_page($title, $content);
+                    }
+                    break;
 				case 'view':
 						if(isset($album[1])) {
 								
@@ -306,40 +320,75 @@ function ossn_album_page_handler($album) {
 				return false;
 		}
 		switch($page) {
+				case 'timeline':
+					if(isset($album[1])) {
+							$title = ossn_print('timeline:photos');
+							$user['user'] = ossn_user_by_guid($album[1]);
+							if(empty($user['user']->guid)) {
+									ossn_error_page();
+							}
+							//Missing back button to photos #570
+							$back         = array(
+									'text' => ossn_print('back'),
+									'href' => ossn_site_url("u/{$user['user']->username}/photos"),
+									'class' => 'button-grey'
+							);
+							$control           = ossn_plugin_view('output/url', $back);								
+							//view profile photos in module layout
+							$contents          = array(
+									'title' => ossn_print('photos'),
+									'content' => ossn_plugin_view('photos/pages/timeline/photos/all', $user),
+									'controls' => $control,
+									'module_width' => '850px'
+							);
+							$module['content'] = ossn_set_page_layout('module', $contents);
+							//set page layout
+							$content           = ossn_set_page_layout('contents', $module);
+							echo ossn_view_page($title, $content);
+					}
+					break;
 				case 'getphoto':
 						
 						$guid    = $album[1];
 						$picture = $album[2];
 						$size    = input('size');
-						
-						$name = str_replace(array(
-								'.jpg',
-								'.jpeg',
-								'gif'
-						), '', $picture);
-						$etag = $size . $name . $guid;
-						
-						if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) == "\"$etag\"") {
-								header("HTTP/1.1 304 Not Modified");
-								exit;
-						}
-						
-						// get image size
-						if(empty($size)) {
-								$datadir = ossn_get_userdata("object/{$guid}/album/photos/{$picture}");
-						} else {
-								$datadir = ossn_get_userdata("object/{$guid}/album/photos/{$size}_{$picture}");
-						}
 						//get image type
 						$type = input('type');
+                        
+                        $name = str_replace(array(
+                                '.jpg',
+                                '.jpeg',
+                                'gif'
+                        ), '', $picture);
+
+                        if ($type == 'timeline') {
+                            $datadir = ossn_get_userdata("object/{$guid}/ossnwall/images/{$picture}");
+                        } else {
+                            if(empty($size)) {
+                                $datadir = ossn_get_userdata("object/{$guid}/album/photos/{$picture}");
+                            } else {
+                                    $datadir = ossn_get_userdata("object/{$guid}/album/photos/{$size}_{$picture}");
+                            }
+                            
+                            if($type == '1') {
+                                    if(empty($size)) {
+                                            $datadir = ossn_get_userdata("user/{$guid}/profile/photo/{$picture}");
+                                    } else {
+                                            $datadir = ossn_get_userdata("user/{$guid}/profile/photo/{$size}_{$picture}");
+                                    }
+                            }
+                        }
+
+                        $etag = $size . $name . $guid;
+                        
+                        if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) == "\"$etag\"") {
+                                header("HTTP/1.1 304 Not Modified");
+                                exit;
+                        }
+                        
+                        // get image size
+                        
 						
-						if($type == '1') {
-								if(empty($size)) {
-										$datadir = ossn_get_userdata("user/{$guid}/profile/photo/{$picture}");
-								} else {
-										$datadir = ossn_get_userdata("user/{$guid}/profile/photo/{$size}_{$picture}");
-								}
-						}
 						if(is_file($datadir)) {
 								$filesize = filesize($datadir);
 								header("Content-type: image/jpeg");

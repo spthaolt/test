@@ -33,7 +33,7 @@ $en = array(
 	
 	'photo:album:deleted' => 'Photo album successfully deleted',
 	'photo:album:delete:error' => 'Can not delete photo album',
-	
+	'timeline:photos' => 'Timeline Photos'
 
 );
 ossn_register_languages('en', $en); 

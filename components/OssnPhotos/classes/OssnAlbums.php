@@ -109,6 +109,28 @@ class OssnAlbums extends OssnObject {
 				$photos->order_by   = 'guid DESC';
 				return $photos->getFiles();
 		}
+
+		// public function GetUserTimelinePhotos($user) {
+		// 		$photos             = new OssnFile;
+		// 		$photos->owner_guid = $user;
+		// 		$photos->type       = 'user';
+		// 		$photos->subtype    = 'timeline:photo';
+		// 		$photos->order_by   = 'guid DESC';
+		// 		return $photos->getFiles();
+		// }
+				
+
+
+		public function GetUserTimelinePhotos($user, $type) {
+				$params['from']     = 'ossn_entities e';
+				$params['joins'][] 	= "INNER JOIN ossn_entities_metadata as em ON em.guid=e.guid";
+				$params['joins'][] 	= "INNER JOIN ossn_object as ob ON ob.guid=e.owner_guid";
+				$params['wheres']   = array(
+						" e.subtype='file:wallphoto' AND ob.type='{$type}' "
+				);
+				$params['order_by'] = "e.guid DESC";
+				return $this->select($params, true);
+		}
 		/**
 		 * Get user cover photos album
 		 *
@@ -148,6 +170,11 @@ class OssnAlbums extends OssnObject {
 						}
 				}
 				return false;
+		}
+
+		public function countPhotos()
+		{
+			return 'asd';
 		}
 		
 }
