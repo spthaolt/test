@@ -8,41 +8,50 @@ if ($page == "group") {
     $type = "individual";
 }
 $html = <<<TEXT
+Ossn.SendMessage($to_guid);
+$(document).ready(function () {
+    setTimeout(function(){ 
+            Ossn.message_scrollMove($to_guid);
+    }, 1000);
+    var that = $("#message-append-$to_guid div.row:last");
+    var last_id = that.find('.message_id').val();
+    if (typeof last_id === "undefined") last_id = 0;
 
-    Ossn.SendMessage($to_guid);
-    $(document).ready(function () {
-        setInterval(function () {
-            var last_id = $("#message-append-$to_guid div.row:last").find('.time-created').attr('data_id');
-            $('.group_message_last_id').val(last_id);
-            var type = "$type";
-            Ossn.getNewMessages($to_guid, last_id, type);
-            Ossn.getStatusFriends($to_guid, type);
-        }, 5000);
-        Ossn.message_scrollMove($to_guid);
-    });
-    $(document).on('keypress', '.input_message', function(e) {
-        if (e.keyCode == 13 && e.shiftKey) {
+    $('.group_message_last_id').val(last_id);
+    var type = "$type";
+        Ossn.getNewMessages($to_guid, last_id, type);
+    
+    setInterval(function () {
+        Ossn.getStatusFriends($to_guid, type);
+    }, 5000);
+});
+$(document).on('keypress', '.input_message', function(e) {
+    if (e.keyCode == 13) {
+        if (!e.shiftKey) {
             if ($('.input_message').val() == '') return false;
             if ($('.spam_check').val() == "true") {
                 $('.spam_check').val("false");
                 $('.message-form-form').submit();
             }
         }
-    });
-    $('.message-inner.sqmessage').scroll(function() {
+    }
+    
+});
 
-        if ($(this).scrollTop() == 0) {
-
-            var first_id = $("#message-append-$to_guid div.row:first").find('.time-created').attr('data_id');
-            var type = "$type";
-            Ossn.getOldMessages($to_guid, first_id, type);
-
-        }
-    });
-    $(document).ready(function(){
-        $('.scrollbar-macosx').scrollbar();
-    });
-
+$(document).ready(function(){
+    $('.scrollbar-macosx').scrollbar();
+    setTimeout(function(){ 
+        $('.message-inner.sqmessage').scroll(function() {
+            if ($(this).scrollTop() == 0) {
+                var that = $("#message-append-$to_guid div.row:first");
+                var first_id = that.find('.message_id').val();
+                if (typeof first_id === "undefined") first_id = 0;
+                var type = "$type";
+                Ossn.getOldMessages($to_guid, first_id, type);
+            }
+        });
+    }, 5000);
+});
 TEXT;
 
 ossn_extend_onload_js($html);

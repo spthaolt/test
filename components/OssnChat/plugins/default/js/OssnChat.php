@@ -9,7 +9,7 @@
  */
 
 Ossn.Redirect = function($group) {
-    var path = "/messages/group/" + $group;
+    var path = Ossn.site_url + "messages/group/" + $group;
     window.location.href = path;
 }
 Ossn.RegisterStartupFunction(function() {

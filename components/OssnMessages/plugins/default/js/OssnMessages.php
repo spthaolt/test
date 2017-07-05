@@ -29,18 +29,30 @@ Ossn.SendMessage = function($user) {
 
 };
 Ossn.getNewMessages = function($to_guid, $last_id, $type) {
+    ajaxGetNewMessages($to_guid, $last_id, $type);
+};
+
+function ajaxGetNewMessages($to_guid, $last_id, $type)
+{
     Ossn.PostRequest({
         url: Ossn.site_url + "messages/getnew/" + $to_guid + "/" + $last_id + "/" + $type,
         action: false,
-        callback: function(callback) {
-            $('#message-append-' + $to_guid).append(callback);
-            if(callback){
-            	//Unwanted refresh in message window #416 , there is no need to scroll if no new message.
-	            Ossn.message_scrollMove($to_guid);
+        callback: function(data) {
+            $('#message-append-' + $to_guid).append(data);
+            if (data) {
+                Ossn.message_scrollMove($to_guid);
             }
+        },
+        complete: function() {
+            setTimeout(
+                function(){
+                    $last_id = $('#message-append-' + $to_guid + ' div.row:last').find('.message_id').val();
+                    ajaxGetNewMessages($to_guid, $last_id, $type);
+            }, 3000);
         }
+
     });
-};
+}
 
 Ossn.getOldMessages = function($to_guid, $first_id, $type) {
     Ossn.PostRequest({
@@ -50,7 +62,6 @@ Ossn.getOldMessages = function($to_guid, $first_id, $type) {
             $('#message-append-' + $to_guid).prepend(callback);
             if(callback){
                 //Unwanted refresh in message window #416 , there is no need to scroll if no new message.
-                Ossn.message_scrollMove10Messages($to_guid);
             }
         }
     });
@@ -62,8 +73,8 @@ Ossn.getMessagesGroup = function($group, $last_time) {
         action: false,
         callback: function(callback) {
             $('#message-append-' + $group).append(callback);
-            if(callback){
                 Ossn.message_scrollMove($group);
+            if(callback){
                 //Unwanted refresh in message window #416 , there is no need to scroll if no new message.
             }
         }
@@ -85,17 +96,13 @@ Ossn.getRecent = function($user) {
 Ossn.playSound = function() {
     document.getElementById('ossn-chat-sound').play();
 };
+
 Ossn.message_scrollMove = function(fid) {
     var message = document.getElementById('message-append-' + fid);
-    var height = $('#message-append-' + fid + " div:last").offset().top;
-    console.log(height);
-    $('.scroll-content').animate({scrollTop: '3000px'});
+    var height = message.scrollHeight - 20;
+    $('.scrollbar-macosx').scrollTop(height);
 };
-Ossn.message_scrollMove10Messages = function(fid) {
-    var message = document.getElementById('message-append-' + fid);
-    var height = $('#message-append-' + fid + ' div.row:nth-child(10)').offset().top - 50;
-    $('.message-inner').animate({scrollTop: height});  
-};
+
 
 Ossn.getStatusFriends = function($to_guid, $type) {
     Ossn.PostRequest({

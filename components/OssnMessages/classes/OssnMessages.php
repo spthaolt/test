@@ -137,7 +137,7 @@ class OssnMessages extends OssnDatabase {
 				);
 			}
 			$params['order_by'] = "id DESC";
-			$params['limit'] = 10;
+			$params['limit'] = 15;
 			return $this->select($params, true);
 		}
 
@@ -197,7 +197,7 @@ class OssnMessages extends OssnDatabase {
 								  message_to='{$from}'"
 				);
 				$params['order_by'] = "id DESC";
-				$params['limit'] = 10;
+				$params['limit'] = 15;
 				return $this->select($params, true);
 		}
 		
@@ -208,7 +208,7 @@ class OssnMessages extends OssnDatabase {
 					"message_to='{$to}' AND type ='group'"
 			);
 			$params['order_by'] = "id DESC";
-			$params['limit'] = 10;
+			$params['limit'] = 15;
 			return $this->select($params, true);
 		}
 

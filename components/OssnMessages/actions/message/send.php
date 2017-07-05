@@ -22,16 +22,16 @@ if ($send->send($user_login->guid, $to, $message, $time, $type)) {
     // $params['id'] = 
 
     if ($type == "group") {
-        $from_guid = $user_login->guid;
-        $to_guid = $to;
-        $message_last_id = input('last_id');
-        $message_type = $type;
-        $messages = $send->getNew($from_guid, $to_guid, $message_last_id, $message_type);
-        if($messages) {
-                foreach($messages as $message) {
-                        echo ossn_plugin_view('messages/templates/message-send', $message);
-                }
-        }
+        // $from_guid = $user_login->guid;
+        // $to_guid = $to;
+        // $message_last_id = input('last_id');
+        // $message_type = $type;
+        // $messages = $send->getNew($from_guid, $to_guid, $message_last_id, $message_type);
+        // if($messages) {
+        //         foreach($messages as $message) {
+        //                 echo ossn_plugin_view('messages/templates/message-send', $message);
+        //         }
+        // }
     } else {
         $send->id = $send->last_id;
         $send->message_from = $user_login->guid;
