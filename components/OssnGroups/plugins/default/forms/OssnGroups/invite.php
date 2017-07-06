@@ -31,30 +31,17 @@ $num = 0;
 	    <?php if ($num == 0) { ?>
 			<tr>
 				<td colspan="2">
-					No data
-				<td>
+					<div class="alert alert-info">
+		          		<strong> <?php echo ossn_print("group:invite:no:friends"); ?></strong>
+		        	</div>
+		        </td>
 			</tr>
 	    <?php } ?>	
+
     </tbody>
 </table>
-
+<input type="hidden" value="<?= $num ?>" id="numMember"/>
 <input type="hidden" value="<?php echo $params['group']->guid; ?>" name="group"/>
 <input type="submit" class="ossn-hidden" id="group-invite-submit"/>
 <?php } ?>
-
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#group-invite-check-all').click(function() {
-        	$result = $(this).is(':checked');
-			
-			if($result) 
-				$('input[type="checkbox"]').prop("checked", true);
-			else 
-				$('input[type="checkbox"]').prop("checked", false);
-			
-		});
-    });
-
-</script>
 

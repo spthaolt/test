@@ -41,3 +41,24 @@ if (!isset($params['callback'])) {
     </div>
 
 <?php } ?>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        // remove button send
+        $numMember = $('#numMember').val();
+        if($numMember == 0) $('.control').find(".btn-primary").remove();
+
+        // check all for check box
+        $('#group-invite-check-all').click(function() {
+            $result = $(this).is(':checked');
+            
+            if($result) 
+                $('input[type="checkbox"]').prop("checked", true);
+            else 
+                $('input[type="checkbox"]').prop("checked", false);
+            
+        });
+    });
+
+</script>
