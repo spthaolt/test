@@ -197,7 +197,39 @@ class OssnGroup extends OssnObject {
 		}
 		
 		/**
-		 * Cehck if the user is memeber of group or not
+		 * Get Invites To Groups
+		 *
+		 * @params $userId user guid
+		 *
+		 * @return object;
+		 */
+		public function getInvitesToGroups($userId) {
+			if(empty($userId)) {
+				return false;
+			}
+
+			// get invite all 
+			$invites = group_get_invites_user($userId, 'group:invite');
+
+			// check null
+			if ($invites) {
+
+				// check member group and get group info	
+				foreach($invites as $invite) {
+					if(!$this->isMember($invite->relation_to, $invite->relation_from)) {
+						$groups[] = $this->getGroup($invite->relation_to);
+					}
+				}
+
+				if(isset($groups)) {
+					return $groups;
+				}
+			} 
+			return false;
+		}
+		
+		/**
+		 * Check if the user is memeber of group or not
 		 *
 		 * @params $user User guid
 		 *         $group Group guid
@@ -439,17 +471,17 @@ class OssnGroup extends OssnObject {
 		 *
 		 * @return bool;
 		 */
-		public function deleteMember($from, $group) {
-				if(!$this->requestExists($from, $group)) {
-						return false;
-				}
-				$this->statement("DELETE FROM ossn_relationships WHERE(
-						 relation_from='{$from}' AND relation_to='{$group}'  AND type='group:join' OR 
-						 relation_from='{$group}' AND relation_to='{$from}' AND type='group:join:approve')");
-				if($this->execute()) {
-						return true;
-				}
+		public function deleteMember($receiver, $group) {
+
+			if (!$this->requestExists($receiver, $group) && 
+				!$this->inviteExists($receiver, $group)) {
 				return false;
+			}
+
+			if (group_delete_join_or_invite($receiver, $group)) 
+				return true;
+		
+			return false;
 		}
 		
 		/**

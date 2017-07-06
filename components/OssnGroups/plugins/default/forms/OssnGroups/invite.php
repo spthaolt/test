@@ -7,8 +7,8 @@ $num = 0;
 <table class="table table-striped group-invite-table">
 	<thead>
   		<tr>
-        	<th class="checkbox-width" ></th>
-        	<th><?php echo ossn_print("group:invite:name"); ?></th>
+        	<th class="checkbox-width" ><input type="checkbox" id="group-invite-check-all"> </th>
+        	<th> <?php echo ossn_print("group:invite:name"); ?> </th>
   		</tr>
 	</thead>
     <tbody>
@@ -42,4 +42,19 @@ $num = 0;
 <input type="submit" class="ossn-hidden" id="group-invite-submit"/>
 <?php } ?>
 
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#group-invite-check-all').click(function() {
+        	$result = $(this).is(':checked');
+			
+			if($result) 
+				$('input[type="checkbox"]').prop("checked", true);
+			else 
+				$('input[type="checkbox"]').prop("checked", false);
+			
+		});
+    });
+
+</script>
 

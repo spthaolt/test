@@ -29,7 +29,7 @@ function ossn_groups() {
 		
 		//group js
 		ossn_extend_view('js/opensource.socialnetwork', 'js/groups');
-		
+
 		//group pages
 		ossn_register_page('group', 'ossn_group_page');
 		ossn_register_page('groups', 'ossn_groups_page');

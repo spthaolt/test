@@ -87,6 +87,7 @@ $en = array(
     'group:invite:reject' => 'Reject',
     'group:invite:reject:succ' => 'Refuse to join the group successfully!',
     'group:invite:reject:fail' => 'Refuse to join the group failed!',
+    'group:invite:no:invites' => 'No Invites!',
 
     
 
