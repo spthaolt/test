@@ -269,3 +269,101 @@ function ossn_delete_group_relations($group) {
 		}
 		return false;
 }
+
+/**
+ *
+ * @return bool
+ */
+function ossn_delete_group_request($from, $to, $type) {
+
+	if (empty($from) || empty($to) || empty($type)) {
+		return false;
+	}
+
+	$delete = new OssnDatabase;
+	$params['from'] = 'ossn_relationships';
+	$params['wheres'] = array(
+						"relation_from='{$from}' AND relation_to='{$to}' AND type='{$type}'"
+					);
+
+	if ($delete->delete($params)) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * check exits relations
+ * @return bool
+ */
+function group_check_exits_relation($from, $to, $type) {
+
+	if (empty($from) || empty($to) || empty($type)) {
+		return false;
+	}
+
+	$database = new OssnDatabase;
+	$params['from'] = 'ossn_relationships';
+	$params['wheres'] = array(
+						"relation_from='{$from}' AND relation_to='{$to}' AND type='{$type}'"
+					);
+
+	if ($database->select($params,true)) {
+		return true;
+	}
+	
+	return false;
+}
+
+/**
+ * group get invites user
+ * @return object
+ */
+function group_get_invites_user($from, $type) { 
+
+	if (empty($from) || empty($type)) {
+		return false;
+	}
+
+	$database = new OssnDatabase;
+
+	$params['from'] = 'ossn_relationships';
+	$params['wheres'] = array(
+						"relation_from='{$from}' AND type='{$type}'"
+					);
+	$data = $database->select($params, true);
+
+	if ($data) {
+		return $data;
+	}
+	return false;
+}
+
+/**
+ * Delete group join relations if user is deleted
+ *
+ * 
+ *
+ * @return bool
+ */
+function group_delete_join_or_invite($userId, $groupId) {
+
+	if (empty($userId) || empty($groupId)) 
+		return false;
+
+	$delete = new OssnDatabase;
+	$params['from'] = 'ossn_relationships';
+	$params['wheres'] = array(
+			"relation_from='{$groupId}' AND relation_to='{$userId}' AND type='group:join:approve' OR",
+			"relation_from='{$userId}' AND relation_to='{$groupId}' AND type='group:join' OR",
+			"relation_from='{$groupId}' AND relation_to='{$userId}' AND type='group:invite:approve' OR",
+			"relation_from='{$userId}' AND relation_to='{$groupId}' AND type='group:invite'"
+	);
+
+	if($delete->delete($params)) 
+		return true;
+	
+	return false;
+}
+

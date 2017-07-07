@@ -77,8 +77,21 @@ $en = array(
     'group:membership:inviteonly' => "Invite Only",
     'group:membership:pendingapproval' => "Pending Approval",
     'group:about:desc' => "Description",
-    'group:invite:approve:succes' => "Join the group successfully!",
-    'group:invite:approve:fail' => "Join group failed! Please try again later.",
-	'group:invitation' => "Invitation",
+    'group:invite:accept:succes' => "Join the group successfully!",
+    'group:invite:accept:fail' => "Join group failed! Please try again later.",
+    'group:invitation' => "Invitation",
+	'group:not:exist' => "Group does not exist! Please try again later.",
+    'group:notifications:group:inviterequest' => '%s has invited to join %s',
+    'group:list:invitation' => 'List of invitation',
+    'group:invite:accept' => 'Accept',
+    'group:invite:reject' => 'Reject',
+    'group:invite:reject:succ' => 'Refuse to join the group successfully!',
+    'group:invite:reject:fail' => 'Refuse to join the group failed!',
+    'group:invite:no:invites' => 'No Invites!',
+    'group:invite:no:friends' => 'No Friends!',
+
+
+    
+
 );
 ossn_register_languages('en', $en); 

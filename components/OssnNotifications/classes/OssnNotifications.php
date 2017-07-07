@@ -327,5 +327,37 @@ class OssnNotifications extends OssnDatabase {
 				}
 				return false;
 		}
-		
+
+
+	/**
+	 * add a notifications
+	 * 
+	 * @param 
+	 * 
+	 * @return boolean
+	 */
+	public function addNotification ($type, $poster_guid, $owner_guid, $subject_guid, $item_guid = NULL) {	
+
+		$params['into']   = 'ossn_notifications';
+		$params['names']  = array(
+				'type',
+				'poster_guid',
+				'owner_guid',
+				'subject_guid',
+				'item_guid',
+				'time_created'
+		);
+		$params['values'] = array(
+				$type,
+				$poster_guid,
+				$owner_guid,
+				$subject_guid,
+				$item_guid,
+				time()
+		);
+		if($this->insert($params)) {
+				return true;
+		}
+		return false;
+	}
 }

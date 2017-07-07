@@ -324,3 +324,27 @@
     width: 5%;
 }
 
+.group-invites {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.group-invites-info {
+    float: left;
+    width: 80%;
+}
+
+.group-invites-info a {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.group-invites-control {
+    float: right;
+    margin-top: 5%;
+}
+
+.group-right {
+    float: right;
+}

@@ -7,14 +7,14 @@ $num = 0;
 <table class="table table-striped group-invite-table">
 	<thead>
   		<tr>
-        	<th class="checkbox-width" ></th>
-        	<th><?php echo ossn_print("group:invite:name"); ?></th>
+        	<th class="checkbox-width" ><input type="checkbox" id="group-invite-check-all"> </th>
+        	<th> <?php echo ossn_print("group:invite:name"); ?> </th>
   		</tr>
 	</thead>
     <tbody>
     	<?php foreach ($friends as $friend) { ?>
     		<?php if ((!$params['group']->isMember(NULL, $friend->guid)) && 
-    				(!$params['group']->requestExists($friend->guid, false))) { ?>
+    				(!$params['group']->inviteExists($friend->guid, false))) { ?>
     			<?php $num += 1; ?>		
 		     	<tr>
 			        <td class="invite-checkbox">
@@ -31,24 +31,17 @@ $num = 0;
 	    <?php if ($num == 0) { ?>
 			<tr>
 				<td colspan="2">
-					No data
-				<td>
+					<div class="alert alert-info">
+		          		<strong> <?php echo ossn_print("group:invite:no:friends"); ?></strong>
+		        	</div>
+		        </td>
 			</tr>
 	    <?php } ?>	
+
     </tbody>
 </table>
-
-<?php if ( $num !=0 ) { ?>
-
-<div class="form-group">
-    <label for="invitationName"> <?php echo ossn_print("group:invitation"); ?> : </label>
-    <input type="type" class="form-control" name="invitationName" id="invitationName" maxlength="100"x>
- </div>
-
-<?php } ?>
-
+<input type="hidden" value="<?= $num ?>" id="numMember"/>
 <input type="hidden" value="<?php echo $params['group']->guid; ?>" name="group"/>
 <input type="submit" class="ossn-hidden" id="group-invite-submit"/>
 <?php } ?>
-
 

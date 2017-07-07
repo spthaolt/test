@@ -197,7 +197,39 @@ class OssnGroup extends OssnObject {
 		}
 		
 		/**
-		 * Cehck if the user is memeber of group or not
+		 * Get Invites To Groups
+		 *
+		 * @params $userId user guid
+		 *
+		 * @return object;
+		 */
+		public function getInvitesToGroups($userId) {
+			if(empty($userId)) {
+				return false;
+			}
+
+			// get invite all 
+			$invites = group_get_invites_user($userId, 'group:invite');
+
+			// check null
+			if ($invites) {
+
+				// check member group and get group info	
+				foreach($invites as $invite) {
+					if(!$this->isMember($invite->relation_to, $invite->relation_from)) {
+						$groups[] = $this->getGroup($invite->relation_to);
+					}
+				}
+
+				if(isset($groups)) {
+					return $groups;
+				}
+			} 
+			return false;
+		}
+		
+		/**
+		 * Check if the user is memeber of group or not
 		 *
 		 * @params $user User guid
 		 *         $group Group guid
@@ -205,27 +237,22 @@ class OssnGroup extends OssnObject {
 		 * @return bool;
 		 */
 		public function isMember($group, $user) {
-				if(isset($this->guid)) {
-						$group = $this->guid;
-				}
-				$this->statement("SELECT * FROM ossn_relationships WHERE(
-					     relation_from='{$group}' AND
-					     relation_to='{$user}' AND
-					     type='group:join:approve'
-					     );");
-				$this->execute();
-				$from = $this->fetch();
-				$this->statement("SELECT * FROM ossn_relationships WHERE(
-					     relation_from='{$user}' AND
-					     relation_to='{$group}' AND
-				 	     type='group:join'
-					     );");
-				$this->execute();
-				$to = $this->fetch();
-				if(isset($from->relation_id) && isset($to->relation_id)) {
-						return true;
-				}
-				return false;
+			if(isset($this->guid)) {
+					$group = $this->guid;
+			}
+
+			$joinApprove = group_check_exits_relation($group, $user,"group:join:approve");
+			$join = group_check_exits_relation($user, $group,"group:join");
+
+			$inviteApprove = group_check_exits_relation($group, $user,"group:invite:approve");
+			$invite = group_check_exits_relation($user, $group,"group:invite");
+
+			if ($joinApprove && $join) 
+				return true;
+			else if ($inviteApprove && $invite) 
+				return true;
+			
+			return false;
 		}
 		
 		/**
@@ -236,24 +263,26 @@ class OssnGroup extends OssnObject {
 		 * @return object;
 		 */
 		public function getMembers($count = false) {
-				if(!isset($this->guid)){
-					return false;
-				}
-				$members = ossn_get_relationships(array(
-						'from' => $this->guid,
-						'type' => 'group:join:approve',
-						'count' => $count,
-				));
-				if($count){
-					return $members;
-				}
-				foreach($members as $member) {
-						$users[] = ossn_user_by_guid($member->relation_to);
-				}
-				if(isset($users)) {
-						return $users;
-				}
+			if (!isset($this->guid)) {
 				return false;
+			}
+
+			$members = ossn_get_relationships(array(
+					'from' => $this->guid,
+					'type' => array('group:join:approve', 'group:invite:approve'),
+					'count' => $count,
+			));
+
+			if ($count) {
+				return $members;
+			}
+			foreach ($members as $member) {
+					$users[] = ossn_user_by_guid($member->relation_to);
+			}
+			if (isset($users)) {
+					return $users;
+			}
+			return false;
 		}
 		
 		/**
@@ -301,58 +330,86 @@ class OssnGroup extends OssnObject {
 		/**
 		 * Send group join request
 		 *
-		 * @params $from Member guid
+		 * @params 
 		 *         $group Group guid
+		 *		   $receiver Member guid
 		 *
 		 * @return bool;
 		 */
-		public function sendRequestInvite($from, $group) {
+		public function sendRequestInvite($receiver, $groupId ) {
 			self::initAttributes();
-			if(!$this->requestExists($from, $group)) {
-				if(ossn_add_relation($from, $group, 'group:join')) {
-					// #186 send notification to Group Owner
-					$current_group = $this->getGroup($group);
-					$group_owner   = $current_group->owner_guid;
-					
-					$type             = 'group:joinrequest';
-					$params['into']   = 'ossn_notifications';
-					$params['names']  = array(
-							'type',
-							'poster_guid',
-							'owner_guid',
-							'subject_guid',
-							'item_guid',
-							'time_created'
-					);
-					$params['values'] = array(
-							$type,
-							$group_owner,
-							$from,
-							$group,
-							0,
-							time()
-					);
-					if($this->OssnDatabase->insert($params)) {
-							return true;
-					}
+
+			$user = ossn_loggedin_user();
+			if (!$user) return false;
+
+			if ($this->requestExists($receiver, $groupId)) {
+
+				if (ossn_delete_group_request($receiver, $groupId, 'group:join')) 
+					if ($this->approveInvite($receiver, $groupId)) return true;
+				
+			} else if (!$this->inviteExists($receiver, $groupId)) {
+
+				if (ossn_add_relation($receiver, $groupId, 'group:invite')) {
+
+					$notification = new OssnNotifications();
+					$type = 'group:inviterequest';
+					return $notification->addNotification($type, $user->guid, $receiver ,$groupId , 0);
 				}
 			}
+		
 			return false;
 		}
 
 		/**
 		 * approve Invite
 		 *
-		 * @params $from Member guid
-		 *         $group Group guid
+		 * @params $receiver Member guid
+		 *         $groupId Group guid
 		 *
 		 * @return bool;
 		 */
-		public function approveInvite($from, $group) {
+		public function approveInvite($receiver, $groupId ) {
 			self::initAttributes();
-			if(!$this->requestExists($from, $group)) {
-				if ((ossn_add_relation($from, $group, 'group:join'))&& 
-					(ossn_add_relation($group, $from, 'group:join:approve'))) {
+
+			if ((ossn_add_relation($receiver, $groupId, 'group:invite')) && 
+				(ossn_add_relation($groupId, $receiver, 'group:invite:approve'))) {
+					return true;
+			}
+
+			return false;
+		}
+
+		/**
+		 * acceptInvite
+		 *
+		 * @params $receiver Member guid
+		 *         $groupId Group guid
+		 *
+		 * @return bool;
+		 */
+		public function acceptInvite($receiver, $groupId ) {
+			self::initAttributes();
+
+			if($this->inviteExists($receiver, $groupId)) {
+				if(ossn_add_relation($groupId, $receiver, 'group:invite:approve')) {
+						return true;
+				}
+			}
+			return false;
+		}
+
+		/**
+		 * reject Invite
+		 *
+		 * @params $receiver Member guid
+		 *         $groupId Group guid
+		 *
+		 * @return bool;
+		 */
+		public function rejectInvite($receiver, $groupId ) {
+
+			if($this->inviteExists($receiver, $groupId)) {
+				if(ossn_delete_group_request($receiver, $groupId, 'group:invite')) {
 						return true;
 				}
 			}
@@ -368,20 +425,25 @@ class OssnGroup extends OssnObject {
 		 * @return bool;
 		 */
 		public function requestExists($from, $group) {
-				if(isset($this->guid)) {
-						$group = $this->guid;
-				}
-				$this->statement("SELECT * FROM ossn_relationships WHERE(
-					     relation_to='{$group}' AND
-						 relation_from='{$from}' AND
-					     type='group:join'
-					     );");
-				$this->execute();
-				$request = $this->fetch();
-				if(!empty($request->relation_id)) {
-						return true;
-				}
-				return false;
+			if(isset($this->guid)) {
+				$group = $this->guid;
+			}
+			return ossn_relation_exists($from, $group, 'group:join');
+		}
+
+		/**
+		 * Check if member request exist or not
+		 *
+		 * @params $from Member guid
+		 *         $group Group guid
+		 *
+		 * @return bool;
+		 */
+		public function inviteExists($from, $group) {
+			if(isset($this->guid)) {
+				$group = $this->guid;
+			}
+			return ossn_relation_exists($from, $group, 'group:invite');
 		}
 		
 		/**
@@ -409,17 +471,17 @@ class OssnGroup extends OssnObject {
 		 *
 		 * @return bool;
 		 */
-		public function deleteMember($from, $group) {
-				if(!$this->requestExists($from, $group)) {
-						return false;
-				}
-				$this->statement("DELETE FROM ossn_relationships WHERE(
-						 relation_from='{$from}' AND relation_to='{$group}'  AND type='group:join' OR 
-						 relation_from='{$group}' AND relation_to='{$from}' AND type='group:join:approve')");
-				if($this->execute()) {
-						return true;
-				}
+		public function deleteMember($receiver, $group) {
+
+			if (!$this->requestExists($receiver, $group) && 
+				!$this->inviteExists($receiver, $group)) {
 				return false;
+			}
+
+			if (group_delete_join_or_invite($receiver, $group)) 
+				return true;
+		
+			return false;
 		}
 		
 		/**
