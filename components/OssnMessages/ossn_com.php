@@ -32,6 +32,8 @@ function ossn_messages() {
 		ossn_register_page('messages', 'ossn_messages_page');
 		ossn_extend_view('js/opensource.socialnetwork', 'js/OssnMessages');
 		ossn_uregister_plugin_view('theme/page/elements/footer');
+		ossn_new_external_js('jquery.scrollbar.js', 'components/OssnMessages/vendors/scrollbar/js/jquery.scrollbar.js');
+		ossn_load_external_js('jquery.scrollbar.js');
 		if(ossn_isLoggedin()) {
 			// ossn_remove_extend_view('ossn/page/footer');
 				ossn_register_action('message/send', __OSSN_MESSAGES__ . 'actions/message/send.php');
@@ -79,7 +81,7 @@ function ossn_messages_page($pages) {
 				$groups = ossn_get_user_groups($user_login);
 				$params['groups_list'] = "";
 				$title = ossn_print('sq:message:all:friends');
-				$icon = "https://cdn2.iconfinder.com/data/icons/people-groups/512/Group_Woman_2-512.png";
+				$icon = ossn_site_url('components/OssnMessages/images/friends.png');
 				$params['groups_list'] .= <<<TEXT
 <a href="/messages/all" class="list-group-item" style="border-right: 0px">
 	<div class="col-sm-3">
@@ -142,7 +144,7 @@ TEXT;
     		$groups = ossn_get_user_groups($user_login);
     		$params['groups_list'] = "";
     		$title = ossn_print('sq:message:all:friends');
-    		$icon = "https://cdn2.iconfinder.com/data/icons/people-groups/512/Group_Woman_2-512.png";
+    		$icon = ossn_site_url('components/OssnMessages/images/friends.png');
     		$params['groups_list'] .= <<<TEXT
 <a href="/messages/all" class="list-group-item active" style="border-right: 0px">
 	<div class="col-sm-3">

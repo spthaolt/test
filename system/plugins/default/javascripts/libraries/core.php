@@ -132,6 +132,7 @@ Ossn.PostRequest = function($data) {
 	var befsend = $data['beforeSend'];
 	var $fdata = $data['params'];
 	var action = $data['action'];
+	var complete = $data['complete'];
 	var $xhr = $data['xhr'];
 	if (!callback) {
 		return false;
@@ -163,6 +164,7 @@ Ossn.PostRequest = function($data) {
 		error: error,
 		data: $fdata,
 		success: callback,
+		complete: complete
 	});
 };
 /**

@@ -5,7 +5,7 @@
 		</div>
 	</div>
 	<div class="col-sm-6 sqmessage">
-		<?php echo $params['messages_body'] ?>
+        <?php echo $params['messages_body'] ?>
 	</div>
 	<div class="col-sm-3 sqmessage">
 		<div class="statusfriends list-group sqmessage">

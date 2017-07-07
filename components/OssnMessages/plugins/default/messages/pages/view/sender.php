@@ -2,6 +2,9 @@
 	$user = ossn_user_by_guid($params->message_from);
 ?>
 <div class="row">
+    <input type="hidden" class="sqmessage message_from" value="<?php echo $params->message_from ?>" >
+    <input type="hidden" class="sqmessage message_to" value="<?php echo $params->message_to ?>" >
+    <input type="hidden" class="sqmessage message_id" value="<?php echo $params->id ?>" >
     <div class="col-md-10">
             <div class="message-box-sent text">
                 <?php

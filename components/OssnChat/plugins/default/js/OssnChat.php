@@ -7,6 +7,11 @@
  * @license   Open Source Social Network License (OSSN LICENSE)  http://www.opensource-socialnetwork.org/licence
  * @link      https://www.opensource-socialnetwork.org/
  */
+
+Ossn.Redirect = function($group) {
+    var path = Ossn.site_url + "messages/group/" + $group;
+    window.location.href = path;
+}
 Ossn.RegisterStartupFunction(function() {
     $(document).ready(function() {
         /*
