@@ -81,7 +81,7 @@ if ($total > 0) {
     <!-- $arsalan.shah tab container end -->
     <div class="inner friend-tab <?php echo $tab_class; ?>" id="ftab<?php echo $user->guid; ?>"
          onclick="Ossn.ChatOpenTab(<?php echo $user->guid; ?>);">
-        <script>Ossn.ChatSendForm(<?php echo $user->guid;?>);</script>
+<?php ossn_extend_onload_js('Ossn.ChatSendForm('.$user->guid.');'); ?>
         <form autocomplete="off" id="ossn-chat-send-<?php echo $user->guid; ?>">
             <input type="text" name="message" autocomplete="off" id="ossn-chat-input-<?php echo $user->guid; ?>"/>
             <div class="ossn-chat-message-sending">
@@ -92,6 +92,7 @@ if ($total > 0) {
             </div>
              <?php echo ossn_plugin_view('input/security_token'); ?>
             <input type="hidden" name="to" value="<?php echo $user->guid; ?>"/>
+            <input type="hidden" name="type" value="individual"/>
         </form>
         <div class="ossn-chat-new-message" <?php echo $style; ?>><?php echo $total; ?></div>
         <div id="ossnchat-ustatus-<?php echo $user->guid; ?>" class="<?php echo $status; ?>">

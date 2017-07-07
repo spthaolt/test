@@ -444,6 +444,10 @@ and (min-width : 1360px) {
         border-top: 1px solid #ccc;
         overflow-x: hidden;
         overflow-y: auto;
+        position: absolute;
+        bottom:0;
+        left:0;
+        right:0;
     }
 
     .ossn-chat-windows-long .friends-list-item .friends-item-inner {
