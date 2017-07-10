@@ -77,7 +77,7 @@ $members = $params['group']->getMembers();
             <?php } ?>
             <img src="<?php echo $avatarUrl ?>" height="170" width="170"/>
         </div>
-
+        <div class="group-groupname"><?php echo $params['group']->title; ?></div>
         <div class="header-bottom">
             <div class="group-name">
                 <a href="<?php echo ossn_group_url($params['group']->guid); ?>"><?php echo $params['group']->title; ?></a>
