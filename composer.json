@@ -1,0 +1,13 @@
+{
+    "name": "ezqua/sieuqua",
+    "authors": [
+        {
+            "name": "Thao le",
+            "email": "thaolt@songphi.com"
+        }
+    ],
+    "require": {},
+    "config": {
+        "vendor-dir": "vendors"
+    }
+}
