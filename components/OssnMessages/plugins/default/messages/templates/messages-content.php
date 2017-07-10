@@ -1,4 +1,4 @@
-<div class="message-inner sqmessage" >
+<div class="message-inner sqmessage scrollbar-macosx" >
 	<div class="message-with">
 		<div class="message-inner" id="message-append-<?php echo $params['to_guid'] ?>">
 			<?php echo $params['messages_content'] ?>

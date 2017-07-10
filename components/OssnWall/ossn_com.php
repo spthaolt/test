@@ -39,7 +39,7 @@ function ossn_wall() {
 		//Remove google map search API as it requires API #906
 		//ossn_new_external_js('maps.google', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places', false);
 		//Location autocomplete not working over https #1043 , use some other service ,  its better than google looks nice.
-		ossn_new_external_js('places.min', '//cdn.jsdelivr.net/places.js/1/places.min.js', false);
+		ossn_new_external_js('places.min', 'vendors/Places/places.min.js');
 	
 		//pages
 		ossn_register_page('post', 'ossn_post_page');

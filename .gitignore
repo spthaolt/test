@@ -16,3 +16,6 @@ error_log
 !/.scrutinizer.yml
 !/.travis.yml
 !.gitignore
+
+/vendors/
+/composer.lock

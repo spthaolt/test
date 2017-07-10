@@ -62,13 +62,24 @@ $(document).ready(function() {
 		}
 	});
 	$('body').on('click', '.ossn-comment-attach-photo .fa-smile-o', function(e) {
-		$parent = $(this).parent().parent().parent();
-		$display = $parent.find('.emojii-container-main').css('display');
-		if ($display == 'none') {
-			$parent.find('.emojii-container-main').show();
-		}
-		if ($display == 'block') {
-			$parent.find('.emojii-container-main').hide();
+		if ($(this).parent().parent().parent().parent().hasClass('sqmessage')) {
+			$parent = $(this).parent().parent().parent().parent();
+			$display = $parent.find('.emojii-container-main').css('display');
+			if ($display == 'none') {
+				$parent.find('.emojii-container-main').show();
+			}
+			if ($display == 'block') {
+				$parent.find('.emojii-container-main').hide();
+			}
+		} else {
+			$parent = $(this).parent().parent().parent();
+			$display = $parent.find('.emojii-container-main').css('display');
+			if ($display == 'none') {
+				$parent.find('.emojii-container-main').show();
+			}
+			if ($display == 'block') {
+				$parent.find('.emojii-container-main').hide();
+			}
 		}
 	});
 });
