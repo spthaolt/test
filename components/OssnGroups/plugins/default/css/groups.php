@@ -348,3 +348,20 @@
 .group-right {
     float: right;
 }
+
+.group-groupname {
+    background: #000;
+    opacity: 0.5;
+    color: #FFF;
+    font-weight: bold;
+    margin-top: -75px;
+    font-size: 35px;
+    margin-left: 211px;
+    position: absolute;
+    text-shadow: 0 0 3px #000;  
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 820px;
+    padding:5px;
+}

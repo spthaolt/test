@@ -780,7 +780,9 @@ class OssnGroup extends OssnObject {
 				$params['from']   = "ossn_relationships";
 				$params['wheres'] = array(
 						"relation_from='{$user->guid}'",
-						"AND type='group:join'"
+						"AND type='group:join'OR",
+						"relation_from='{$user->guid}'",
+						"AND type='group:invite'"
 				);
 				# zfix #177 old code throws PHP warnings if user is not member of any group	
 				if($myGroups = $this->OssnDatabase->select($params, true)) {

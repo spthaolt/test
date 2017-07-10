@@ -13,14 +13,14 @@ if (!$groupInfo) {
 }
 
 //check membership or invite group
-if($infoGroup->membship == Membership_Open || $add->inviteExists($user, $group)) {
+if($infoGroup->groupMembership == MEMBERSHIP_OPEN || $add->inviteExists($user, $group)) {
 
 	if ($add->acceptInvite(ossn_loggedin_user()->guid, $group)) {
 	    ossn_trigger_message(ossn_print('group:invite:accept:succes'), 'success');
 	    redirect("group/{$group}");
 	} else ossn_trigger_message(ossn_print('group:invite:accept:fail'), 'error');
 
-} elseif ($infoGroup->membship == Membership_Invite_Only) {
+} elseif ($infoGroup->groupMembership == MEMBERSHIP_INVITE_ONLY) {
 
 	ossn_trigger_message(ossn_print('group:invite:accept:fail'), 'error');
 }

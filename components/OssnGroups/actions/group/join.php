@@ -20,14 +20,14 @@ if (empty($group)) {
 $infoGroup = ossn_get_group_by_guid($group);
 
 //check membership or invite group
-if($infoGroup->membship == Membership_Open || $add->inviteExists(ossn_loggedin_user()->guid, $group)) {
+if($infoGroup->groupMembership == MEMBERSHIP_OPEN || $add->inviteExists(ossn_loggedin_user()->guid, $group)) {
 
 	if ($add->approveInvite(ossn_loggedin_user()->guid, $group)) {
 	    ossn_trigger_message(ossn_print('group:invite:accept:succes'), 'success');
 	    redirect("group/{$group}");
 	} else ossn_trigger_message(ossn_print('group:invite:accept:fail'), 'error');
 
-} elseif ($infoGroup->membship == Membership_Invite_Only) {
+} elseif ($infoGroup->groupMembership == MEMBERSHIP_INVITE_ONLY) {
 
 	ossn_trigger_message(ossn_print('group:invite:accept:fail'), 'error');
 } else {

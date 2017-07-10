@@ -24,8 +24,8 @@
 <div>
 	<label > <?php echo ossn_print('group:members:membership'); ?> : </label> 
 	<?php 
-		if ($params['group']->membship == 1) $textMembship = ossn_print('group:membership:open');
-		elseif ($params['group']->membship == 2) $textMembship = ossn_print('group:membership:inviteonly');
+		if ($params['group']->groupMembership == 1) $textMembship = ossn_print('group:membership:open');
+		elseif ($params['group']->groupMembership == 2) $textMembship = ossn_print('group:membership:inviteonly');
 		else	$textMembship = ossn_print('group:membership:pendingapproval');
 	?> 
 	<span> <?php echo $textMembship ?> </span>
