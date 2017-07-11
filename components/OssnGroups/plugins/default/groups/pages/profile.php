@@ -53,7 +53,7 @@ $members = $params['group']->getMembers();
 
         <div class="ossn-group-cover" id="container">
            <?php if ($params['group']->owner_guid == ossn_loggedin_user()->guid || ossn_isAdminLoggedin()) { ?>
-                <div class="ossn-group-cover-button">
+                <div class="ossn-group-cover-button ">
                     <a href="javascript:void(0);" id="reposition-cover"
                        class='button-grey'><?php echo ossn_print('reposition:cover'); ?></a>
                     <a href="javascript:void(0);" id="add-cover-group"
@@ -63,6 +63,7 @@ $members = $params['group']->getMembers();
             <img id="draggable" src="<?php echo $groupUrl; ?>"
                  style='<?php echo $cover_top; ?><?php echo $cover_left; ?>'/>
         </div>
+        <div class="group-groupname"><?php echo $params['group']->title; ?></div>
 
         <div class="profile-photo groups-photo">
             <?php if ($params['group']->owner_guid == ossn_loggedin_user()->guid) { ?>
@@ -77,11 +78,7 @@ $members = $params['group']->getMembers();
             <?php } ?>
             <img src="<?php echo $avatarUrl ?>" height="170" width="170"/>
         </div>
-
         <div class="header-bottom">
-            <div class="group-name">
-                <a href="<?php echo ossn_group_url($params['group']->guid); ?>"><?php echo $params['group']->title; ?></a>
-            </div>
             <div id="group-header-menu" class="group-header-menu">
                 <ul>
                     <?php echo ossn_view_menu('groupheader'); ?>
@@ -112,7 +109,7 @@ $members = $params['group']->getMembers();
                            class='btn btn-default'> <?php echo ossn_print('leave:group'); ?></a>
                     <?php
                     } else if ((!$params['group']->requestExists(ossn_loggedin_user()->guid, false)) &&
-                            ($params['group']->membship != Membership_Invite_Only ) &&
+                            ($params['group']->groupMembership != MEMBERSHIP_INVITE_ONLY ) &&
                             (!$params['group']->inviteExists(ossn_loggedin_user()->guid,false))) {
                         ?>
                         <a href="<?php echo ossn_site_url("action/group/join?group={$params['group']->guid}", true); ?>"

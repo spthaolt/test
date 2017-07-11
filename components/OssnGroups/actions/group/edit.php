@@ -13,7 +13,7 @@ $name = input('groupname');
 $desc = input('groupdesc');
 $memb = input('membership');
 $membInvite = input('groupmemberinvite');
-$membship = input('groupmembership');
+$groupMembership = input('groupmembership');
 
 
 $group = ossn_get_group_by_guid(input('group'));
@@ -37,8 +37,8 @@ if (!is_null($membInvite) && !empty($membInvite)) {
     $edit->data->membInvite = $membInvite;
 }
 
-if (!is_null($membship) && !empty($membship)) {
-    $edit->data->membship = $membship;
+if (!is_null($groupMembership) && !empty($groupMembership)) {
+    $edit->data->groupMembership = $groupMembership;
 }
 
 if ($edit->updateGroup($name, $desc, $group->guid)) {

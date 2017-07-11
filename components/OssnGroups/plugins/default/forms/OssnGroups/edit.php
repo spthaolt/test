@@ -56,11 +56,11 @@ $group = $params['group'];
             <label for=""><?php echo ossn_print('group:members:membership'); ?></label>
             <select name="groupmembership">
                 <?php 
-                if ($group->membship == 1) {
+                if ($group->groupMembership == 1) {
                     $open = 'selected';
                     $invite = '';
                     $pending = '';
-                } elseif ($group->membship == 2) {
+                } elseif ($group->groupMembership == 2) {
                     $open = '';
                     $invite = 'selected';
                     $pending = '';

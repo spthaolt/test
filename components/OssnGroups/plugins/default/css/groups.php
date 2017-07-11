@@ -198,7 +198,7 @@
     display: block;
 }
 .ossn-group-cover-button {
-    margin-top: 150px;
+    margin-top: 10px;
     margin-right: 10px;
     float: right;
     display: none;
@@ -300,6 +300,8 @@
     filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#94000000', GradientType=0);
 }
 
+
+
 .groups-photo {
     position: absolute;
     margin-left: 20px;
@@ -347,4 +349,22 @@
 
 .group-right {
     float: right;
+}
+
+.group-groupname {
+    background: url("<?php echo ossn_theme_url();?>images/trans35.png");
+    
+    color: #FFF;
+    font-weight: bold;
+    left:0;
+    bottom:45px;
+    right:0;
+    margin-top: -75px;
+    font-size: 35px;
+    position: absolute;
+    text-shadow: 0 0 3px #000;  
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding:5px 216px;
 }

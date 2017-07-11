@@ -13,21 +13,21 @@ $vi = array(
 
 	'home' => 'Trang chủ',
 	'site:index' => 'Chào Mừng!',
-	'news:feed' => 'Tin mới',
+	'news:feed' => 'Tin tức',
 	'new:feed' => 'Tin mới',
 	'photos:ossn' => 'Hình ảnh',
 	'admin:view:site' => 'Đến trang chủ',
-	
-	
+
+
 	'home:top:heading' => "Chào mừng bạn đến %s! Trang mạng xã hội dành cho các trường Trung Học Phổ Thông. Bạn có thể dùng tài khoản: thptsocial mật khẩu: 12345689 để đăng nhập vào website",
 	'create:account' => 'Đăng ký tài khoản',
 	'its:free' => "Liên hệ với Admin",
-	
+
 	'register:ok:message' => "Đăng ký tài khoản thành công, bấm vào nút đăng nhập để tiến hành đăng nhập",
-	
+
 	'copyright' => '&copy; COPYRIGHT',
 	'powered' => 'Powered by the Open Source Social Network. Make by: Khắc Điều (Sky blue)',
-	
+
 	'name' => 'Họ và tên',
 	'birthdate' => 'Ngày sinh',
 	'first:name' => 'Tên',
@@ -44,16 +44,16 @@ $vi = array(
 	'account:create:notice' => 'Tôi đồng ý với các điều khoản của website',
 	'gender' => 'Giới tính',
 	'signupfields:mobile' => 'Số điện thoại',
-	
+
 	'account:settings' => 'Cài đặt tài khoản',
 	'page:error' => 'Không tìm thấy trang bạn yêu cầu',
 	'page:error:text' => 'Trang bạn đang tìm kiếm không thể tìm thấy hoặc đã bị xoá. Vui lòng đăng nhập và thử lại',
 	'page:error:heading' => '404',
-	
+
 	'search:users' => 'Người dùng',
 	'admin:logout' => 'Đăng xuất',
 	'logout' => 'Đăng xuất',
-	
+
 	'ossn:like:this' => '%s Thích',
 	'ossn:like:you:and:this' => 'Bạn và %s Thích điều này',
 	'ossn:like:people' => '%s người',
@@ -61,7 +61,7 @@ $vi = array(
 	'ossn:liked:you' => 'Bạn',
 	'ossn:unlike' => 'Bỏ thích',
 	'ossn:like' => 'Thích',
-	
+
 	'admin:components' => 'Tích hợp',
 	'admin:dashboard' => 'Bảng điều khiển',
 	'admin:install' => 'Cài đặt',
@@ -72,9 +72,9 @@ $vi = array(
 	'configure' => 'Cấu hình',
 	'admin:help' => 'Trợ giúp',
 	'admin:support' => 'Hổ trợ',
-	
+
 	'ossn:update:check:error' => 'Lỗi',
-	
+
 	'upload' => 'Tải lên',
 	'save' => 'Lưu',
 	'add' => 'Thêm mới',
@@ -85,19 +85,19 @@ $vi = array(
 	'no:messages' => 'Không có tin nhắn',
 	'site:about' => 'Giới thiệu',
 	'site:terms' => 'Điều khoản',
-	
+
 	'admin:users' => 'Danh sách người dùng',
 	'admin:add:user' => 'Thêm người dùng',
 	'admin:user:deleted' => 'Xóa thành công',
 	'admin:user:delete:error' => 'Lỗi! Vui lòng thử lại.',
-	
-	
+
+
 	'type' => 'Loại',
 	'normal' => 'Trung bình',
 	'admin' => 'Quản trị',
-	
+
 	'lastlogin' => 'Lần đăng nhập cuối',
-	
+
 	'my:version' => 'Phiên bản',
 	'online:users' => 'Đang trực tuyến',
 	'themes' => 'Giao diện',
@@ -108,13 +108,13 @@ $vi = array(
 	'owner:email' => 'Mail sở hữu',
 	'default:lang' => 'Ngôn ngữ',
 	'profile:access:error' => 'Vui lòng đăng nhập để xem thêm',
-	
+
 	'timeline' => 'Dòng thời gian',
 	'photos' => 'Hình ảnh',
 	'friends' => 'Danh sách bạn',
 	'links' => 'Liên kết',
 	'ossn:add:user:mail:subject' => "%s vui lòng xác nhận lại email %s!",
-	
+
 	'ossn:add:user:mail:body' => "Trước khi bắt đầu sữ dụng %s, Bạn phải xác nhận lại địa chỉ email.
 
 Vui lòng bấm vào đường dẫn dưới đây để xác nhận email:
@@ -127,19 +127,19 @@ Bạn có thể copy và past đường dẫn vào trình duyệt nếu nó khô
 	'user:friends' => 'Bạn',
 	'user:account:validated' => 'Tài khoản đã được xác nhận thành công!',
 	'user:account:validate:fail' => 'Không thể xác nhận! Vui lòng thử lại',
-	
+
 	'cache:enabled' => 'Bộ nhớ cache kích hoạt thành công!',
 	'cache:disabled' => 'Đã vô hiệu hóa bộ nhớ cache!',
 	'cache:enable' => 'Kích hoạt Cache',
 	'cache:disable' => 'Vô hiệu hóa cache',
-	
+
 	'cache:1' => 'Kích hoạt',
 	'cache:0' => 'Vô hiệu hóa',
 	'cache:notice' => 'Lưu trữ css và javascript vào để cải thiện bộ nhớ cache',
-	
+
 	'theme:install:notice' => 'Tải file giao diện .zip',
 	'com:install:notice' => 'Tải file chức năng .zip',
-	
+
 	'login:error' => 'Tên đăng nhập hoặc mật khẩu không hợp lệ',
 	'login:error:sub' => "Đăng nhập thất bại. Vui lòng kiểm tra tên đăng nhập hoặc mật khẩu của bạn và thử lại.",
 	'login:success' => 'Đăng nhập thành công',
@@ -150,14 +150,14 @@ Bạn có thể copy và past đường dẫn vào trình duyệt nếu nó khô
 	'com:delete:error' => 'Không thể xóa component! Vui lòng thử lại sau.',
 	'com:disabled' => 'Vô hiệu hóa thành công!',
 	'com:enabled' => 'Component đã được kích hoạt!',
-	
+
 	'theme:delete:active' => 'Không thể xóa giao diện đang được sữ dụng',
 	'theme:deleted' => 'Xóa giao diên thành công',
 	'theme:delete:error' => 'Không thể xóa giao diện! Vui lòng thử lại sau',
 	'theme:enabled' => 'Kích hoạt giao diện thành công',
 	'theme:installed' => 'Giao diện mứi đã được cài!',
 	'theme:install:error' => 'File giao diện không hợp lệ. Vui lòng kiểm tra lại phiên bản',
-	
+
 	'fields:require' => 'Tất cả các trường là bắt buộc',
 	'username:error' => 'Tên đăng nhập không hợp lệ',
 	'password:error' => 'Mật khẩu phải nhiều hơn 5 ký tự',
@@ -170,9 +170,9 @@ Bạn có thể copy và past đường dẫn vào trình duyệt nếu nó khô
 	'email:invalid' => 'Email không hợp lệ',
 	'email:error:matching' => "Email không khớp",
 	'account:created:email' => "Tài khoản của bạn đã được đăng ký! Chúng tôi đã gửi cho bạn một email kích hoạt tài khoản. Nếu bạn không nhận được email, vui lòng kiểm tra thư / thư mục rác của bạn",
-	
+
 	'administration' => 'Quản trị',
-	
+
 	'privacy' => 'Privacy',
 	'close' => 'Đóng',
 	'open' => 'Mở',
@@ -180,7 +180,7 @@ Bạn có thể copy và past đường dẫn vào trình duyệt nếu nó khô
 	'friends' => 'Bạn bè',
 	'privacy:public:note' => 'Tất cả mọi người có thể nhìn thấy',
 	'privacy:friends:note' => 'chỉ bạn của bạn có thể nhìn thấy',
-	
+
 	'add:friend' => 'Kết bạn',
 	'cancel:request' => 'Từ chối',
 	'remove:friend' => 'Xóa bạn',
@@ -188,18 +188,18 @@ Bạn có thể copy và past đường dẫn vào trình duyệt nếu nó khô
 	'settings' => 'Cài đặt',
 	'ossn:add:friend:error' => 'Không thể kết bạn với người này',
 	'ossn:friend:request:submitted' => 'Đã gửi yêu cầu kết bạn thành công',
-	
+
 	/* Upgrades */
 	'upgrade:file:load:error' => 'Không thể tải file lên',
 	'upgrade:success' => "Website đã được cập nhật thành công %s.",
 	'upgrade:failed' => "Không thể cập nhật %s.",
 	'upgrade:not:available' => 'Không có dữ liệu',
-	
+
 	'site:login' => 'Đăng nhập',
 	/* Page errors */
 	'system:error:title' => 'Có lỗi phát sinh',
 	'system:error:text' => 'Lỗi đường truyền, Vui lòng refresh lại website',
-	
+
 	/* Password Reset */
 	'reset:login' => 'Lấy lại mật khẩu',
 	'reset:password' => 'Cài đặt mật khẩu',
@@ -218,25 +218,25 @@ Vui lòng bấm vào link dưới đây để reset mật khẩu:
 	'password:reset:email:required' => 'Email khổng thể rổng!',
 	'passord:reset:email:success' => 'Mật khẩu mới đã được gửi vào mail của bạn',
 	'reset:password' => 'Đổi mật khẩu',
-	
+
 	'erros:reporting' => 'Báo lỗi',
 	'erros:off' => 'Tắt',
 	'erros:on' => 'Mở',
 	'basic:settings' => 'Cài đặt cơ bản',
-	
+
 	'ossn:new:version:error' => 'Không hiểu',
 	'ossn:version:avaialbe' => "%s",
-	
+
 	'ossn:exception:title' => 'Hệ thống đã xảy ra lỗi. Vui lòng thử lại sau. Bạn có thể gửi email  các chi tiết của lỗi này cho người quản trị hệ thống tại %s.',
 	'ossn:securitytoken:failed' => 'Yêu cầu không hợp lệ.',
 	'ossn:component:delete:exception' => 'Bạn có muốn xóa component này không?',
 	'ossn:user:delete:exception' => 'Are you sure you want to delete this user?',
-	
+
 	//access
 	'title:access:1' => 'Private',
 	'title:access:2' => 'Public',
 	'title:access:3' => 'Bạn',
-	
+
 	'upload:file:error:ini_size' => 'Kích thước file quá lớn!',
 	'upload:file:error:form_size' => 'Kích thước file quá lớn!',
 	'upload:file:error:partial' => 'Tải file không thành công',
@@ -245,9 +245,9 @@ Vui lòng bấm vào link dưới đây để reset mật khẩu:
 	'upload:file:error:cant_write' => 'Không thể lưu file.',
 	'upload:file:error:extension' => 'Không thể lưu file.',
 	'upload:file:error:unknown' => 'Tải file thất bại',
-	
+
 	'ossn:post:size:exceed' => 'The action you requested exceeds the size limit.',
-	
+
 	'admin:components' => 'Tích hợp',
 	'admin:themes' => 'Giao diện',
 	'admin:com:installer' => 'Cài đặt component',
@@ -285,13 +285,13 @@ Vui lòng bấm vào link dưới đây để reset mật khẩu:
 	'admin:users:unvalidated' => 'Người dùng chưa xác thực email',
 	'admin:user:validated' => 'Người dùng',
 	'admin:user:validate:error' => 'Không thể xác thực người dùng.',
-	
+
 	//v3.0
 	//admin
 	'my:files:version' => 'Phiên bản ossn',
 	'cache:flush:error' => 'Không thể flush bộ nhớ cache, đảm bảo bộ nhớ cache được kích hoạt trong cài đặt bộ nhớ cache',
 	'cache:flushed' => 'Flushed bộ nhớ cache thành công',
-	'ossn:version' => 'Phiên bản OSSN', 
+	'ossn:version' => 'Phiên bản OSSN',
 	'php:extension' => 'PHP extension',
 	'php:version' => 'PHP version',
 	'php:function' => 'PHP function',
