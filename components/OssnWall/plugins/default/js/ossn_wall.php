@@ -129,6 +129,7 @@ Ossn.RegisterStartupFunction(function() {
                 $('#ossn-wall-form').find('input[type=submit]').show();
                 $('#ossn-wall-form').find('.ossn-loading').addClass('ossn-hidden');
                 $('#ossn-wall-form').find('textarea').val("");
+                $('#ossn-wall-form').find('.ossn-wall-product').remove();
             }
         });
     });

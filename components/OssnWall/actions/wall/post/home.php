@@ -27,8 +27,29 @@ $post     = input('post');
 $friends  = input('friends');
 $location = input('location');
 $privacy  = input('privacy');
-
+$product = input('product');
 //validate wall privacy 
+$params['post'] = $post;
+$params['friends'] = $friends;
+$params['location'] = $location;
+$params['privacy'] = $privacy;
+$params['product'] = $product;
+if ($product) {
+	$OssnWall = ossn_call_hook('market', 'post', $params);
+	if(ossn_is_xhr()) {
+		$guid = $OssnWall->getObjectId();
+		$get  = $OssnWall->GetPost($guid);
+		if($get) {
+			$get = ossn_wallpost_to_item($get);
+			ossn_set_ajax_data(array(
+				'post' => ossn_wall_view_template($get)
+			));
+		}
+	}
+	ossn_trigger_message(ossn_print('post:created'));
+	redirect(REF);
+}
+
 $privacy = ossn_access_id_str($privacy);
 $access  = '';
 if(!empty($privacy)) {

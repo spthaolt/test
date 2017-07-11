@@ -124,7 +124,7 @@ class OssnWall extends OssnObject {
 				}
 				$vars = array(
 						'type' => $type,
-						'subtype' => 'wall',
+						'subtype' => array('wall','market'),
 						'order_by' => 'o.guid DESC',
 						'owner_guid' => $owner,
 						'count' => $count
@@ -195,7 +195,7 @@ class OssnWall extends OssnObject {
 		 */
 		public function GetPosts(array $params = array()) {
 				$default = array(
-						'subtype' => 'wall',
+						'subtype' => array('wall','market'),
 						'order_by' => 'o.guid DESC'
 				);
 				$options = array_merge($default, $params);
@@ -256,7 +256,7 @@ class OssnWall extends OssnObject {
 						
 						$default = array(
 								'type' => 'user',
-								'subtype' => 'wall',
+								'subtype' => array('wall','market'),
 								'order_by' => 'o.guid DESC',
 								'entities_pairs' => array(
 												array(
@@ -303,7 +303,7 @@ class OssnWall extends OssnObject {
 						
 						$default = array(
 								'type' => 'user',
-								'subtype' => 'wall',
+								'subtype' => array('wall','market'),
 								'order_by' => 'o.guid DESC',
 								'entities_pairs' => array(
 												array(
@@ -350,7 +350,7 @@ class OssnWall extends OssnObject {
 						
 						$default = array(
 								'type' => 'user',
-								'subtype' => 'wall',
+								'subtype' => array('wall','market'),
 								'order_by' => 'o.guid DESC',
 								'entities_pairs' => array(
 												array(
