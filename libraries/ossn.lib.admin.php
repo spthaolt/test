@@ -31,7 +31,6 @@ function ossn_admin() {
 		
 		ossn_register_menu_link('home', 'admin:dashboard', ossn_site_url('administrator'), 'topbar_admin');
 		
-		ossn_register_menu_link('help', 'admin:help', 'https://www.opensource-socialnetwork.org/', 'topbar_admin');
 		ossn_register_menu_link('viewsite', 'admin:view:site', ossn_site_url(), 'topbar_admin');
 		
 		ossn_register_action('admin/login', ossn_route()->actions . 'administrator/login.php');
