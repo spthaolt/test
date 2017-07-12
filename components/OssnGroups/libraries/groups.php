@@ -101,7 +101,7 @@ function slugify($text)
  */
 function ossn_group_url($group_guid) {
     $group = ossn_get_group_by_guid($group_guid);
-    $slug = slugify($group->title).'-'.$group_guid;
+    $slug = ossn_slugify_str($group->title).'-'.$group_guid;
 
     return ossn_site_url("g/{$slug}/");
 }

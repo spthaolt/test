@@ -6,7 +6,9 @@
             "email": "thaolt@songphi.com"
         }
     ],
-    "require": {},
+    "require": {
+        "cocur/slugify": "^2.5"
+    },
     "config": {
         "vendor-dir": "vendors"
     }
