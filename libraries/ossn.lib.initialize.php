@@ -9,6 +9,10 @@
  * @link      https://www.opensource-socialnetwork.org/
  */
 
+use Cocur\Slugify\Slugify;
+
+$Slugify = new Slugify();
+
 //register all available language
 $available_languages = ossn_get_available_languages();
 foreach($available_languages as $language) {
@@ -21,48 +25,50 @@ ossn_default_load_locales();
  * @return void
  */
 function ossn_initialize() {
-		$url = ossn_site_url();
-		
-		$icon = ossn_site_url('components/OssnWall/images/news-feed.png');
-		ossn_register_sections_menu('newsfeed', array(
-				'name' => 'newsfeed',
-				'text' => ossn_print('news:feed'),
-				'url' => "{$url}home",
-				'parent' => 'links',
-				'icon' => $icon
-		));
-		ossn_extend_view('ossn/js/head', 'javascripts/head');
-		ossn_extend_view('ossn/admin/js/head', 'javascripts/head');
-		//actions
-		ossn_register_action('user/login', ossn_route()->actions . 'user/login.php');
-		ossn_register_action('user/register', ossn_route()->actions . 'user/register.php');
-		ossn_register_action('user/logout', ossn_route()->actions . 'user/logout.php');
-		
-		ossn_register_action('friend/add', ossn_route()->actions . 'friend/add.php');
-		ossn_register_action('friend/remove', ossn_route()->actions . 'friend/remove.php');
-		ossn_register_action('resetpassword', ossn_route()->actions . 'user/resetpassword.php');
-		ossn_register_action('resetlogin', ossn_route()->actions . 'user/resetlogin.php');
-		
-		
-		ossn_register_page('index', 'ossn_index_pagehandler');
-		ossn_register_page('home', 'ossn_user_pagehandler');
-		ossn_register_page('login', 'ossn_user_pagehandler');
-		ossn_register_page('registered', 'ossn_user_pagehandler');
-		ossn_register_page('syserror', 'ossn_system_error_pagehandler');
-		
-		ossn_register_page('resetlogin', 'ossn_user_pagehandler');
-		
-		ossn_add_hook('newsfeed', "sidebar:left", 'newfeed_menu_handler');
-		
-		ossn_register_menu_item('footer', array(
-				'name' => 'a_copyrights',
-				'text' => ossn_print('copyright') . ' ' . ossn_site_settings('site_name'),
-				'href' => ossn_site_url()
-		));
-		
-		ossn_register_menu_item('footer', ossn_pow_lnk_args());
-		
-		ossn_extend_view('ossn/endpoint', 'author/view');
+	global $Slugify;
+	$Slugify->activateRuleset('vietnamese');
+	$url = ossn_site_url();
+	
+	$icon = ossn_site_url('components/OssnWall/images/news-feed.png');
+	ossn_register_sections_menu('newsfeed', array(
+			'name' => 'newsfeed',
+			'text' => ossn_print('news:feed'),
+			'url' => "{$url}home",
+			'parent' => 'links',
+			'icon' => $icon
+	));
+	ossn_extend_view('ossn/js/head', 'javascripts/head');
+	ossn_extend_view('ossn/admin/js/head', 'javascripts/head');
+	//actions
+	ossn_register_action('user/login', ossn_route()->actions . 'user/login.php');
+	ossn_register_action('user/register', ossn_route()->actions . 'user/register.php');
+	ossn_register_action('user/logout', ossn_route()->actions . 'user/logout.php');
+	
+	ossn_register_action('friend/add', ossn_route()->actions . 'friend/add.php');
+	ossn_register_action('friend/remove', ossn_route()->actions . 'friend/remove.php');
+	ossn_register_action('resetpassword', ossn_route()->actions . 'user/resetpassword.php');
+	ossn_register_action('resetlogin', ossn_route()->actions . 'user/resetlogin.php');
+	
+	
+	ossn_register_page('index', 'ossn_index_pagehandler');
+	ossn_register_page('home', 'ossn_user_pagehandler');
+	ossn_register_page('login', 'ossn_user_pagehandler');
+	ossn_register_page('registered', 'ossn_user_pagehandler');
+	ossn_register_page('syserror', 'ossn_system_error_pagehandler');
+	
+	ossn_register_page('resetlogin', 'ossn_user_pagehandler');
+	
+	ossn_add_hook('newsfeed', "sidebar:left", 'newfeed_menu_handler');
+	
+	ossn_register_menu_item('footer', array(
+			'name' => 'a_copyrights',
+			'text' => ossn_print('copyright') . ' ' . ossn_site_settings('site_name'),
+			'href' => ossn_site_url()
+	));
+	
+	ossn_register_menu_item('footer', ossn_pow_lnk_args());
+	
+	ossn_extend_view('ossn/endpoint', 'author/view');
 }
 
 /**

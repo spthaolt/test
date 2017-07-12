@@ -163,3 +163,9 @@ function ossn_set_input($name, $value) {
 				$_REQUEST[$name] = $value;
 		}
 }
+
+function ossn_slugify_str($str)
+{
+	global $Slugify;
+	return $Slugify->slugify($str);
+}
