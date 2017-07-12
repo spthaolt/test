@@ -337,7 +337,7 @@ function ossn_group_page($pages) {
 				}
 
 				$matches = array();
-				preg_match_all('/.*?-(\\d+)/i', $pages[0], $matches);
+				preg_match_all('/.*?-(\\d+)$/i', $pages[0], $matches);
 				if (count($matches)<2)
 					ossn_error_page();
 
