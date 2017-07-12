@@ -308,7 +308,10 @@ function ossn_site_settings($setting) {
  */
 function redirect($new = '') {
 	global $Ossn;
-    $url = ossn_site_url($new);
+    if (!preg_match('/^https?:\\/\\//i', $new))
+        $url = ossn_site_url($new);
+    else
+        $url = $new;
     if ($new === REF) {
         if (isset($_SERVER['HTTP_REFERER'])) {
         	$url = $_SERVER['HTTP_REFERER'];

@@ -20,7 +20,7 @@ if ($params['groups']) {
             </div>
 			<div class="col-md-10 col-sm-10 col-xs-8">
 	            <div class="group-search-details">
-    	            <a class="group-name" href="<?php echo ossn_site_url(); ?>group/<?php echo $group->guid; ?>"><?php echo $group->title; ?></a>
+    	            <a class="group-name" href="<?= ossn_group_url($group->guid) ?>"><?php echo $group->title; ?></a>
         	        <p class="ossn-group-search-by"><?php echo ossn_print('ossn:group:by');?><a href="<?php echo $owner->profileURL();?>"><?php echo $owner->fullname;?></a></p>
            	 	</div>
 			</div>

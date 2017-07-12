@@ -31,7 +31,7 @@ function ossn_groups() {
 		ossn_extend_view('js/opensource.socialnetwork', 'js/groups');
 
 		//group pages
-		ossn_register_page('group', 'ossn_group_page');
+		ossn_register_page('g', 'ossn_group_page');
 		ossn_register_page('groups', 'ossn_groups_page');
 		ossn_group_subpage('members');
 		ossn_group_subpage('edit');
@@ -335,9 +335,16 @@ function ossn_group_page($pages) {
 				if(!ossn_is_group_subapge($params['subpage']) && !empty($params['subpage'])) {
 						return false;
 				}
-				$group = ossn_get_group_by_guid($pages[0]);
+
+				$matches = array();
+				preg_match_all('/.*?-(\\d+)$/i', $pages[0], $matches);
+				if (count($matches)<2)
+					ossn_error_page();
+
+				$group_guid = $matches[1][0];
+				$group = ossn_get_group_by_guid($group_guid);
 				if(empty($group->guid)) {
-						ossn_error_page();
+					ossn_error_page();
 				}
 				ossn_set_page_owner_guid($group->guid);
 				ossn_trigger_callback('page', 'load:group');
@@ -420,7 +427,7 @@ function group_requests_page($hook, $type, $return, $params) {
 		$group = ossn_get_group_by_guid(ossn_get_page_owner_guid());
 		if($page == 'requests') {
 				if($group->owner_guid !== ossn_loggedin_user()->guid && !ossn_isAdminLoggedin()) {
-						redirect("group/{$group->guid}");
+			    	redirect(ossn_group_url($group->guid));
 				}
 				$mod_content = ossn_plugin_view('groups/pages/requests', array(
 						'group' => $group

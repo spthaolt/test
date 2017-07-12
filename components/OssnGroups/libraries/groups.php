@@ -65,12 +65,43 @@ function ossn_is_group_subapge($page) {
     }
     return false;
 }
+
+function slugify($text)
+{
+  // replace non letter or digits by -
+  $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+
+  // transliterate
+  $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+  // remove unwanted characters
+  $text = preg_replace('~[^-\w]+~', '', $text);
+
+  // trim
+  $text = trim($text, '-');
+
+  // remove duplicate -
+  $text = preg_replace('~-+~', '-', $text);
+
+  // lowercase
+  $text = strtolower($text);
+
+  if (empty($text)) {
+    return 'n-a';
+  }
+
+  return $text;
+}
+
 /**
  * Get group url
  *
  * @param object $group Group entity
  * @return string
  */
-function ossn_group_url($group) {
-    return ossn_site_url("group/{$group}/");
+function ossn_group_url($group_guid) {
+    $group = ossn_get_group_by_guid($group_guid);
+    $slug = ossn_slugify_str($group->title).'-'.$group_guid;
+
+    return ossn_site_url("g/{$slug}/");
 }

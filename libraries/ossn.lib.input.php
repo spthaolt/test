@@ -93,7 +93,7 @@ function input($input, $noencode = '', $default = false, $strip = true) {
 				'noencode' => $noencode,
 				'default' => $default,
 				'strip' => $strip,
-				'data' => (!empty($_REQUEST[$input]) ? preg_replace('/\h+/', ' ', $_REQUEST[$input]) : null),
+				'data' => (!empty($_REQUEST[$input]) ? $_REQUEST[$input] : null),
 		));
 		if ($hook) {
 				$input    = $hook['input'];
@@ -162,4 +162,10 @@ function ossn_set_input($name, $value) {
 		if (isset($name) && isset($value)) {
 				$_REQUEST[$name] = $value;
 		}
+}
+
+function ossn_slugify_str($str)
+{
+	global $Slugify;
+	return $Slugify->slugify($str);
 }

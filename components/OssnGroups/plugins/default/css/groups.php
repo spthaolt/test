@@ -146,7 +146,7 @@
 .ossn-group-profile .profile-header .header-bottom {
     background: #fff;
     height: 45px;
-    border-bottom: 2px solid #C4CDE0;    
+    border-bottom: 2px solid #C4CDE0;
 }
 .ossn-group-profile .profile-header .group-name {
     font-size: 14px;
@@ -218,7 +218,7 @@
 .ossn-groups-notification-icon,
 .ossn-groups-notification-icon:before {
     display: inline-block;
-}	
+}
 .ossn-groups-notification-icon:before {
 	content: "\f0c0";
     font-family: FontAwesome;
@@ -315,7 +315,7 @@
 }
 
 .group-invite-table .invite-checkbox {
-    line-height: 20px   
+    line-height: 20px
 }
 
 .group-invite-table .invite-title {
@@ -353,7 +353,7 @@
 
 .group-groupname {
     background: url("<?php echo ossn_theme_url();?>images/trans35.png");
-    
+
     color: #FFF;
     font-weight: bold;
     left:0;
@@ -362,9 +362,11 @@
     margin-top: -75px;
     font-size: 35px;
     position: absolute;
-    text-shadow: 0 0 3px #000;  
+    text-shadow: 0 0 3px #000;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     padding:5px 216px;
+    pointer-events: none;
+
 }

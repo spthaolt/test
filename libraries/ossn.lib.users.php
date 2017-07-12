@@ -278,6 +278,9 @@ function ossn_user_friendly_time($tm, $rcs = 0) {
 				
 		// in case of plural we need the current element's index + 1
 				$v++;
+		if ($no < 0) {
+			$no = 0;
+		}
 		$x = $no . ' ' . $pds[$v];
 		if(($rcs > 0) && ($v >= 1))
 				$x .= ' ' . ossn_user_friendly_time($_tm, $rcs - 1);

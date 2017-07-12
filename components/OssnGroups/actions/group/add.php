@@ -15,7 +15,7 @@ $params['description'] = input('description');
 $params['privacy'] = input('privacy');
 if ($add->createGroup($params)) {
     ossn_trigger_message(ossn_print('group:added'), 'success');
-    redirect("group/{$add->getGuid()}");
+    redirect(ossn_group_url($add->getGuid()));
 } else {
     ossn_trigger_message(ossn_print('group:add:fail'), 'error');
     redirect(REF);

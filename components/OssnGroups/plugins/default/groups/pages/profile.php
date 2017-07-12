@@ -28,9 +28,9 @@ if ($cover) {
 } else {
     $groupUrl = ossn_site_url("groups/cover/".md5($params['group']->title).'.jpg');
 }
-   
 
-//group members total count becomes 0 when group cover is set #156 $dev.githubertus 
+
+//group members total count becomes 0 when group cover is set #156 $dev.githubertus
 $members = $params['group']->getMembers();
 ?>
 <div class="ossn-group-profile">
@@ -59,7 +59,7 @@ $members = $params['group']->getMembers();
                     <a href="javascript:void(0);" id="add-cover-group"
                        class='button-grey'><?php echo ossn_print('change:cover'); ?></a>
                 </div>
-            <?php } ?>                        
+            <?php } ?>
             <img id="draggable" src="<?php echo $groupUrl; ?>"
                  style='<?php echo $cover_top; ?><?php echo $cover_left; ?>'/>
         </div>
@@ -74,31 +74,34 @@ $members = $params['group']->getMembers();
                         <input type="hidden" value="<?php echo $params['group']->guid; ?>" name="group"/>
                         <input type="submit" class="upload" />
                     </form>
-                </div>  
+                </div>
             <?php } ?>
             <img src="<?php echo $avatarUrl ?>" height="170" width="170"/>
         </div>
         <div class="header-bottom">
+            <div class="group-name">
+                <a href="<?php echo ossn_group_url($params['group']->guid); ?>"><?php echo ossn_print('news:feed'); ?></a>
+            </div>
             <div id="group-header-menu" class="group-header-menu">
                 <ul>
                     <?php echo ossn_view_menu('groupheader'); ?>
                 </ul>
             </div>
             <div class="groups-buttons">
-            <?php 
-            if ($params['group']->owner_guid == ossn_loggedin_user()->guid) 
-               $isInvite = true;      
+            <?php
+            if ($params['group']->owner_guid == ossn_loggedin_user()->guid)
+               $isInvite = true;
             else if ($params['group']->membInvite ==  1) {
                 if($params['group']->isMember(NULL, ossn_loggedin_user()->guid))
                     $isInvite = true;
-            } else 
-                $isInvite = false;     
-            
+            } else
+                $isInvite = false;
+
             if ($isInvite) { ?>
-                
+
                 <a href="javascript:void(0);" id="group-member-invite" data-guid="<?php echo $params['group']->guid; ?>"
                    class='btn btn-success'><?php echo ossn_print('group:invite'); ?></a>
-            <?php } ?>   
+            <?php } ?>
 
             <?php if (ossn_isLoggedin() && $params['group']->owner_guid !== ossn_loggedin_user()->guid) {
 
@@ -121,11 +124,11 @@ $members = $params['group']->getMembers();
                         ?>
                         <a href="<?php echo ossn_site_url("action/group/member/cancel?group={$params['group']->guid}", true); ?>"
                            class='btn btn-default'> <?php echo ossn_print('cancel:membership'); ?></a>
-                    <?php } 
+                    <?php }
 
                     // check group invite exits and not a member
                     if (!$ismember && $params['group']->inviteExists(ossn_loggedin_user()->guid,false)) {
-                        
+
                         $current_user_id = ossn_loggedin_user()->guid;
                         $current_group_id = $params['group']->guid;
                     ?>
@@ -133,10 +136,10 @@ $members = $params['group']->getMembers();
                            class='btn btn-success'> <?php echo ossn_print('group:invite:accept'); ?></a>
 
                         <a href="<?php echo ossn_site_url("action/group/member/reject?group={$current_group_id}&user={$current_user_id}", true); ?>"
-                           class='btn btn-danger'> <?php echo ossn_print('group:invite:reject'); ?></a>   
+                           class='btn btn-danger'> <?php echo ossn_print('group:invite:reject'); ?></a>
                     <?php } ?>
             <?php } ?>
- 
+
             <?php  if ($params['group']->owner_guid == ossn_loggedin_user()->guid || ossn_isAdminLoggedin()) {
                 $ismember = 1;
                 ?>
@@ -149,7 +152,7 @@ $members = $params['group']->getMembers();
 
        	</div>
     </div>
-    </div>    
+    </div>
     </div> <!-- ./row -->
     <div class="ossn-group-bottom-row">
     	<?php
@@ -157,15 +160,15 @@ $members = $params['group']->getMembers();
             if (ossn_is_hook('group', 'subpage')) {
                 echo ossn_call_hook('group', 'subpage', $params);
             }
-        }  else { 
+        }  else {
 		?>
         <div class="col-md-7 margin-top-10">
         	<div class="group-wall">
                 <?php
-			//#113 make contents of public groups visible. 
+			//#113 make contents of public groups visible.
 			//send ismember, and member ship param to group wall
                 	echo ossn_plugin_view('wall/group', array(
-									'group' => $params, 
+									'group' => $params,
 									'ismember' => $ismember,
 									'membership' => $params['group']->membership
 									));
@@ -177,20 +180,20 @@ $members = $params['group']->getMembers();
                         echo ossn_view_widget(array(
 											'title' => ossn_print('closed:group'),
 											'contents' => $close_group_text
-						));	
+						));
 						?>
                         <div class="group-members-small">
                             <?php
-                             $group_admin = ossn_user_by_guid($params['group']->owner_guid); 
+                             $group_admin = ossn_user_by_guid($params['group']->owner_guid);
 							 $admin_img =  '<img src="'.$group_admin->iconURL()->small.'" title="'.$group_admin->fullname.'"/>';
 							 $admin_profile_url = ossn_plugin_view('output/url', array(
 										'text' => $admin_img,
 										'href' => $group_admin->profileURL()
-							 ));							
+							 ));
 							echo ossn_view_widget(array(
 											'title' => ossn_print('group:admin'),
 											'contents' => $admin_profile_url
-							));									
+							));
 							?>
                         </div>
                     </div>
@@ -201,16 +204,16 @@ $members = $params['group']->getMembers();
         </div>
         <div class="col-md-4 margin-top-10">
         	<div class="page-sidebar">
-        	<?php 
+        	<?php
                 $groupAbout = ossn_plugin_view('groups/widget/about', array(
-                                'group' => $params['group'], 
+                                'group' => $params['group'],
                                 ));
 
     			echo ossn_view_widget(array(
     								'title' => ossn_print('about:group'),
     								'contents' => $groupAbout,
     								'class' => 'widget-description',
-    			));					
+    			));
 			if ($params['group']->owner_guid == ossn_loggedin_user()->guid || ossn_isAdminLoggedin()) {
 				$member_requests = ossn_plugin_view('output/url', array(
 										'text' => ossn_print('view:all'),
@@ -224,7 +227,7 @@ $members = $params['group']->getMembers();
 								'title' => ossn_print('member:requests', array($requests)),
 								'contents' => $member_requests,
 								'class' => 'group-requests-widget',
-				));					
+				));
 			}
 			$members = $params['group']->getMembers();
             $limit = 1;
@@ -246,12 +249,12 @@ $members = $params['group']->getMembers();
 													'contents' => implode('', $members_html)
 													));
 						echo '</div>';
-            }	
-			if (ossn_is_hook('group', 'widgets')){ 
-								$params['group'] = $params['group']; 
-								$modules = ossn_call_hook('group', 'widgets', $params); 
+            }
+			if (ossn_is_hook('group', 'widgets')){
+								$params['group'] = $params['group'];
+								$modules = ossn_call_hook('group', 'widgets', $params);
 								echo implode( '', $modules);
-			}			
+			}
 			 if (com_is_active('OssnAds')) {
                     echo ossn_plugin_view('ads/page/view');
                 }

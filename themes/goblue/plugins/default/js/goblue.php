@@ -39,10 +39,7 @@ $(document).ready(function() {
 		var document_height = $(document).height();
 		$(".sidebar").height(document_height);
 	});
-	var $chatsidebar = $('.ossn-chat-windows-long .inner');
-	if($chatsidebar.length){
-		$chatsidebar.css('height', $(window).height() - 45);
-	}
+
 	$(document).scroll(function() {
 		$document_height = $(document).height();						
 		$(".sidebar").height($document_height);
