@@ -17,7 +17,7 @@ if($infoGroup->groupMembership == MEMBERSHIP_OPEN || $add->inviteExists($user, $
 
 	if ($add->acceptInvite(ossn_loggedin_user()->guid, $group)) {
 	    ossn_trigger_message(ossn_print('group:invite:accept:succes'), 'success');
-	    redirect("group/{$group}");
+        redirect(ossn_group_url($group));
 	} else ossn_trigger_message(ossn_print('group:invite:accept:fail'), 'error');
 
 } elseif ($infoGroup->groupMembership == MEMBERSHIP_INVITE_ONLY) {

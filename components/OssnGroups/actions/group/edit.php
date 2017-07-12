@@ -43,7 +43,7 @@ if (!is_null($groupMembership) && !empty($groupMembership)) {
 
 if ($edit->updateGroup($name, $desc, $group->guid)) {
     ossn_trigger_message(ossn_print('group:updated'));
-    redirect("group/{$group->guid}");
+    redirect(ossn_group_url($group->guid));
 } else {
     ossn_trigger_message(ossn_print('group:update:fail'), 'error');
     redirect(REF);

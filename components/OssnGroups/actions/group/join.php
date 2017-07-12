@@ -24,7 +24,7 @@ if($infoGroup->groupMembership == MEMBERSHIP_OPEN || $add->inviteExists(ossn_log
 
 	if ($add->approveInvite(ossn_loggedin_user()->guid, $group)) {
 	    ossn_trigger_message(ossn_print('group:invite:accept:succes'), 'success');
-	    redirect("group/{$group}");
+    	redirect(ossn_group_url($group));
 	} else ossn_trigger_message(ossn_print('group:invite:accept:fail'), 'error');
 
 } elseif ($infoGroup->groupMembership == MEMBERSHIP_INVITE_ONLY) {
@@ -34,7 +34,7 @@ if($infoGroup->groupMembership == MEMBERSHIP_OPEN || $add->inviteExists(ossn_log
 
 	if ($add->sendRequest(ossn_loggedin_user()->guid, $group)) {
 	    ossn_trigger_message(ossn_print('memebership:sent'), 'success');
-	    redirect("group/{$group}");
+    	redirect(ossn_group_url($group));
 	} else ossn_trigger_message(ossn_print('memebership:sent:fail'), 'error');
 }
 
