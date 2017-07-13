@@ -8,11 +8,11 @@
  * @license   Open Source Social Network License (OSSN LICENSE)  http://www.opensource-socialnetwork.org/licence
  * @link      http://www.informatikon.com/
  */
-require_once dirname(dirname(__FILE__)).'/vendors/autoload.php';
+global $Ossn, $ComposerLoader;
+$ComposerLoader = require_once dirname(dirname(__FILE__)).'/vendors/autoload.php';
 
 session_start();
 
-global $Ossn;
 if (!isset($Ossn)) {
     $Ossn = new stdClass;
 }

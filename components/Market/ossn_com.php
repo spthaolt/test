@@ -1,11 +1,17 @@
 <?php
 define('__MARKET__', ossn_route()->com . 'Market/');
-require_once(__MARKET__ . 'classes/Product.php');
+require_once(__MARKET__ . 'classes.php');
+use Market\catalog\Product;
+use Market\catalog\Shop;
+use Market\catalog\ShopEntity;
+
+define('SHOP_URL', ossn_site_url('s/'));
+define('ACTION_URL', ossn_site_url('action/'));
 
 function market_init()
 {
-	ossn_register_page('market', 'market_page');
-	ossn_extend_view('css/ossn.default', 'css/market');
+	ossn_register_page('s', 'market_pages_handler');
+	ossn_extend_view('css/ossn.default', 'css/breadcrumbs');
 	ossn_extend_view('js/opensource.socialnetwork', 'js/market');
 	$emojii_button = array(
 		'name' => 'product',
@@ -29,14 +35,14 @@ function market_init()
 				'text' => '<i class="fa fa-picture-o"></i>',
 			),			
 		);	
-	// foreach($container_controls as $key => $container_control){
-	// 		ossn_unregister_menu_item($container_control['name'],'wall/container/controls/home');		
-	// }
 	ossn_unregister_menu_item('photo','photo','wall/container/controls/home');
 	
 	ossn_register_menu_item('wall/container/controls/home', $emojii_button);
-	ossn_register_action('market/post', __MARKET__ . 'actions/post.php');
 	ossn_add_hook('market', 'post', 'market_wallpost_add', 1);
+
+	ossn_register_action('s/request/info', __MARKET__ . 'actions/shop/request_info.php');
+	ossn_register_action('s/request/owner', __MARKET__ . 'actions/shop/request_owner.php');
+	ossn_register_action('s/request/confirm', __MARKET__ . 'actions/shop/request_confirm.php');
 }
 
 function market_wallpost_add($hook,$type,$return,$params)
@@ -45,29 +51,84 @@ function market_wallpost_add($hook,$type,$return,$params)
 	$product->owner_guid  = ossn_loggedin_user()->guid;
 	$product->poster_guid = ossn_loggedin_user()->guid;
 
-//check if owner guid is zero then exit
-	if($product->owner_guid == 0 || $product->poster_guid == 0) {
-		ossn_trigger_message(ossn_print('post:create:error'), 'error');
-		redirect(REF);
+	if ($product->post($params)) {
+		$type = "success";
+	} else {
+		$type = "error";
 	}
-	$product->post($params);
-	return $product;
+	$guid = $product->getObjectId();
+	$get  = $product->GetPost($guid);
+
+	$data[$type] = array(ossn_print('post:created'));
+	$data['data']['post'] = wall_view_template(wallpost_to_item($get));
+	echo json_encode($data);
 }
 
-function market_page($pages)
+function market_pages_handler($pages)
 {
+	$user = ossn_loggedin_user();
 	$product = new Product;
 
 	if(!ossn_isLoggedin()) {
 		ossn_error_page();
 	}
+
 	$page = $pages[0];
 	if(empty($page)) {
 		$page = 'view';
 	}
+
+	// Object manager
+	$om = new \OssnObject();
+
 	switch($page) {
+		case 'request':
+			$om->owner_guid = ossn_loggedin_user()->guid;
+			$om->type = 'user';
+			$om->subtype = 'market:shop';
+			$params['data'] = $om->getObjectByOwner();
+			$step = $_GET['step'];
+			if (!isset($step)) {
+				$step = 'info';
+			}
+			$params['step'] = $step;
+			switch ($step) {
+				case 'info':
+					$form = array(
+						'action' => ACTION_URL.'s/request/info',
+						'component' => 'Market',
+						'class' => 'ossn-form',
+						'params' => $params
+					);
+					$params['form']   = ossn_view_form('shop/request_info', $form, false);
+					break;
+				case 'owner':
+					$form = array(
+						'action' => ACTION_URL.'/s/request/owner',
+						'component' => 'Market',
+						'class' => 'ossn-form',
+						'params' => $params
+					);
+					$params['form']   = ossn_view_form('shop/request_owner', $form, false);
+					break;
+				case 'confirm':
+					$form = array(
+						'action' => ACTION_URL.'/s/request',
+						'component' => 'Market',
+						'class' => 'ossn-form',
+						'params' => $params
+					);
+					$params['form']   = ossn_view_form('shop/request_confirm', $form, false);
+					break;
+				default:
+					ossn_error_page();
+					break;
+			}
+			$content  = ossn_plugin_view("market/pages/shop/request", $params);
+			echo ossn_view_page($title, $content);
+			break;
 		case 'view':
-			$posts = $product->get(1);
+			$posts = $product->getAllByOwnerGUID($user->guid);
 			$params['content'] = "";
 			if($posts) {
 				foreach($posts as $post) {
@@ -79,12 +140,33 @@ function market_page($pages)
 			echo ossn_view_page($title, $content);
 			break;
 		default:
-			ossn_error_page();
+			$vars = array(
+				'type' => 'user',
+				'subtype' => 'market:shop',
+				'name' => array('title'),
+				'entities_pairs' => array(
+					array(
+						'name' => 'friendly_url',
+						'value' => $page
+					)
+				),
+				'count' => false,
+			);
+
+			$shop = $om->searchObject($vars);
+			if (!$shop) ossn_error_page();			
+
+			$content  = ossn_plugin_view("market/layout/shop", $shop);
+			echo ossn_view_page($title, $content);
+
+			var_dump($shop->searchObject($vars));
+			die('ossncom');
 			break;
 	}
 }
 
-function wallpost_to_item($post) {
+function wallpost_to_item($post) 
+{
 	if($post && $post instanceof Product) {
 		if(!isset($post->poster_guid)) {
 			$post = ossn_get_object($post->guid);
@@ -115,7 +197,8 @@ function wallpost_to_item($post) {
 	return false;
 }
 
-function wall_view_template(array $params = array()) {
+function wall_view_template(array $params = array()) 
+{
 	if(!is_array($params)){
 		return false;
 	}

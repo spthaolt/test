@@ -1,10 +1,9 @@
 <?php
-/**
-* 
-*/
-class Product extends OssnObject
+namespace Market\catalog;
+
+class Product extends \OssnObject
 {
-	public function get($owner_guid)
+	public function getAllByOwnerGUID($owner_guid)
 	{
 		$this->owner_guid = $owner_guid;
 		$this->type       = 'user';

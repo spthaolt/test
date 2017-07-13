@@ -10,5 +10,15 @@
  */
 $en = array(
     'product:name' => 'Product name',
+    'shop:request:lbl' => 'Request create shop',
+    'shop:name:lbl' => 'Name shop',
+    'shop:friendly:url:lbl' => 'Friendly URL',
+    'shop:info:breadcrumbs' => 'Information Shop',
+    'shop:owner:breadcrumbs' => 'Owner Shop',
+    'shop:confirm:breadcrumbs' => 'Confirm',
+    'shop:updated' => 'Shop has been updated!',
+    'shop:update:fail' => 'Cannot update shop! Please try again later.',
+    'shop:requested' => 'Successfully requested the shop!',
+    'shop:request:fail' => 'Cannot requested the shop! Please try again later.',
 );
 ossn_register_languages('en', $en); 
