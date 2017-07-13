@@ -20,11 +20,15 @@
 </div>
 <div class="ossn-wall-container-data ossn-wall-container-data-post" data-type="post">
     <textarea placeholder="<?php echo ossn_print('wall:post:container'); ?>" name="post"></textarea>
+        <div id="ossn-wall-photo" style="display:none;">
+        <div id="files" class="files">
+            <span class="box-file box-file-plus fileinput-button">
+                <input id="fileupload" type="file" name="files[]" multiple >
+            </span>
+        </div>
+    </div>
     <div id="ossn-wall-location" style="display:none;">
         <input type="text" placeholder="<?php echo ossn_print('enter:location'); ?>" name="location" id="ossn-wall-location-input" />
-    </div>
-    <div id="ossn-wall-photo" style="display:none;">
-        <input type="file" name="ossn_photo" />
     </div>
     <div class="controls">
         <?php

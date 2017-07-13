@@ -31,6 +31,7 @@ $post = input('post');
 $friends = input('friends');
 $location = input('location');
 $privacy = input('privacy');
+$ossn_photo =input('ossn_photo');
 
 //validate wall privacy 
 $privacy = ossn_access_id_str($privacy);
@@ -39,7 +40,7 @@ if (!empty($privacy)) {
 } else {
     $access = OSSN_FRIENDS;
 }
-if ($OssnWall->Post($post, $friends, $location, $access)) {
+if ($OssnWall->Post($post, $friends, $location, $access, $ossn_photo)) {
 		if(ossn_is_xhr()) {
 				$guid = $OssnWall->getObjectId();
 				$get  = $OssnWall->GetPost($guid);

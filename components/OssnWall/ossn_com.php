@@ -531,10 +531,15 @@ function ossn_wallpost_to_item($post) {
 				}
 				if(isset($post->{'file:wallphoto'})) {
 						$image = str_replace('ossnwall/images/', '', $post->{'file:wallphoto'});
-				} else {
-						$image = '';
 				}
 				
+				if(sizeof($post->{'file:wallphoto'}->{'wallphoto'}) > 0 && $post->{'file:wallphoto'}->{'wallphoto'}) {
+					$image = array();
+					foreach ($post->{'file:wallphoto'}->{'wallphoto'} as $key => $value) {
+						array_push($image,str_replace('ossnwall/images/', '', $value));
+					}
+				} 
+
 				$user = ossn_user_by_guid($post->poster_guid);
 				return array(
 						'post' => $post,
