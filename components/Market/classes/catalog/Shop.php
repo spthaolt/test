@@ -13,13 +13,13 @@ class Shop extends \OssnObject
 		$this->type       = 'user';
 		$this->subtype    = 'market:shop';
 		if($params['privacy'] == OSSN_PRIVATE || $params['privacy'] == OSSN_PUBLIC) {
-				$this->data->friendlyUrl = $params['shop_url'];
+				$this->data->friendly_url = $params['shop_url'];
 				$this->data->membership = $params['privacy'];
 				$this->data->approved = null;
 				$this->data->fullname = $params['fullname'];
 				$this->data->phone = $params['phone'];
 				$this->data->sid = $params['sid'];
-				$this->data->sidImage = null;
+				$this->data->sid_image = null;
 				$this->data->lock = 1;
 		}
 		if($this->addObject()) {
