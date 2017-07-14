@@ -1,7 +1,7 @@
 <?php
-namespace Market\catalog;
+namespace Market\bol;
 
-class Shop extends \OssnObject
+class ShopsService extends \OssnObject
 {
 	public function requestShop($params)
 	{
@@ -42,6 +42,21 @@ class Shop extends \OssnObject
 		$this->type       = 'user';
 		$this->subtype    = 'market:shop';
 		return $this->getObjectByOwner();
+	}
+
+	// get all shop
+	public function getAllShop()
+	{
+		$this->type = 'user';
+		$this->subtype = 'market:shop';
+		$this->entities_pairs =array(
+					array(
+						'name' => 'approved',
+						'value' => null
+					)
+				);
+		return $this->searchObject();
+
 	}
 
 
