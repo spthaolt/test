@@ -9,9 +9,13 @@ define('SHOP_URL', ossn_site_url('s/'));
 define('ACTION_URL', ossn_site_url('action/'));
 
 function market_init()
-{
+{	
+	// register sub menu
+	ossn_register_com_panel('Market', 'settings');
+
 	ossn_register_page('s', 'market_pages_handler');
 	ossn_extend_view('css/ossn.default', 'css/breadcrumbs');
+	ossn_extend_view('css/ossn.admin.default', 'css/market.admin');
 	ossn_extend_view('js/opensource.socialnetwork', 'js/market');
 	$emojii_button = array(
 		'name' => 'product',
