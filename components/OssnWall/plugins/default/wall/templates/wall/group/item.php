@@ -63,9 +63,9 @@ if(!isset($params['ismember'])){
                     $count = count($params['image']);
 
                     switch ($count) {
-                        case 1:  ?>
+                        case 1:  $first = array_shift($params['image']);?>
                             <div class="col-xs-12">
-                                <img style="width: 100%" src="<?php echo ossn_site_url("post/photo/{$params['post']->guid}/{$img}"); ?>"/>
+                                <img style="width: 100%" src="<?php echo ossn_site_url("post/photo/{$params['post']->guid}/{$first}"); ?>"/>
                             </div>
                             <?php
                             break; 

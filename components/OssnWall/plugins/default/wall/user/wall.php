@@ -41,10 +41,7 @@ if($posts) {
 				if(!isset($data->friend)) {
 						$data->friend = '';
 				}
-				if(isset($post->{'file:wallphoto'})) {
-						$image = str_replace('ossnwall/images/', '', $post->{'file:wallphoto'});
-				}
-				
+
 				if(sizeof($post->{'file:wallphoto'}->{'wallphoto'}) > 0 && $post->{'file:wallphoto'}->{'wallphoto'}) {
 					$image = array();
 					foreach ($post->{'file:wallphoto'}->{'wallphoto'} as $key => $value) {
