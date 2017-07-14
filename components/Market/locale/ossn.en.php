@@ -20,10 +20,15 @@ $en = array(
     'shop:update:fail' => 'Cannot update shop! Please try again later.',
     'shop:requested' => 'Successfully requested the shop!',
     'shop:request:fail' => 'Cannot requested the shop! Please try again later.',
+    'shop:owner:fullname:lbl' => "Fullname",
+    'shop:owner:phone:lbl' => "Phone",
+    'shop:owner:sid:lbl' => "Sid",
+    'shop:owner:image:sid:lbl' => "Sid image",
 
     'market' => 'Market Manager',
     'admin:pending:approval' => 'Pending Approval',
     'admin:manufacturer' => 'Manufacturer',
     'admin:category' => 'Category',
+
 );
 ossn_register_languages('en', $en); 

@@ -14,8 +14,9 @@ use Market\catalog\ShopEntity;
 $shop = new Shop;
 $params['owner_guid'] = ossn_loggedin_user()->guid;
 $params['shop_guid'] = input('shop_guid');
-$params['shop_name'] = input('shop_name');
-$params['shop_url'] = input('shop_url');
+$params['shop_fullname'] = input('shop_fullname');
+$params['shop_phone'] = input('shop_phone');
+$params['shop_sid'] = input('shop_sid');
 $params['privacy'] = OSSN_PRIVATE;
 
 if ($shop->requestShop($params)) {
