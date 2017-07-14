@@ -47,9 +47,16 @@ class ShopsService extends \OssnObject
 	// get all shop
 	public function getAllShop()
 	{
-		$this->type       = 'user';
-		$this->subtype    = 'market:shop';
-		return $this->getObjectByOwner();
+		$this->type = 'user';
+		$this->subtype = 'market:shop';
+		$this->entities_pairs =array(
+					array(
+						'name' => 'approved',
+						'value' => null
+					)
+				);
+		return $this->searchObject();
+
 	}
 
 
