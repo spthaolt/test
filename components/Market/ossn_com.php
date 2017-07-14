@@ -35,8 +35,6 @@ function market_init()
 				'text' => '<i class="fa fa-picture-o"></i>',
 			),			
 		);	
-	ossn_unregister_menu_item('photo','photo','wall/container/controls/home');
-	
 	ossn_register_menu_item('wall/container/controls/home', $emojii_button);
 	ossn_add_hook('market', 'post', 'market_wallpost_add', 1);
 
@@ -104,7 +102,7 @@ function market_pages_handler($pages)
 					break;
 				case 'owner':
 					$form = array(
-						'action' => ACTION_URL.'/s/request/owner',
+						'action' => ACTION_URL.'s/request/owner',
 						'component' => 'Market',
 						'class' => 'ossn-form',
 						'params' => $params
@@ -113,7 +111,7 @@ function market_pages_handler($pages)
 					break;
 				case 'confirm':
 					$form = array(
-						'action' => ACTION_URL.'/s/request',
+						'action' => ACTION_URL.'s/request',
 						'component' => 'Market',
 						'class' => 'ossn-form',
 						'params' => $params
@@ -172,7 +170,12 @@ function market_pages_handler($pages)
 					$content  = ossn_plugin_view("market/pages/shop/contact", $shop);
 					echo ossn_view_page($title, $content);
 					break;
+				case 'contact':
+					$content  = ossn_plugin_view("market/pages/shop/contact", $shop);
+					echo ossn_view_page($title, $content);
+					break;
 				default:
+
 					$content  = ossn_plugin_view("market/layout/shop", $shop);
 					echo ossn_view_page($title, $content);
 					break;
