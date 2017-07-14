@@ -168,6 +168,10 @@ function market_pages_handler($pages)
 					$content  = ossn_plugin_view("market/pages/shop/policy", $shop);
 					echo ossn_view_page($title, $content);
 					break;
+				case 'contact':
+					$content  = ossn_plugin_view("market/pages/shop/contact", $shop);
+					echo ossn_view_page($title, $content);
+					break;
 				default:
 					$content  = ossn_plugin_view("market/layout/shop", $shop);
 					echo ossn_view_page($title, $content);

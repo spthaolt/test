@@ -174,15 +174,21 @@ $imageIntro = ossn_site_url('components/Market/images/cover.png');
 		<div class="col-md-8">
 			<div class="page-sidebar">
 				<div class="ossn-widget widget-description">
-					<div class="widget-heading">Chính sách</div>
+					<div class="widget-heading">Liên hệ</div>
 					<div class="widget-contents">
-					<div class="chinhsach"><div class="chinhsach_title" style="padding: 5px 0px 0px 10px;"><strong>Thông tin cơ bản</strong></div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Có chỗ để xe máy</div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Có chỗ để xe ô tô</div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Có nhiều chi nhánh</div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Có website giới thiệu sản phẩm</div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Thông tin về giá sản phẩm là chính xác và là giá bán trực tiếp đến NTD</div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Có bộ phận bảo hành, chăm sóc khách hàng riêng</div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Có đường dây nóng hỗ trợ khách hàng</div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Cửa hàng mở cửa tất cả các ngày trong tuần</div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Số lượng nhân viên trên 10 người</div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Có ít nhất 1 năm kinh nghiệm hoạt động trong lĩnh vực</div><div class="chinhsach_title" style="padding: 5px 0px 0px 10px;"><strong>Chính sách bảo hành</strong></div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Có bảo hành kép: của hãng và cửa hàng</div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Có ưu đãi đặc biệt với khách hàng quen thuộc</div><div class="chinhsach_title" style="padding: 5px 0px 0px 10px;"><strong>Chính sách đặt hàng, mua hàng</strong></div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Nhận đặt hàng qua điện thoại</div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Mua hàng trực tiếp tại cửa hàng</div><div class="chinhsach_title" style="padding: 5px 0px 0px 10px;"><strong>Chính sách về sản phẩm khác</strong></div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Tất cả các mặt hàng đang bán là hàng mới chưa qua sử dụng</div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Cửa hàng liên tục cập nhật sản phẩm mới</div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Thường xuyên cập nhật giá trên website</div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Thường xuyên cập nhật thông tin về sản phẩm trên website vatgia.com</div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Nhận đóng gói chuyên nghiệp, đóng gói  thành quà tặng</div><div class="chinhsach_title" style="padding: 5px 0px 0px 10px;"><strong>Phương thức thanh toán</strong></div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Thanh toán trực tuyến</div><div class="chinhsach_list" style="padding: 2px 0px 0px 20px;"> - Thanh toán khi nhận hàng</div></div>
-					</div>
-				</div>
-				<div class="ossn-widget widget-description">
-					<div class="widget-heading">Bảo hành</div>
-					<div class="widget-contents">
-					
+						<div>
+							<label> Họ & Tên : </label> 
+							<span> Nguyễn Thịnh </span>
+						</div>
+						<div>
+							<label> Số điện thoại : </label> 
+							<span> 123456xxx </span>
+						</div>
+						<div>
+							<label> Địa chỉ : </label> 
+							<span> Phạm Văn Chiêu Phường 14 Quận Gò Vấp </span>
+						</div>
+						<img width="100%" src="https://www.wired.com/wp-content/uploads/2016/11/GoogleMap-1.jpg">
 					</div>
 				</div>
 			</div>
