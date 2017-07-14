@@ -1,7 +1,7 @@
 <?php
-namespace Market\catalog;
+namespace Market\bol;
 
-class Price extends \OssnObject
+class PricesService extends \OssnObject
 {
 	
 }

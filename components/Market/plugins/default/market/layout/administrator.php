@@ -2,6 +2,7 @@
 /**
  * Open Source Social Network
  */
+	$type =	$params['type'];
  ?>
  <div class="row">
 	<div class="col-sm-3">
@@ -17,7 +18,13 @@
 	</div>
 	<div class="col-sm-9">
 		<div class="page-sidebar">
-
+			<?php 
+				switch($type){
+					case 'pending':
+						echo ossn_plugin_view('settings/administrator/Market/pages/pending_approval');
+					break;
+				}
+			?>
 		</div>
 	</div>
  </div>

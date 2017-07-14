@@ -1,7 +1,7 @@
 <?php
-namespace Market\catalog;
+namespace Market\bol;
 
-class Product extends \OssnObject
+class ProductsService extends \OssnObject
 {
 	public function getAllByOwnerGUID($owner_guid)
 	{

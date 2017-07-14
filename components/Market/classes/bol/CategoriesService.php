@@ -1,7 +1,7 @@
 <?php
-namespace Market\catalog;
+namespace Market\bol;
 
-class Category extends \OssnObject
+class CategoriesService extends \OssnObject
 {
 
 }

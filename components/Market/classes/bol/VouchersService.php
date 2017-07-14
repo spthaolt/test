@@ -1,7 +1,7 @@
 <?php
-namespace Market\catalog;
+namespace Market\bol;
 
-class Voucher extends \OssnObject
+class VouchersService extends \OssnObject
 {
 	
 }

@@ -1,7 +1,7 @@
 <?php
-namespace Market\catalog;
+namespace Market\bol;
 
-class Review extends \OssnObject
+class ReviewsService extends \OssnObject
 {
 	
 }
