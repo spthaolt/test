@@ -56,13 +56,66 @@ if(!isset($params['ismember'])){
 		</div>
 		<div class="post-contents">
 			<p><?php echo stripslashes($params['text']); ?></p>
-             <?php
-            if (!empty($image)) {
-                ?>
-                <img src="<?php echo ossn_site_url("post/photo/{$params['post']->guid}/{$image}"); ?>"/>
 
-            <?php } ?>
-         
+            <div class="row"> 
+                <?php
+                if (!empty($params['image']) && $params['image'] && sizeof($params['image']) > 0) {
+                    $count = count($params['image']);
+
+                    switch ($count) {
+                        case 1:  ?>
+                            <div class="col-xs-12">
+                                <img style="width: 100%" src="<?php echo ossn_site_url("post/photo/{$params['post']->guid}/{$img}"); ?>"/>
+                            </div>
+                            <?php
+                            break; 
+                        case 2: 
+                            foreach ($params['image'] as $key => $img): ?>
+                                <span class="image-item image-item-height-300 col-xs-6" style="background-image: url(<?php echo ossn_site_url("post/photo/{$params['post']->guid}/{$img}"); ?>);">                                        
+                                </span>
+                            <?php endforeach;                                
+                            break;
+                        case 3: $first = array_shift($params['image']); ?>
+                            <div class="col-xs-12" >
+                                <img style="width: 100%" src="<?php echo ossn_site_url("post/photo/{$params['post']->guid}/{$first}"); ?>"/>
+                            </div>
+                            <?php 
+                            foreach ($params['image'] as $key => $img): ?>
+                                <span class="image-item image-item-height-150 col-xs-6" style="background-image: url(<?php echo ossn_site_url("post/photo/{$params['post']->guid}/{$img}"); ?>);">                                    
+                                </span>
+                            <?php endforeach; 
+                            break;
+                        default:
+                            $first = array_shift($params['image']); ?>
+                            <div class="col-xs-12">
+                                <img  style="width: 100%" src="<?php echo ossn_site_url("post/photo/{$params['post']->guid}/{$first}"); ?>"/>
+                            </div>
+                            <?php 
+                            for ($i=0; $i < 3; $i++): 
+                                $img = $params['image'][$i]; ?>
+                            
+                                <span class="image-item image-item-height-150 col-xs-4 <?= ($i == 2 && $count > 4 ? "number-image" : " ")?>" 
+                                style="background-image: url(<?php echo ossn_site_url("post/photo/{$params['post']->guid}/{$img}"); ?>);
+                                " >                                        
+                                <?php 
+                                    if ( $i == 2 && $count > 4 ) {
+                                ?>
+                                    <div class="number-image-background" >
+                                        <div class="number-image-table" > 
+                                            <div class="number-image-not-show" > +<?= $count - 4 ?> </div>
+                                        </div>
+                                    </div>
+                                <?php        
+                                    } // end if
+                                ?>
+                                </span>
+                        <?php endfor; 
+
+                    } //end switch
+                    
+                }  // end if
+                ?>
+            </div>    
 		</div>
         <?php if($params['ismember'] === 1){  ?>
 		<div class="comments-likes">

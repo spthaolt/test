@@ -23,8 +23,9 @@ $OssnWall->type = 'group';
 $post = input('post');
 $friends = false;
 $location = input('location');
+$ossn_photo =input('ossn_photo');
 
-if ($OssnWall->Post($post, $friends, $location, OSSN_PRIVATE)) {
+if ($OssnWall->Post($post, $friends, $location, OSSN_PRIVATE, $ossn_photo)) {
 		if(ossn_is_xhr()) {
 				$guid = $OssnWall->getObjectId();
 				$get  = $OssnWall->GetPost($guid);

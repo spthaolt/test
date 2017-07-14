@@ -20,26 +20,27 @@ class OssnWall extends OssnObject {
 		 *
 		 * @return bool;
 		 */
-		public function Post($post, $friends = '', $location = '', $access = '') {
+		public function Post($post, $friends = '', $location = '', $access = '', $ossn_photo = '') {
 				self::initAttributes();
+
 				if(empty($access)) {
-						$access = OSSN_PUBLIC;
+					$access = OSSN_PUBLIC;
 				}
 				$canpost = false;
 				if(!empty($post)) {
-						$canpost = true;
+					$canpost = true;
 				}
-				if(!empty($_FILES['ossn_photo']['tmp_name'])) {
-						$canpost = true;
+				if(sizeof($ossn_photo) > 0 && $ossn_photo) {
+					$canpost = true;
 				}
 				if(empty($this->owner_guid) || empty($this->poster_guid) || $canpost === false) {
-						return false;
+					return false;
 				}
 				if(isset($this->item_type) && !empty($this->item_type)) {
-						$this->data->item_type = $this->item_type;
+					$this->data->item_type = $this->item_type;
 				}
 				if(isset($this->item_guid) && !empty($this->item_guid)) {
-						$this->data->item_guid = $this->item_guid;
+					$this->data->item_guid = $this->item_guid;
 				}
 				$this->data->poster_guid = $this->poster_guid;
 				$this->data->access      = $access;
@@ -51,37 +52,60 @@ class OssnWall extends OssnObject {
 				
 				//wall tag a friend , GUID issue #566
 				if(!empty($friends)) {
-						$friend_guids = explode(',', $friends);
-						//reset friends guids
-						$friends      = array();
-						foreach($friend_guids as $guid) {
-								if(ossn_user_by_guid($guid)) {
-										$friends[] = $guid;
-								}
-						}
-						$wallpost['friend'] = implode(',', $friends);
+					$friend_guids = explode(',', $friends);
+					//reset friends guids
+					$friends      = array();
+					foreach($friend_guids as $guid) {
+							if(ossn_user_by_guid($guid)) {
+									$friends[] = $guid;
+							}
+					}
+					$wallpost['friend'] = implode(',', $friends);
 				}
 				if(!empty($location)) {
-						$wallpost['location'] = $location;
+					$wallpost['location'] = $location;
 				}
 				//Encode multibyte Unicode characters literally (default is to escape as \uXXXX)
 				$this->description = json_encode($wallpost, JSON_UNESCAPED_UNICODE);
 				if($this->addObject()) {
+						// get wallguid
 						$this->wallguid = $this->getObjectId();
-						if(isset($_FILES['ossn_photo'])) {
-								$this->OssnFile->owner_guid = $this->wallguid;
-								$this->OssnFile->type       = 'object';
-								$this->OssnFile->subtype    = 'wallphoto';
-								$this->OssnFile->setFile('ossn_photo');
-								$this->OssnFile->setPath('ossnwall/images/');
-								$this->OssnFile->setExtension(array(
-										'jpg',
-										'png',
-										'jpeg',
-										'gif'
-								));
-								$this->OssnFile->addFile();
+
+						// get size
+						$sizes = ossn_user_image_sizes();
+
+						foreach ($ossn_photo as $photo) {
+
+							if (!empty($photo) && !is_null($photo)) {
+
+								$oldDir = ossn_get_userdata("files/{$photo}");
+								$createDir = ossn_get_userdata("object/{$this->wallguid}/ossnwall/images/");
+
+								// creeate foder
+								if(!is_dir($createDir)) mkdir($createDir, 0755, true);
+
+								//create sub photos
+								foreach($sizes as $size => $params) {
+									$params  = explode('x', $params);
+									$width   = $params[1];
+									$height  = $params[0];
+									$resized = ossn_resize_image($oldDir, $width, $height, true);
+									file_put_contents(ossn_get_userdata("object/{$this->wallguid}/ossnwall/images/{$size}_{$photo}"), $resized);
+								}
+
+								// move file photo 
+								rename($oldDir, "{$createDir}{$photo}");
+
+								// create entiti
+								$fields = new OssnEntities;
+					            $fields->owner_guid = $this->wallguid;
+					            $fields->type = 'object';
+					            $fields->subtype = 'file:wallphoto';
+					            $fields->value = "ossnwall/images/" . $photo;
+					            $fields->add();
+							}
 						}
+
 						$params['object_guid'] = $this->wallguid;
 						$params['poster_guid'] = $this->poster_guid;
 						if(isset($wallpost['friend'])) {

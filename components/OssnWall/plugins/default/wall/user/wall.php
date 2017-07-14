@@ -28,6 +28,7 @@ if(ossn_user_is_friend(ossn_loggedin_user()->guid, $params['user']->guid) || oss
 echo '<div class="user-activity">';
 if($posts) {
 		foreach($posts as $post) {
+
 				$data     = json_decode(html_entity_decode($post->description));
 				if(!is_object($data)){
 					$data = new stdClass;
@@ -42,9 +43,15 @@ if($posts) {
 				}
 				if(isset($post->{'file:wallphoto'})) {
 						$image = str_replace('ossnwall/images/', '', $post->{'file:wallphoto'});
-				} else {
-						$image = '';
 				}
+				
+				if(sizeof($post->{'file:wallphoto'}->{'wallphoto'}) > 0 && $post->{'file:wallphoto'}->{'wallphoto'}) {
+					$image = array();
+					foreach ($post->{'file:wallphoto'}->{'wallphoto'} as $key => $value) {
+						array_push($image,str_replace('ossnwall/images/', '', $value));
+					}
+				} 
+
 				$user = ossn_user_by_guid($post->poster_guid);
 				if($post->access == OSSN_FRIENDS) {
 						//lastchage: site admins are unable to access member profile threads without friendship #176 

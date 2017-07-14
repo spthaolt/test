@@ -49,11 +49,10 @@ if($loggedinuser->canModerate()) {
 }
 
 if($posts) {
-		foreach($posts as $post) {
-				$item = ossn_wallpost_to_item($post);
-				echo ossn_wall_view_template($item);
-		}
-		
+	foreach($posts as $post) {
+		$item = ossn_wallpost_to_item($post);
+		echo ossn_wall_view_template($item);
+	}	
 }
 
 echo ossn_view_pagination($count);

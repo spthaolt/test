@@ -158,6 +158,7 @@ class OssnObject extends OssnEntities {
 				if(empty($this->object_guid)) {
 						return false;
 				}
+
 				$params['from']   = 'ossn_object as o';
 				$params['params'] = array(
 						'o.guid',
@@ -183,22 +184,28 @@ class OssnObject extends OssnEntities {
 				unset($this->order_by);
 				
 				$object = $this->select($params);
-				
+
 				$this->owner_guid = $object->guid;
 				$this->subtype    = '';
 				$this->type       = 'object';
 				$this->entities   = $this->get_entities();
 				
 				if($this->entities && $object) {
+
+						$wallphoto = array();
 						foreach($this->entities as $entity) {
-								$fields[$entity->subtype] = $entity->value;
+							if ($entity->subtype == "file:wallphoto") array_push($wallphoto,$entity->value);
+							else $fields[$entity->subtype] = $entity->value;
 						}
+
+						if($wallphoto && sizeof($wallphoto) > 0) $fields["file:wallphoto"]->wallphoto = $wallphoto;
+
 						$object_array = get_object_vars($object);
 						if(is_array($object_array)) {
-								$data = array_merge($object_array, $fields);
+							$data = array_merge($object_array, $fields);
 						}
 						if(!empty($fields)) {
-								return arrayObject($data, get_class($this));
+							return arrayObject($data, get_class($this));
 						}
 				}
 				if(empty($fields)) {
