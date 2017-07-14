@@ -5,6 +5,7 @@ class Shop extends \OssnObject
 {
 	public function requestShop($params)
 	{
+		$this->guid 	= $params['shop_guid'];
 		$this->title       = trim($params['shop_name']);
 		if(empty($this->title)) {
 			return false;
@@ -22,31 +23,10 @@ class Shop extends \OssnObject
 				$this->data->sid_image = null;
 				$this->data->lock = 1;
 		}
-		if($this->addObject()) {
+		if($this->save()) {
 			return true;
 		}
 		return false;
-	}
-
-	public function updateShop($params)
-	{
-		if ($params['shop_name']) {
-			$this->updateObject(array('title'), array($params['shop_name']), $params['owner_guid']);
-		}
-
-		$this->owner_guid = $params['owner_guid'];
-		$this->type = 'object';
-		foreach ($params['subtypes'] as $key => $value) {
-			$this->subtype = $key;
-	        $entity = $this->get_entities();
-	        $this->guid = $entity[0]->guid;
-	        $this->value = $value;
-	        $this->updateEntity();
-		}
-		if ($params['owner_guid']) {
-			return true;
-		}
-        return false;
 	}
 
 	public function getByOwnerGUID($owner_guid)
