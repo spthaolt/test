@@ -18,7 +18,6 @@ $params['shop_name'] = input('shop_name');
 $params['shop_url'] = input('shop_url');
 $params['privacy'] = OSSN_PRIVATE;
 
-
 if ($shop->requestShop($params)) {
     ossn_trigger_message(ossn_print('shop:requested'), 'success');
     redirect("s/request");

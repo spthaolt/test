@@ -19,7 +19,6 @@ $params['shop_phone'] = input('shop_phone');
 $params['shop_sid'] = input('shop_sid');
 $params['privacy'] = OSSN_PRIVATE;
 
-
 if ($shop->requestShop($params)) {
     ossn_trigger_message(ossn_print('shop:requested'), 'success');
     redirect("s/request");
