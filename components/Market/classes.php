@@ -3,6 +3,7 @@ global $ComposerLoader;
 
 $namespaces = array(
 	'catalog' => array('Shop','Category','Manufacturer','Order','Price','Product','Review','Voucher'),
+	'bol' => array('ShopsService','CategoriesService','ManufacturersService','OrdersService','PricesService','ProductsService','ReviewsService','VouchersService'),
 );
 
 foreach ($namespaces as $key => $classes) {

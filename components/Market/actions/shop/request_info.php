@@ -8,8 +8,7 @@
  * @license   Open Source Social Network License (OSSN LICENSE)  http://www.opensource-socialnetwork.org/licence
  * @link      https://www.opensource-socialnetwork.org/
  */
-use Market\catalog\Shop;
-use Market\catalog\ShopEntity;
+use Market\bol\ShopsService;
 
 $shop = new Shop;
 $params['owner_guid'] = ossn_loggedin_user()->guid;
