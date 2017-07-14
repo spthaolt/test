@@ -163,7 +163,7 @@ Ossn.RegisterStartupFunction(function() {
 
 Ossn.RegisterStartupFunction(function() {
 
-    if (typeof $('#fileupload') != 'undefined')
+    if ($('#fileupload').length)
         $(document).ready(function() {
 
             var process_url = "<?php echo ossn_site_url()?>postphotos/upload";
