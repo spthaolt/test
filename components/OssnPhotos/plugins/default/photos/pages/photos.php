@@ -21,6 +21,14 @@ $pphotos_album = ossn_site_url("album/profile/{$params['user']->guid}");
 
 $profile_covers_url = ossn_site_url("album/covers/profile/{$params['user']->guid}");
 $profile_cover = $profile->getCoverURL($params['user']);
+
+$timeline_photo = ossn_site_url() . 'components/OssnPhotos/images/nophoto-album.png';
+$timeline_photo_album = ossn_site_url("album/timeline/{$params['user']->guid}");
+//show timeline photos
+echo "<li>
+    <a href='{$timeline_photo_album}'><img src='{$timeline_photo}' class='pthumb' />
+     <div class='ossn-album-name'>" . ossn_print('timeline:photos') . "</div></a>
+    </li>";
 //show profile pictures album
 echo "<li>
 	<a href='{$pphotos_album}'><img src='{$profiel_photo}' class='pthumb' />
@@ -30,7 +38,7 @@ echo "<li>
 echo "<li>
 	<a href='{$profile_covers_url}'><img src='{$profile_cover}' class='pthumb' />
 	 <div class='ossn-album-name'>" . ossn_print('profile:covers') . "</div></a>
-	</li>";	
+	</li>";
 if ($photos) {
     foreach ($photos as $photo) {
         if (ossn_access_validate($photo->access, $photo->owner_guid)) {

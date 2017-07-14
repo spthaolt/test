@@ -41,13 +41,14 @@ $(document).ready(function() {
 	$('body').on('click', '.comment-container .emojii-list li', function(e) {
 		e.preventDefault();
 		var $type = $(this).html();
-		if ($(this).parent().parent().parent().parent().hasClass('sqmessage')) {
-			var $element = $(this).parent().parent().parent().parent().find('.input_message');
+		$parent = $(this).parent().parent().parent().parent();
+		if ($parent.hasClass('sqmessage')) {
+			var $element = $parent.find('.input_message');
 			var tmp1 = $element.val();
 			var tmp2 = tmp1 + " " + $type;
 			$element.val(tmp2);
 		} else {
-			var $element = $(this).parent().parent().parent().parent().find('.comment-box');
+			var $element = $parent.find('.comment-box');
 			var tmp1 = $element.html();
 			var tmp2 = tmp1 + " " + $type;
 			$element.html(tmp2);
@@ -62,8 +63,9 @@ $(document).ready(function() {
 		}
 	});
 	$('body').on('click', '.ossn-comment-attach-photo .fa-smile-o', function(e) {
-		if ($(this).parent().parent().parent().parent().hasClass('sqmessage')) {
-			$parent = $(this).parent().parent().parent().parent();
+		$parent = $(this).parent().parent().parent();
+		if ($parent.parent().hasClass('sqmessage')) {
+			$parent = $parent.parent();
 			$display = $parent.find('.emojii-container-main').css('display');
 			if ($display == 'none') {
 				$parent.find('.emojii-container-main').show();
@@ -72,7 +74,6 @@ $(document).ready(function() {
 				$parent.find('.emojii-container-main').hide();
 			}
 		} else {
-			$parent = $(this).parent().parent().parent();
 			$display = $parent.find('.emojii-container-main').css('display');
 			if ($display == 'none') {
 				$parent.find('.emojii-container-main').show();
