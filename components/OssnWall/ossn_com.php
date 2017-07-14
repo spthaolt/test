@@ -529,9 +529,6 @@ function ossn_wallpost_to_item($post) {
 				if(isset($data->location)) {
 						$location = '- ' . $data->location;
 				}
-				if(isset($post->{'file:wallphoto'})) {
-						$image = str_replace('ossnwall/images/', '', $post->{'file:wallphoto'});
-				}
 				
 				if(sizeof($post->{'file:wallphoto'}->{'wallphoto'}) > 0 && $post->{'file:wallphoto'}->{'wallphoto'}) {
 					$image = array();
