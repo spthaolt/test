@@ -35,8 +35,6 @@ function market_init()
 				'text' => '<i class="fa fa-picture-o"></i>',
 			),			
 		);	
-	ossn_unregister_menu_item('photo','photo','wall/container/controls/home');
-	
 	ossn_register_menu_item('wall/container/controls/home', $emojii_button);
 	ossn_add_hook('market', 'post', 'market_wallpost_add', 1);
 
