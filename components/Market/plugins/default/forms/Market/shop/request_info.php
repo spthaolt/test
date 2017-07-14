@@ -12,7 +12,7 @@ if ($params['data']) {
 	$data = $params['data'][0];
 	$shop_guid = $data->guid;
 	$shop_name = $data->title;
-	$shop_url  = $data->friendlyUrl;
+	$shop_url  = $data->friendly_url;
 }
 ?>
 <div>
