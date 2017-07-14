@@ -27,6 +27,7 @@ if (ossn_isLoggedIn()) {
     $class = 'ossn-profile ossn-profile-tn';
 }
 $guard = ossn_site_url('components/Market/images/guard.svg');
+$imageIntro = ossn_site_url('components/Market/images/cover.png');
 ?>
 <div class="ossn-profile container">
 	<div class="row">
@@ -173,61 +174,19 @@ $guard = ossn_site_url('components/Market/images/guard.svg');
 		<div class="col-md-8">
 			<div class="page-sidebar">
 				<div class="ossn-widget widget-description">
-					<div class="widget-heading">Sản phẩm mới</div>
+					<div class="widget-heading">Lời chào</div>
 					<div class="widget-contents">
-						<div class="row">
-							<div class="col-sm-3">
-								<img width="154px" height="154px" src="http://p.vatgia.vn/ir/user_product_fullsize/7/ZXl0MTQ5OTUwNzU1MC5qcGc-/nokia-6500-slide-silver.jpg">
-								<h4>Nokia 6500 slide Silver</h4>
-								<strong>890.000₫</strong>
-							</div>
-							<div class="col-sm-3">
-								<img width="154px" height="154px" src="http://p.vatgia.vn/ir/pictures_product/7/eXBuMTI3ODcyNzA4NS5wbmc-/nokia-6700-classic-gold-edition-anh-2.png">
-								<h4>Nokia 6700 Classic Gold Edition</h4>
-								<strong>2.800.000₫</strong>
-							</div>
-							<div class="col-sm-3">
-								<img width="154px" height="154px" src="http://p.vatgia.vn/ir/pictures_fullsize/7/aGdiMTQ5OTkzNDcwMy5qcGc-/asus-zenfone-2-go-zb500kg-sheer-gold.jpg">
-								<h4>Asus Zenfone 2 Go ZB500KG Sheer Gold</h4>
-								<strong>1.949.000₫</strong>
-							</div>
-							<div class="col-sm-3">
-								<img width="154px" height="154px" src="http://p.vatgia.vn/ir/user_product_fullsize/7/aWR5MTQ5Nzk3MjY5My5wbmc-/samsung-galaxy-a5-2017-duos-gold-sand.png">
-								<h4>Samsung Galaxy A5 (2017) Duos Gold Sand</h4>
-								<strong>6.900.000₫</strong>
-							</div>
-						</div>
-					</div>
-				</div>
+					Hàng tiêu dùng nói chung và hàng tiêu dùng Thái Lan nói riêng ngày càng trở nên thân thiết với mọi gia đình. Trong xã hội đa dạng hàng hóa như hiện nay, sự lựa chon thông minh cho bản thân và gia đính chính là sự lựa chọn an toàn và chất lượng. Hơn nữa không phải chị em phụ nữ nào cũng có thời gian rảnh rỗi để đi mua sắm và lựa chọn kỹ càng. Chính vì thế, hình thức mua sắm shopping online đã ra đời, tiện lợi, không tốn nhiều thời gian tìm kiếm và ngày càng thu hút được sự quan tâm của người tiêu dùng bận rộn.<br>
 
-				<div class="ossn-widget widget-description">
-					<div class="widget-heading">Sẩn phẩm khuyến mãi</div>
-					<div class="widget-contents">
-						<div class="row">
-							<div class="col-sm-3">
-								<img width="154px" height="154px" src="http://p.vatgia.vn/ir/user_product_fullsize/7/ZXNwMTQ5ODA0ODg5OC5qcGc-/samsung-galaxy-a5-2017-peach-cloud.jpg">
-								<h4>Samsung Galaxy A5 (2017) Peach Cloud</h4>
-								<strong>7.150.000₫</strong>
-							</div>
-							<div class="col-sm-3">
-								<img width="154px" height="154px" src="http://p.vatgia.vn/ir/user_product_fullsize/7/eXVuMTQ5ODA1MDc2NC5wbmc-/samsung-galaxy-c9-pro-gold.png">
-								<h4>Samsung Galaxy C9 Pro Gold</h4>
-								<strong>9.990.000₫</strong>
-							</div>
-							<div class="col-sm-3">
-								<img width="154px" height="154px" src="http://p.vatgia.vn/ir/pictures_fullsize/7/Ym5xMTQ5NjU4MDUwNC5wbmc-/nokia-3310-dual-sim-2017-dark-blue-matte.png">
-								<h4>Nokia 3310 dual Sim</h4>
-								<strong>350.000₫</strong>
-							</div>
-							<div class="col-sm-3">
-								<img width="154px" height="154px" src="http://p.vatgia.vn/ir/user_product_fullsize/7/bWN6MTQ5ODY0NDk3OS5qcGc-/dien-thoai-iphone-8-dai-loan.jpg">
-								<h4>Samsung Galaxy S8 Plus</h4>
-								<strong>20.490.000₫</strong>
-							</div>
-						</div>
+					Hòa cùng xu thế phát triển và những tiện ích vượt trội của thương mại điện tử, nắm bắt được những tâm lý của chị em, domain.vn ra đời và được xem như một siêu thị online hiện đại, cung cấp nhiều sản phẩm tiêu dùng Made in Thai Lan - 100% nhập khẩu - uy tín, chất lượng, tiện lợi, thanh toán dễ dàng, vận chuyển nhanh và giá cả hợp lý.<br>
+					<br>
+					<img src="<?= $imageIntro ?>" width="100%">
+					<br>
+					<br>
+					Shopping online từ lâu đã được các nước như Mỹ, Pháp, Úc… ưa chuộng, và hiện nay đang là trào lưu của nhiều phụ nữ Việt Nam. Sau 2 năm hình thành và phát triển, domain.vn đã đạt được nhiều thành tựu đáng ghi nhận và được nhiều Quý khách hàng lựa chọn là địa chỉ mua sắm online uy tín, chất lượng và giá cả hợp lý.<br>
+					Cám ơn Quý khách hàng đã ủng hộ và lựa chọn trong năm vừa qua. Chúng tôi cam kết sẽ đem đến cho khách hàng sản phẩm chất lượng, giá rẻ; một dịch vụ chuyên nghiệp; mua sắm đơn giản; tránh khỏi những phiền phức khó chịu; tiết kiệm và chủ động về thời gian.<br>
 					</div>
 				</div>
-				
 			</div>
 		</div>
 	</div>

@@ -27,6 +27,7 @@ if (ossn_isLoggedIn()) {
     $class = 'ossn-profile ossn-profile-tn';
 }
 $guard = ossn_site_url('components/Market/images/guard.svg');
+$imageIntro = ossn_site_url('components/Market/images/cover.png');
 ?>
 <div class="ossn-profile container">
 	<div class="row">
@@ -173,61 +174,36 @@ $guard = ossn_site_url('components/Market/images/guard.svg');
 		<div class="col-md-8">
 			<div class="page-sidebar">
 				<div class="ossn-widget widget-description">
-					<div class="widget-heading">Sản phẩm mới</div>
+					<div class="widget-heading">Chính sách</div>
 					<div class="widget-contents">
-						<div class="row">
-							<div class="col-sm-3">
-								<img width="154px" height="154px" src="http://p.vatgia.vn/ir/user_product_fullsize/7/ZXl0MTQ5OTUwNzU1MC5qcGc-/nokia-6500-slide-silver.jpg">
-								<h4>Nokia 6500 slide Silver</h4>
-								<strong>890.000₫</strong>
-							</div>
-							<div class="col-sm-3">
-								<img width="154px" height="154px" src="http://p.vatgia.vn/ir/pictures_product/7/eXBuMTI3ODcyNzA4NS5wbmc-/nokia-6700-classic-gold-edition-anh-2.png">
-								<h4>Nokia 6700 Classic Gold Edition</h4>
-								<strong>2.800.000₫</strong>
-							</div>
-							<div class="col-sm-3">
-								<img width="154px" height="154px" src="http://p.vatgia.vn/ir/pictures_fullsize/7/aGdiMTQ5OTkzNDcwMy5qcGc-/asus-zenfone-2-go-zb500kg-sheer-gold.jpg">
-								<h4>Asus Zenfone 2 Go ZB500KG Sheer Gold</h4>
-								<strong>1.949.000₫</strong>
-							</div>
-							<div class="col-sm-3">
-								<img width="154px" height="154px" src="http://p.vatgia.vn/ir/user_product_fullsize/7/aWR5MTQ5Nzk3MjY5My5wbmc-/samsung-galaxy-a5-2017-duos-gold-sand.png">
-								<h4>Samsung Galaxy A5 (2017) Duos Gold Sand</h4>
-								<strong>6.900.000₫</strong>
-							</div>
-						</div>
+					Thông tin cơ bản
+- Có chỗ để xe máy
+- Có chỗ để xe ô tô
+- Có nhiều chi nhánh
+- Có website giới thiệu sản phẩm
+- Thông tin về giá sản phẩm là chính xác và là giá bán trực tiếp đến NTD
+- Có bộ phận bảo hành, chăm sóc khách hàng riêng
+- Có đường dây nóng hỗ trợ khách hàng
+- Cửa hàng mở cửa tất cả các ngày trong tuần
+- Số lượng nhân viên trên 10 người
+- Có ít nhất 1 năm kinh nghiệm hoạt động trong lĩnh vực
+Chính sách bảo hành
+- Có bảo hành kép: của hãng và cửa hàng
+- Có ưu đãi đặc biệt với khách hàng quen thuộc
+Chính sách đặt hàng, mua hàng
+- Nhận đặt hàng qua điện thoại
+- Mua hàng trực tiếp tại cửa hàng
+Chính sách về sản phẩm khác
+- Tất cả các mặt hàng đang bán là hàng mới chưa qua sử dụng
+- Cửa hàng liên tục cập nhật sản phẩm mới
+- Thường xuyên cập nhật giá trên website
+- Thường xuyên cập nhật thông tin về sản phẩm trên website vatgia.com
+- Nhận đóng gói chuyên nghiệp, đóng gói thành quà tặng
+Phương thức thanh toán
+- Thanh toán trực tuyến
+- Thanh toán khi nhận hàng
 					</div>
 				</div>
-
-				<div class="ossn-widget widget-description">
-					<div class="widget-heading">Sẩn phẩm khuyến mãi</div>
-					<div class="widget-contents">
-						<div class="row">
-							<div class="col-sm-3">
-								<img width="154px" height="154px" src="http://p.vatgia.vn/ir/user_product_fullsize/7/ZXNwMTQ5ODA0ODg5OC5qcGc-/samsung-galaxy-a5-2017-peach-cloud.jpg">
-								<h4>Samsung Galaxy A5 (2017) Peach Cloud</h4>
-								<strong>7.150.000₫</strong>
-							</div>
-							<div class="col-sm-3">
-								<img width="154px" height="154px" src="http://p.vatgia.vn/ir/user_product_fullsize/7/eXVuMTQ5ODA1MDc2NC5wbmc-/samsung-galaxy-c9-pro-gold.png">
-								<h4>Samsung Galaxy C9 Pro Gold</h4>
-								<strong>9.990.000₫</strong>
-							</div>
-							<div class="col-sm-3">
-								<img width="154px" height="154px" src="http://p.vatgia.vn/ir/pictures_fullsize/7/Ym5xMTQ5NjU4MDUwNC5wbmc-/nokia-3310-dual-sim-2017-dark-blue-matte.png">
-								<h4>Nokia 3310 dual Sim</h4>
-								<strong>350.000₫</strong>
-							</div>
-							<div class="col-sm-3">
-								<img width="154px" height="154px" src="http://p.vatgia.vn/ir/user_product_fullsize/7/bWN6MTQ5ODY0NDk3OS5qcGc-/dien-thoai-iphone-8-dai-loan.jpg">
-								<h4>Samsung Galaxy S8 Plus</h4>
-								<strong>20.490.000₫</strong>
-							</div>
-						</div>
-					</div>
-				</div>
-				
 			</div>
 		</div>
 	</div>

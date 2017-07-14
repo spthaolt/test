@@ -127,6 +127,9 @@ function market_pages_handler($pages)
 			$content  = ossn_plugin_view("market/pages/shop/request", $params);
 			echo ossn_view_page($title, $content);
 			break;
+		case 'info':
+
+			break;
 		case 'view':
 			$posts = $product->getAllByOwnerGUID($user->guid);
 			$params['content'] = "";
@@ -140,6 +143,7 @@ function market_pages_handler($pages)
 			echo ossn_view_page($title, $content);
 			break;
 		default:
+			$path = $pages[1];
 			$vars = array(
 				'type' => 'user',
 				'subtype' => 'market:shop',
@@ -154,13 +158,21 @@ function market_pages_handler($pages)
 			);
 
 			$shop = $om->searchObject($vars);
-			if (!$shop) ossn_error_page();			
-
-			$content  = ossn_plugin_view("market/layout/shop", $shop);
-			echo ossn_view_page($title, $content);
-
-			var_dump($shop->searchObject($vars));
-			die('ossncom');
+			if (!$shop) ossn_error_page();
+			switch ($path) {
+				case 'info':
+					$content  = ossn_plugin_view("market/pages/shop/introduction", $shop);
+					echo ossn_view_page($title, $content);
+					break;
+				case 'policy':
+					$content  = ossn_plugin_view("market/pages/shop/policy", $shop);
+					echo ossn_view_page($title, $content);
+					break;
+				default:
+					$content  = ossn_plugin_view("market/layout/shop", $shop);
+					echo ossn_view_page($title, $content);
+					break;
+			}
 			break;
 	}
 }
